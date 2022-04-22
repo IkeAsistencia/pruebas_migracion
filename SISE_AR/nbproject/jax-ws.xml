@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
+  <services>
+    <service name="WSSISEAR">
+      <implementation-class>WS.WSSISEAR</implementation-class>
+    </service>
+  </services>
+  <clients>
+    <client name="aacia2k4">
+      <wsdl-url>http://gps.ikeasistencia.com.ar:8000/soap/aacia2k4?wsdl</wsdl-url>
+      <local-wsdl-file>gps.ikeasistencia.com.ar_8000/soap/aacia2k4.wsdl</local-wsdl-file>
+      <package-name forceReplace="true">ar.com.ike.geo.ws.tns</package-name>
+      <catalog-file>catalog.xml</catalog-file>
+      <use-dispatch>true</use-dispatch>
+      <wsimport-options>
+        <wsimport-option>
+          <wsimport-option-name>extension</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>verbose</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>fork</wsimport-option-name>
+          <wsimport-option-value>false</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>wsdlLocation</wsimport-option-name>
+          <wsimport-option-value>http://gps.ikeasistencia.com.ar:8000/soap/aacia2k4?wsdl</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>xnocompile</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>xendorsed</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>package</wsimport-option-name>
+          <wsimport-option-value>ar.com.ike.geo.ws.tns</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>target</wsimport-option-name>
+          <wsimport-option-value>2.1</wsimport-option-value>
+        </wsimport-option>
+      </wsimport-options>
+    </client>
+  </clients>
+  <jsr109>false</jsr109>
+</jax-ws>

@@ -1,0 +1,81 @@
+
+.form-control{
+    padding: 0 !important;
+    padding-left: .5rem !important;
+    padding-right: .5rem !important;
+}
+
+select{
+    height: 22px !important;
+}
+
+.row{
+    margin-bottom: 10px !important;
+}
+
+form{
+    border-radius: 1%;
+    font-size: 14px;
+    padding: 20px;
+    padding-bottom: 0;
+    background-color: #d9edf7;
+    border: solid 1px #9ec3d6;
+}
+
+input{
+    font-size: 11px !important;
+    min-height: 22px !important;
+    max-height: 22px !important;
+}
+
+img{
+    position: absolute;
+    top: 30px;
+    left: 225px;
+}
+
+select{
+    font-size: 12px !important;
+}
+
+#botonera{
+    padding: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: #7975755c;
+}
+
+#botonera button{
+    margin-right: 10px;
+    width: 9.5%;
+    height: 16px;
+    font-size: 13px;
+    padding: 0;
+}
+
+#alertInfoUsuario tr td{
+    padding:0;
+    font-size: 13px;
+}
+
+fieldset{
+    border: 1px groove #ddd !important;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow: 0px 0px 0px 0px #000;
+    box-shadow: 0px 0px 0px 0px #000;
+}
+
+legend{
+    color: #507fb3;
+    width: inherit;
+    padding: 0 10px;
+    border-bottom: none;
+}
+
+label{
+    color: #507fb3;
+    font-weight: bold;
+}
+

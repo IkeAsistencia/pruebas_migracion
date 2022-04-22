@@ -1,0 +1,135 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ar.com.ike.util.rest;
+
+import com.google.gson.Gson;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.io.BufferedReader;
+import java.net.URL;
+import javax.servlet.http.HttpServletRequest;
+
+/**
+ *
+ * @author ddiez
+ */
+public class SimpleRESTCall {
+    
+    public static void main(String[] args) throws IOException {
+        String url = "http://gps.ikeasistencia.com.ar:8000/prestadores/buscar";
+        SimpleRESTCall cli = new SimpleRESTCall();
+        String tmpStr = "{\n" +
+            "    \"id_origen\": \"-34.63593, -58.36593\",\n" +
+            "    \"id_destino\": \"\",\n" +
+            "    \"id_caso\": \"123129\",\n" +
+            "    \"id_servicio\": \"Asistencia Vial\",\n" +
+            "    \"id_subservicio\": \"UML\"\n" +
+            "}";
+        System.out.println( cli.fetchJsonStringContent(url, "POST", tmpStr ) );
+    }    
+    
+    private HttpURLConnection prepareConnection(String uri, String method) throws IOException  {
+        URL url = new URL(uri);
+	HttpURLConnection connection = (HttpURLConnection) url.openConnection();       
+        connection.setConnectTimeout(10 * 1000); //10 segundos
+        connection.setRequestMethod(method.toUpperCase());
+        connection.setRequestProperty("Content-Type", "application/json; utf-8");
+        connection.setRequestProperty("Accept", "application/json");
+        connection.setDoOutput(true);
+        return connection;
+    }
+    
+    public Object fetchGsonContent(String uri, String method, Object postObject, Class responseType ) throws IOException   {
+        HttpURLConnection connection = prepareConnection(uri, method);
+        Gson gson = new Gson();
+        String postString = gson.toJson(postObject);
+        OutputStream os;
+        try {
+            os = connection.getOutputStream();
+            byte[] input = postString.getBytes("utf-8");
+            os.write(input, 0, input.length);           
+        }
+        catch(Exception e){
+            System.out.println("fetchGsonContent.Error:" + e.toString() );
+        }
+	int responseCode = connection.getResponseCode();
+        System.out.println("SimpleRESTCall.fetchGsonContent:" + uri + "  response:" + String.valueOf(responseCode));
+	if(responseCode == 200){
+                Object obj = gson.fromJson(new InputStreamReader(connection.getInputStream()), responseType);
+		return obj;
+	}
+	return null;
+    }     
+    
+    public String fetchJsonStringContent(String uri, String method, String jsonReq) throws IOException {
+        HttpURLConnection connection = prepareConnection(uri, method);
+        OutputStream os;
+        try {
+            os = connection.getOutputStream();
+            byte[] input = jsonReq.getBytes("utf-8");
+            os.write(input, 0, input.length);           
+        }
+        catch(Exception e){
+            System.out.println("fetchGsonContent.Error:" + e.toString() );
+        }
+	int responseCode = connection.getResponseCode();
+        System.out.println("SimpleRESTCall.fetchJsonContent:" + uri + "  response:" + String.valueOf(responseCode));
+	if(responseCode == 200){
+                StringBuilder builder = new StringBuilder();
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String current;
+                while ((current = in.readLine()) != null) {
+                    builder.append(current);
+                }
+                return( builder.toString() );
+	}
+	return null;
+    }
+    
+    public String fetchJsonServletContent(String uri, String method, HttpServletRequest request) throws IOException {
+        //PRocesa Body de request.
+        StringBuilder jb = new StringBuilder();
+        String line;
+        try {
+            BufferedReader reader = request.getReader();
+            while ((line = reader.readLine()) != null)
+                jb.append(line);
+        }
+        catch (Exception e) { 
+            System.out.println(e.toString());
+        }
+        System.out.println("INPUT BODY:" + jb.toString() );
+        HttpURLConnection connection = prepareConnection(uri, method);
+
+        //Arma el body del request
+        OutputStream os;
+        try {
+            os = connection.getOutputStream();
+            byte[] input = jb.toString().getBytes("utf-8");
+            os.write(input, 0, input.length);           
+        }
+        catch(Exception e){
+            System.out.println("fetchGsonContent.Error:" + e.toString() );
+        }
+	int responseCode = connection.getResponseCode();
+        System.out.println("SimpleRESTCall.fetchJsonContent:" + uri + "  response:" + String.valueOf(responseCode));
+        //Toma la rta si va correcto
+	if(responseCode == 200){
+                StringBuilder builder = new StringBuilder();
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String current;
+                while ((current = in.readLine()) != null) {
+                    builder.append(current);
+                }
+                System.out.println("RESPONSE BODY:" + builder.toString());
+                return( builder.toString() );
+	}
+	return null;
+    }
+
+}
