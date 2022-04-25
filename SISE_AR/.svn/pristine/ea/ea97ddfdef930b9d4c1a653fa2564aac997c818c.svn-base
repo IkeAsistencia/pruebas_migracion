@@ -1,0 +1,148 @@
+/*
+ * Usuario.java
+ *
+ * Created on 22 de marzo de 2006, 06:16 PM
+ *
+ * To change this template, choose Tools | Options and locate the template under
+ * the Source Creation and Management node. Right-click the template and choose
+ * Open. You can then make changes to the template in the Source Editor.
+ */
+package com.ike.model.to;
+
+/*
+ *
+ * @author cabrerar
+ */
+public class Usuario implements java.io.Serializable {
+
+    private String activo;
+    private String mess;
+    private String clUsrApp;
+    private String password;
+    private String nombre;
+    private String fechaAlta;
+    private String fechaInicio;
+    private String correo;
+    private String agente;
+    private String cambiopwd;
+    private String webPhone;
+    private String AccesoID;
+    private String phoneClass;
+    private String PermisoDesbloqueo;
+
+    /* Creates a new instance of Usuario */
+    public Usuario() {
+    }
+
+    public String getActivo() {
+        return activo;
+    }
+
+    public void setActivo(String activo) {
+        this.activo = activo;
+    }
+
+    public String getMess() {
+        return mess;
+    }
+
+    public void setMess(String mess) {
+        this.mess = mess;
+    }
+
+    public String getClUsrApp() {
+        return clUsrApp;
+    }
+
+    public void setClUsrApp(String clUsrApp) {
+        this.clUsrApp = clUsrApp;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getFechaAlta() {
+        return fechaAlta;
+    }
+
+    public void setFechaAlta(String fechaAlta) {
+        this.fechaAlta = fechaAlta;
+    }
+
+    public String getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(String fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getAgente() {
+        return agente;
+    }
+
+    public void setAgente(String agente) {
+        this.agente = agente;
+    }
+
+    public String getCambioPwd() {
+        return cambiopwd;
+    }
+
+    public void setCambioPwd(String cambiopwd) {
+        this.cambiopwd = cambiopwd;
+    }
+
+    public String getWebPhone() {
+        return this.webPhone;
+    }
+
+    public void setWebPhone(String webPhone) {
+        this.webPhone = webPhone;
+    }
+
+    public String getPhoneClass() {
+        return this.phoneClass;
+    }
+
+    public void setPhoneClass(String phoneClass) {
+        this.phoneClass = phoneClass;
+    }
+
+    public String getAccesoID() {
+        return AccesoID;
+    }
+
+    public void setAccesoID(String AccesoID) {
+        this.AccesoID = AccesoID;
+    }
+
+    public String getPermisoDesbloqueo() {
+        return PermisoDesbloqueo;
+    }
+
+    public void setPermisoDesbloqueo(String PermisoDesbloqueo) {
+        this.PermisoDesbloqueo = PermisoDesbloqueo;
+    }
+}

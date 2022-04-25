@@ -1,0 +1,62 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.ike.asistencias;
+
+import com.ike.asistencias.to.DetalleAsistenciaHogar;
+import com.ike.model.DAOException;
+import java.util.Collection;
+import java.util.Iterator;
+
+/*
+ *
+ * @author rurbina
+ */
+public class DAOAsistenciaHogar extends com.ike.model.DAOBASE {
+
+    public DAOAsistenciaHogar() {
+    }
+
+    public DetalleAsistenciaHogar getDetalleAsistenciaHogar(String clExpediente) throws DAOException {
+        StringBuffer sb = new StringBuffer();
+        Collection col = null;
+
+        sb.append("st_getDetalleAsistenciaHogar ").append(clExpediente);
+
+        col = this.rsSQLNP(sb.toString(), new DetalleAsistenciaHogarFiller());
+
+        Iterator it = col.iterator();
+        return it.hasNext() ? (DetalleAsistenciaHogar) it.next() : null;
+    }
+
+    public class DetalleAsistenciaHogarFiller implements com.ike.model.LlenaDatos {
+
+        public Object llena(java.sql.ResultSet rs) throws java.sql.SQLException {
+            DetalleAsistenciaHogar AH = new DetalleAsistenciaHogar();
+
+            AH.setClExpediente(rs.getString("clExpediente"));
+            AH.setUbicacionFalla(rs.getString("UbicacionFalla"));
+            AH.setDescripcionFalla(rs.getString("DescripcionFalla"));
+            AH.setSolucion(rs.getString("Solucion"));
+            AH.setObservaciones(rs.getString("Observaciones"));
+            AH.setEsProgramado(rs.getString("EsProgramado"));
+            AH.setFechaProgMom(rs.getString("FechaProgMom"));
+            AH.setColonia(rs.getString("Colonia"));
+            AH.setCalle(rs.getString("Calle"));
+            AH.setReferencias(rs.getString("Referencias"));
+            AH.setCodEnt(rs.getString("CodEnt"));
+            AH.setDsEntFed(rs.getString("dsEntFed"));
+            AH.setCodMD(rs.getString("CodMD"));
+            AH.setDsMunDel(rs.getString("dsMunDel"));
+            AH.setCP(rs.getString("CP"));
+            AH.setClTipoSolucion(rs.getString("clTipoSolucion"));
+            AH.setDsTipoSolucion(rs.getString("dsTipoSolucion"));
+            AH.setVerificador(rs.getString("Verificador"));
+            AH.setMotivoServicio(rs.getString("MotivoServicio"));
+            AH.setTiempoCobertura(rs.getString("TiempoCobertura"));
+
+            return AH;
+        }
+    }
+}

@@ -1,0 +1,147 @@
+/*
+ * PerifericosSP.java
+ *
+ * Created on 30 de abril de 2009, 05:57 PM
+ *
+ * To change this template, choose Tools | Template Manager
+ * and open the template in the editor.
+ */
+
+package com.ike.helpdeskSP;
+
+/*
+ *
+ * @author rfernandez
+ */
+
+public class PerifericosSP {      
+              
+            private String clPeriferico;
+    
+    public String getclPeriferico() {
+        return this.clPeriferico;
+    }
+     public void setclPeriferico(String clPeriferico) {
+        this.clPeriferico = clPeriferico;    
+    } 
+     
+                 
+          private String clInventarioSP;
+    
+    public String getclInventarioSP() {
+        return this.clInventarioSP;
+    }
+     public void setclInventarioSP(String clInventarioSP) {
+        this.clInventarioSP = clInventarioSP;    
+    }             
+               
+                    
+           private String clTipoPeriferico;
+    
+    public String getclTipoPeriferico() {
+        return this.clTipoPeriferico;
+    }
+     public void setclTipoPeriferico(String clTipoPeriferico) {
+        this.clTipoPeriferico = clTipoPeriferico;    
+    }
+        
+     
+           private String dsTipoPeriferico;
+     
+    public String getdsTipoPeriferico() {
+        return this.dsTipoPeriferico;
+    }
+     public void setdsTipoPeriferico(String dsTipoPeriferico) {
+        this.dsTipoPeriferico = dsTipoPeriferico;    
+    }         
+         
+            
+            private String clMarca;
+    
+    public String getclMarca() {
+        return this.clMarca;
+    }
+     public void setclMarca(String clMarca) {
+        this.clMarca = clMarca;    
+    }  
+     
+     
+          private String dsMarca;
+    
+    public String getdsMarca() {
+        return this.dsMarca;
+    }
+     public void setdsMarca(String dsMarca) {
+        this.dsMarca = dsMarca;    
+    } 
+     
+     
+           private String Modelo;
+    
+    public String getModelo() {
+        return this.Modelo;
+    }
+     public void setModelo(String Modelo) {
+        this.Modelo = Modelo;    
+    } 
+                         
+                
+          private String NoSerie;
+    
+    public String getNoSerie() {
+        return this.NoSerie;
+    }
+     public void setNoSerie(String NoSerie) {
+        this.NoSerie = NoSerie;    
+    }              
+        
+     
+         private String Procesador;
+    
+    public String getProcesador() {
+        return this.Procesador;
+    }
+     public void setProcesador(String Procesador) {
+        this.Procesador = Procesador;    
+    }
+     
+     
+          private String clDiscoDuro;
+    
+    public String getclDiscoDuro() {
+        return this.clDiscoDuro;
+    }
+     public void setclDiscoDuro(String clDiscoDuro) {
+        this.clDiscoDuro = clDiscoDuro;    
+    }     
+         
+     
+          private String dsDiscoDuro;
+    
+    public String getdsDiscoDuro() {
+        return this.dsDiscoDuro;
+    }
+     public void setdsDiscoDuro(String dsDiscoDuro) {
+        this.dsDiscoDuro = dsDiscoDuro;    
+    }
+     
+                   
+         private String clMemoriaRam;
+    
+    public String getclMemoriaRam() {
+        return this.clMemoriaRam;
+    }
+     public void setclMemoriaRam(String clMemoriaRam) {
+        this.clMemoriaRam = clMemoriaRam;    
+    } 
+     
+             private String dsMemoriaRam;
+    
+    public String getdsMemoriaRam() {
+        return this.dsMemoriaRam;
+    }
+     public void setdsMemoriaRam(String dsMemoriaRam) {
+        this.dsMemoriaRam = dsMemoriaRam;    
+    } 
+     
+ } 

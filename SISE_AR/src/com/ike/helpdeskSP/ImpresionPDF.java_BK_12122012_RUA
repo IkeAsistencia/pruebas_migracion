@@ -1,0 +1,116 @@
+/*
+ * ImpresionPDF.java
+ *
+ * Created on 14 de agosto de 2008, 21:02
+ *
+ * To change this template, choose Tools | Template Manager
+ * and open the template in the editor.
+ */
+package com.ike.helpdeskSP;
+
+import com.lowagie.text.pdf.AcroFields;
+import com.lowagie.text.pdf.PdfReader;
+import com.lowagie.text.pdf.PdfStamper;
+import java.io.FileOutputStream;
+
+/*
+ *
+ * @author vsampablo
+ */
+public class ImpresionPDF {
+
+    private static DAOHelpdeskSP daoh = null;
+    private static HelpdeskSP Solicitud = null;
+    private static String Path = "";
+    private static String Imagen = "";
+
+    /* Creates a new instance of ImpresionPDF */
+    public ImpresionPDF() {
+    }
+
+    public static void ShowPDF(String clSolicitud) {
+
+        int clUsrReg = 0;
+
+        try {
+
+            //<<<<<<<<<<<<<< Ruta Para TEST >>>>>>>>>>>>
+            //Path = "C:\\SISE_AR\\build\\web\\HelpDeskSP\\Impresion.pdf";
+
+            //<<<<<<<<<<<<< Ruta para Produccion >>>>>>>>>>>>>
+            //Path="/opt/app/apache-tomcat-5.5.12/webapps/SISE_DISABLED/HelpDeskSP/Impresion.pdf";
+            //Path="/opt/app/apache-tomcat-5.5.12/webapps/SISE_AR/HelpDeskSP/Impresion.pdf";
+            Path = "/opt/app/apache-tomcat-6.0.18/webapps/SISE_AR/HelpDeskSP/Impresion.pdf";
+
+
+            String clAtencion = "";
+            String clDominio = "";
+            String clActitud = "";
+            String clServicio = "";
+            String clTiempodeEspera = "";
+
+            daoh = new DAOHelpdeskSP();
+            Solicitud = daoh.getHelpdeskSP(clSolicitud);
+
+            PdfReader reader = new PdfReader(Path);
+            PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(Path.replace(".pdf", "") + "_" + clSolicitud.toString() + ".pdf"));
+            AcroFields form = stamper.getAcroFields();
+
+            form.setField("NombreUsr", Solicitud.getNombreUsrSP().toString());
+            form.setField("NombreUsrR", Solicitud.getNombre().toString());
+
+            form.setField("Ext", Solicitud.getExtencion().toString());
+            form.setField("FechaR", Solicitud.getFechaRegistro().toString());
+            form.setField("FechaCon", Solicitud.getFechaTermino().toString());
+            form.setField("Folio", Solicitud.getclSolicitud().toString());
+
+
+            form.setField("Area", Solicitud.getdsAreaOperativa().toString());
+            form.setField("Descripcion", Solicitud.getDetalleSol().toString());
+            form.setField("Seguimiento", Solicitud.getSeguimiento().toString());
+            form.setField("FechaC", Solicitud.getFechaCompromiso().toString());
+            form.setField("Asignado", Solicitud.getdsColaboradorAsignadoSP().toString());
+            form.setField("Status", Solicitud.getdsEstatus().toString());
+            form.setField("FechaT", Solicitud.getFechaTermino().toString());
+            form.setField("Actividad", Solicitud.getActividadR().toString());
+
+            clAtencion = Solicitud.getClAtencion().toString();
+            clDominio = Solicitud.getClDominio().toString();
+            clActitud = Solicitud.getClActitud().toString();
+            clServicio = Solicitud.getClServicio().toString();
+            clTiempodeEspera = Solicitud.getClTiempodeEspera().toString();
+
+            //<<<<<<<<<<<< Llenado de Calificacion >>>>>>>>>
+
+            //<<<<<<<<<<<< Llenado de Calificacion >>>>>>>>>
+            form.setField("Atencion" + clAtencion, "Yes");
+            form.setField("Dominio" + clDominio, "Yes");
+            form.setField("Actitud" + clActitud, "Yes");
+            form.setField("Servicio" + clServicio, "Yes");
+            form.setField("TRespuesta" + clTiempodeEspera, "Yes");
+
+
+            stamper.setFormFlattening(true);
+            stamper.close();
+//            reader.close();
+            reader = null;
+            form = null;
+
+            Path = null;
+            clAtencion = null;
+            clDominio = null;
+            clActitud = null;
+            clServicio = null;
+            clTiempodeEspera = null;
+            Solicitud = null;
+
+            daoh = null;
+            Solicitud = null;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("ShowPDF Error: " + e);
+        }
+    }
+}
+

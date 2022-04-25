@@ -1,0 +1,90 @@
+package Utilerias;
+
+import java.sql.SQLException;
+import java.net.MalformedURLException;
+
+public class EnviaSMS {
+
+    private static boolean isStarted = false;
+
+    public static boolean getEstatus() {
+        return isStarted;
+    }
+
+    public static synchronized void EnviaSMS() throws SQLException, MalformedURLException, Exception {
+        int IntTopMensajes = 0;
+        int IntContador = 0;
+        String StrURL = "";
+        String StrAccion = "";
+        String StrUsuario = "";
+        String StrPassword = "";
+        String StrclMensaje = "0";
+        String StrTelCel = "";
+        String StrMensaje = "";
+        String StrParametros = "";
+
+        try {
+            ResultList rs = new ResultList();
+            rs.rsSQL("st_GetDataSMS");
+            if (rs.next()) {
+                StrURL = rs.getString("URL");
+                StrUsuario = rs.getString("Usuario");
+                StrPassword = rs.getString("Password");
+                StrAccion = rs.getString("Accion");
+                IntTopMensajes = rs.getInt("NumMensajes");
+            }
+            rs.close();
+            rs = null;
+            rs = new ResultList();
+            rs.rsSQL("st_GetMensajeSMS '" + IntTopMensajes + "'");
+
+            while (rs.next()) {
+                IntContador = IntContador++;
+                StrclMensaje = rs.getString("clMensaje");
+                StrTelCel = rs.getString("Celular");
+                StrMensaje = rs.getString("Mensaje").replaceAll(" ", "%20");
+                StrMensaje = StrMensaje.replaceAll(",", "%2C");
+                //StrParametros = "longMessage=true" + "&action=" + StrAccion + "&usuario=" + StrUsuario + "&clave=" + StrPassword + "&cel=" + StrTelCel + "&men=" + StrMensaje;
+                StrParametros = "usuario=" + StrUsuario + "&clave=" + StrPassword + "&celulares=" + StrTelCel + "&mensaje=" + StrMensaje;
+                if (!StrclMensaje.equalsIgnoreCase("0")) {
+                    ConexionURLSMS.EnviaSMSxURL(StrURL, StrParametros, StrclMensaje);
+                }
+            }
+
+            rs.close();
+            rs = null;
+
+            if (IntContador >= IntTopMensajes) {
+            } else {
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+
+            StrURL = null;
+            StrAccion = null;
+            StrUsuario = null;
+            StrPassword = null;
+            StrclMensaje = null;
+            StrTelCel = null;
+            StrMensaje = null;
+            StrParametros = null;
+        }
+    }
+
+    public static void StartSMS() {
+        chStatusSMS(true);
+        TimerProcesaSMS.StartSMS();
+    }
+
+    public static void StopSMS() {
+        chStatusSMS(false);
+    }
+
+    private static void chStatusSMS(boolean pEstatus) {
+        isStarted = pEstatus;
+    }
+
+}

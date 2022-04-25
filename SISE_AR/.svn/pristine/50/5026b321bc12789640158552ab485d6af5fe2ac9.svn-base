@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://172.17.10.235:8000/soap/aacia2k4?wsdl" uri="wsdl/172.17.10.235_8000/soap/aacia2k4.wsdl"/>
+</catalog>

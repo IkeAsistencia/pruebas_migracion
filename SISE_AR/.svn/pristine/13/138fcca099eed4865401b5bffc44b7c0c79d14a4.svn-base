@@ -1,0 +1,534 @@
+/*
+ * ResultList.java
+ *
+ * Created on 18 de octubre de 2012, 08:40 AM
+ *
+ * To change this template, choose Tools | Template Manager
+ * and open the template in the editor.
+ */
+package Utilerias;
+
+import com.ike.model.DAOException;
+import com.ike.model.LlenaDatos;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+/**
+ *
+ * @author vsampablo
+ */
+public class ResultList {
+
+    private List rslt = null;
+    private int columns = 0;
+    private int columnIndex = -1;
+    private HashMap colsHM = null;
+
+    /**
+     * Creates a new instance of ResultList
+     */
+    public ResultList() {
+    }
+
+    public void rsSQL(final String SQL) {
+
+        Connection con = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        ResultSetMetaData md = null;
+        rslt = new ArrayList();
+
+        System.out.println(SQL);
+        try {
+            con = UtileriasBDF.getConnection();
+            if (con != null) {
+                stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                stmt.execute("set dateformat ymd");
+                rs = stmt.executeQuery(SQL);
+                md = rs.getMetaData();
+                int columns = md.getColumnCount();
+                this.columns = columns;
+                colsHM = new HashMap(columns);
+                while (rs.next()) {
+                    HashMap row = new HashMap(columns);
+                    for (int i = 1; i <= columns; ++i) {
+                        if (rs.getString(i) == null) {
+                            row.put(md.getColumnName(i).toUpperCase(), "");
+                        } else {
+                            row.put(md.getColumnName(i).toUpperCase(), rs.getString(i));
+                        }
+                        colsHM.put(i, md.getColumnName(i).toUpperCase());
+                    }
+                    rslt.add(row);
+                    row = null;
+                }
+            } else {
+                System.out.println("<<<<<<<<<<<<< NO HAY CONEXION A LA BASE...>>>>>>>>>>>>>");
+            }
+        } catch (SQLException ex) {
+            //System.out.println(ex.getErrorCode()+" "+ex);
+            try {
+                stmt.execute("set dateformat ymd");
+                stmt.execute("set quoted_identifier off  insert into LogError (Sentencia,ErrorCode,Error,Fecha) values (\"" + SQL + "\",\"" + ex.getErrorCode() + "\",\"" + ex.getMessage() + "\",getdate())");
+            } catch (Exception er) {
+                System.out.println(er);
+            }
+
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+
+                if (md != null) {
+                    md = null;
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+
+        }
+
+    }
+
+    protected Collection rsSQL(final String SQL, LlenaDatos Lld) throws DAOException {
+
+        Connection con = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        ResultSetMetaData md = null;
+        rslt = new ArrayList();
+        Collection col = new ArrayList();
+
+        System.out.println(SQL);
+        try {
+            con = UtileriasBDF.getConnection();
+            if (con != null) {
+                stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                stmt.execute("set dateformat ymd");
+                rs = stmt.executeQuery(SQL);
+                //md = rs.getMetaData();
+                while (rs.next()) {
+                    col.add(Lld.llena(rs));
+                }
+            } else {
+                System.out.println("<<<<<<<<<<<<< NO HAY CONEXION A LA BASE...>>>>>>>>>>>>>");
+            }
+        } catch (SQLException ex) {
+            //System.out.println(ex.getErrorCode()+" "+ex);
+            try {
+                stmt.execute("set dateformat ymd");
+                stmt.execute("set quoted_identifier off  insert into LogError (Sentencia,ErrorCode,Error,Fecha) values (\"" + SQL + "\",\"" + ex.getErrorCode() + "\",\"" + ex.getMessage() + "\",getdate())");
+            } catch (Exception er) {
+                System.out.println(er);
+            }
+
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+
+                if (md != null) {
+                    md = null;
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+
+        }
+        return col;
+
+    }
+
+    public String getTable() {
+        StringBuffer StrSalida = new StringBuffer();
+        String StrTH = "", StrCSSRow = "", StrToolTip = "", StrCSSRowCol = "", StrToolTipCol = "", iTDToolTip = "1";
+        int iColumnas = 0, iCSSRow = 0, iToolTip = 0;
+        boolean blnCSSRow = false, blnToolTip = false;
+
+        StrSalida.append("<table id=\"PW_LST\" class=\"Lista\" cellspacing='0'>");
+
+        if (this.getRow() > 0) {
+            for (int col = 1; col <= colsHM.size(); col++) {
+                if (colsHM.get(col).toString().equalsIgnoreCase("CSSRow")) {
+                    blnCSSRow = true;
+                    iCSSRow = col;
+                    StrCSSRowCol = colsHM.get(col).toString();
+                } else {
+                    if (colsHM.get(col).toString().equalsIgnoreCase("ToolTip")) {
+                        blnToolTip = true;
+                        iToolTip = col;
+                        StrToolTipCol = colsHM.get(col).toString();
+                    } else {
+                        //StrTH = StrTH + "<th>"+colsHM.get(col)+"</th>";
+                        StrTH = StrTH + "<th onClick='fnOrder(this.parentElement.parentElement," + String.valueOf(col - 1) + ");'>" + colsHM.get(col) + "</th>";
+                    }
+                }
+            }
+
+            StrSalida.append("<tr class=\"Registros\"><th colspan=\"" + this.getColumnCount() + "\">Registros: ").append(this.getRow()).append("</th></tr>");
+            StrSalida.append("<tr class=\"Columnas\">").append(StrTH).append("</tr>");
+
+            for (int lt = 0; lt < rslt.size(); lt++) {
+                iColumnas = iColumnas + 1;
+                HashMap rsHM = (HashMap) rslt.get(lt);
+
+                if (blnCSSRow) {
+                    StrCSSRow = rsHM.get(StrCSSRowCol).toString();
+                }
+                if (blnToolTip) {
+                    StrToolTip = rsHM.get(StrToolTipCol).toString();
+                    if (StrToolTip.indexOf("|") != -1) {
+                        iTDToolTip = StrToolTip.substring(0, StrToolTip.indexOf("|"));
+                    }
+                }
+
+                if (StrCSSRow.equalsIgnoreCase("")) {
+                    StrSalida.append("<tr class=\"Contenido\" onMouseOut=\"this.className='Contenido'\" onMouseOver=\"this.className='ratonEncima'\">");
+                } else {
+                    StrSalida.append("<tr class=\"" + StrCSSRow + "\" onMouseOut=\"this.className='" + StrCSSRow + "'\" onMouseOver=\"this.className='ratonEncima'\">");
+                }
+
+                for (int col = 1; col <= colsHM.size(); col++) {
+                    if (iCSSRow != col && iToolTip != col) {
+                        if (StrToolTip.equalsIgnoreCase("")) {
+                            StrSalida.append("<td>").append(rsHM.get(colsHM.get(col))).append("</td>");
+                        } else {
+                            if (col == Integer.parseInt(iTDToolTip)) {
+                                StrSalida.append("<td onMouseOut=\"fn_HTT();\" onMouseOver=\"fn_STT(event," + StrToolTip + ");return false\">").append(rsHM.get(colsHM.get(col))).append("</td>");
+                            } else {
+                                StrSalida.append("<td>").append(rsHM.get(colsHM.get(col))).append("</td>");
+                            }
+                        }
+                    }
+                }
+                StrSalida.append("</tr>");
+
+//                    if (iColumnas==10){
+//                          StrSalida.append("<tr class=\"Contenido\"><th colspan=\""+this.getColumnCount()+"\"></th></tr>");
+//                          iColumnas = 0;
+//                    }
+            }
+        } else {
+            StrSalida.append("<tr class=\"Registros\"><th> ").append("</th></tr>");
+            StrSalida.append("<tr class=\"Columnas\"><th>Mensaje</th></tr>");
+            StrSalida.append("<tr class=\"Contenido\"><td>No se encontraron registros.</td></tr>");
+        }
+
+        StrSalida.append("</table>");
+
+        return StrSalida.toString();
+    }
+
+    public String rsTable(final String SQL) {
+        StringBuffer StrSalida = new StringBuffer();
+        String StrTH = "", StrCSSRow = "", StrToolTip = "", StrCSSRowCol = "", StrToolTipCol = "", iTDToolTip = "1";
+        int iColumnas = 0, iCSSRow = 0, iToolTip = 0;
+        boolean blnCSSRow = false, blnToolTip = false;
+        this.rsSQL(SQL);
+
+        StrSalida.append("<table id=\"PW_LST\" class=\"Lista\" cellspacing='0'>");
+
+        if (this.getRow() > 0) {
+            for (int col = 1; col <= colsHM.size(); col++) {
+                if (colsHM.get(col).toString().equalsIgnoreCase("CSSRow")) {
+                    blnCSSRow = true;
+                    iCSSRow = col;
+                    StrCSSRowCol = colsHM.get(col).toString();
+                } else {
+                    if (colsHM.get(col).toString().equalsIgnoreCase("ToolTip")) {
+                        blnToolTip = true;
+                        iToolTip = col;
+                        StrToolTipCol = colsHM.get(col).toString();
+                    } else {
+                        StrTH = StrTH + "<th onClick='fnOrder(this.parentElement.parentElement," + String.valueOf(col - 1) + ");'>" + colsHM.get(col) + "</th>";
+                        //StrTH = StrTH + "<th>"+colsHM.get(col)+"</th>";
+                    }
+                }
+            }
+
+            StrSalida.append("<tr class=\"Registros\"><th colspan=\"" + this.getColumnCount() + "\">Registros: ").append(this.getRow()).append("</th></tr>");
+            StrSalida.append("<tr class=\"Columnas\">").append(StrTH).append("</tr>");
+
+            for (int lt = 0; lt < rslt.size(); lt++) {
+                iColumnas = iColumnas + 1;
+                HashMap rsHM = (HashMap) rslt.get(lt);
+
+                if (blnCSSRow) {
+                    StrCSSRow = rsHM.get(StrCSSRowCol).toString();
+                }
+                if (blnToolTip) {
+                    StrToolTip = rsHM.get(StrToolTipCol).toString();
+                    if (StrToolTip.indexOf("|") != -1) {
+                        iTDToolTip = StrToolTip.substring(0, StrToolTip.indexOf("|"));
+                    }
+                }
+
+                if (StrCSSRow.equalsIgnoreCase("")) {
+                    StrSalida.append("<tr class=\"Contenido\" onMouseOut=\"this.className='Contenido'\" onMouseOver=\"this.className='ratonEncima'\">");
+                } else {
+                    StrSalida.append("<tr class=\"" + StrCSSRow + "\" onMouseOut=\"this.className='" + StrCSSRow + "'\" onMouseOver=\"this.className='ratonEncima'\">");
+                }
+
+                for (int col = 1; col <= colsHM.size(); col++) {
+                    if (iCSSRow != col && iToolTip != col) {
+                        if (StrToolTip.equalsIgnoreCase("")) {
+                            StrSalida.append("<td>").append(rsHM.get(colsHM.get(col))).append("</td>");
+                        } else {
+                            if (col == Integer.parseInt(iTDToolTip)) {
+                                StrSalida.append("<td onMouseOut=\"fn_HTT();\" onMouseOver=\"fn_STT(event," + StrToolTip + ");return false\">").append(rsHM.get(colsHM.get(col))).append("</td>");
+                            } else {
+                                StrSalida.append("<td>").append(rsHM.get(colsHM.get(col))).append("</td>");
+                            }
+                        }
+                        // StrSalida.append("<td>").append(rsHM.get(colsHM.get(col))).append("</td>");
+                    }
+                }
+
+                StrSalida.append("</tr>");
+
+//                    if (iColumnas==10){
+//                          StrSalida.append("<tr class=\"Contenido\"><th colspan=\""+this.getColumnCount()+"\"></th></tr>");
+//                          iColumnas = 0;
+//                    }
+            }
+        } else {
+            StrSalida.append("<tr class=\"Registros\"><th> ").append("</th></tr>");
+            StrSalida.append("<tr class=\"Columnas\"><th>Mensaje</th></tr>");
+            StrSalida.append("<tr class=\"Contenido\"><td>No se encontraron registros.</td></tr>");
+        }
+
+        StrSalida.append("</table>");
+
+        return StrSalida.toString();
+    }
+
+    public String rsTable(final String clPaginaWeb, final String NombrePaginaWeb, final String NombreLogicoWeb, final String Llave, final String Titulo, final String Alta, final String Busqueda, final String SQL, final String Link, final String TituloD) {
+        StringBuffer StrSalida = new StringBuffer();
+        String StrTH = "", StrCSSRow = "", StrToolTip = "", StrCSSRowCol = "", StrToolTipCol = "", iTDToolTip = "1";
+        int iColumnas = 0, iCSSRow = 0, iToolTip = 0;
+        boolean blnCSSRow = false, blnToolTip = false;
+
+        this.rsSQL(SQL);
+
+        StrSalida.append("<div id='LstBtn' class='ltT'>");
+        if (!TituloD.equalsIgnoreCase("1")) {
+            StrSalida.append("<center><FONT FACE=\"arial\" SIZE=2 COLOR=#004B85><B>").append(Titulo).append("</B></FONT></center>");
+        }
+        StrSalida.append("</div>");
+
+        StrSalida.append("<table id=\"PW_LST\" class=\"Lista\" cellspacing='0'>");
+
+        if (this.getRow() > 0) {
+            for (int col = 1; col <= colsHM.size(); col++) {
+                if (colsHM.get(col).toString().equalsIgnoreCase("CSSRow")) {
+                    blnCSSRow = true;
+                    iCSSRow = col;
+                    StrCSSRowCol = colsHM.get(col).toString();
+                } else {
+                    if (colsHM.get(col).toString().equalsIgnoreCase("ToolTip")) {
+                        blnToolTip = true;
+                        iToolTip = col;
+                        StrToolTipCol = colsHM.get(col).toString();
+                    } else {
+                        StrTH = StrTH + "<th onClick='fnOrder(this.parentElement.parentElement," + String.valueOf(col - 1) + ");'>" + colsHM.get(col) + "</th>";
+                    }
+                }
+            }
+
+            StrSalida.append("<tr class=\"Registros\"><th colspan=\"" + this.getColumnCount() + "\">Registros: ").append(this.getRow()).append("</th></tr>");
+            StrSalida.append("<tr class=\"Columnas\">").append(StrTH).append("</tr>");
+
+            for (int lt = 0; lt < rslt.size(); lt++) {
+                iColumnas = iColumnas + 1;
+                HashMap rsHM = (HashMap) rslt.get(lt);
+
+                if (blnCSSRow) {
+                    StrCSSRow = rsHM.get(StrCSSRowCol).toString();
+                }
+                if (blnToolTip) {
+                    StrToolTip = rsHM.get(StrToolTipCol).toString();
+                    if (StrToolTip.indexOf("|") != -1) {
+                        iTDToolTip = StrToolTip.substring(0, StrToolTip.indexOf("|"));
+                    }
+                }
+
+                if (StrCSSRow.equalsIgnoreCase("")) {
+                    StrSalida.append("<tr class=\"Contenido\" onMouseOut=\"this.className='Contenido'\" onMouseOver=\"this.className='ratonEncima'\">");
+                } else {
+                    StrSalida.append("<tr class=\"" + StrCSSRow + "\" onMouseOut=\"this.className='" + StrCSSRow + "'\" onMouseOver=\"this.className='ratonEncima'\">");
+                }
+
+                for (int col = 1; col <= colsHM.size(); col++) {
+                    if (iCSSRow != col) {
+                        if (col == 1 && Link.equalsIgnoreCase("1")) {
+                            if (iCSSRow != col && iToolTip != col) {
+                                //StrSalida.append("<th>").append("<a href=\"javascript:fn_DPW('"+clPaginaWeb+"','"+NombrePaginaWeb+"','"+Llave+"="+rsHM.get(colsHM.get(col))+"','');\">"+rsHM.get(colsHM.get(col))+"").append("</a></th>");
+                                StrSalida.append("<td>").append(rsHM.get(colsHM.get(col))).append("</a></td>");
+
+                            }
+                        } else {
+                            if (iCSSRow != col && iToolTip != col) {
+                                if (StrToolTip.equalsIgnoreCase("")) {
+                                    StrSalida.append("<td>").append(rsHM.get(colsHM.get(col))).append("</td>");
+                                } else {
+                                    if (col == Integer.parseInt(iTDToolTip)) {
+                                        StrSalida.append("<td onMouseOut=\"fn_HTT();\" onMouseOver=\"fn_STT(event," + StrToolTip + ");return false\">").append(rsHM.get(colsHM.get(col))).append("</td>");
+                                    } else {
+                                        StrSalida.append("<td>").append(rsHM.get(colsHM.get(col))).append("</td>");
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                }
+                StrSalida.append("</tr>");
+
+//                    if (iColumnas==10){
+//                          StrSalida.append("<tr class=\"Contenido\"><th colspan=\""+this.getColumnCount()+"\"></th></tr>");
+//                          iColumnas = 0;
+//                    }
+            }
+        } else {
+            StrSalida.append("<tr class=\"Registros\"><th> ").append("</th></tr>");
+            StrSalida.append("<tr class=\"Columnas\"><th>Mensaje</th></tr>");
+            StrSalida.append("<tr class=\"Contenido\"><td>No se encontraron registros.</td></tr>");
+        }
+
+        StrSalida.append("</table>");
+
+        return StrSalida.toString();
+    }
+
+    public int getRow() {
+        return rslt.size();
+    }
+
+    public int getColumnCount() {
+        return this.columns;
+    }
+
+    public boolean next() {
+        if (rslt.size() > 0 && rslt.size() - 1 > columnIndex) {
+            columnIndex = columnIndex + 1;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public String getString(String columnName) {
+        String valorColumn = "";
+        columnName = columnName.toUpperCase();
+        HashMap rsHM = (HashMap) rslt.get(this.columnIndex);
+        if (rsHM.get(columnName) != null) {
+            valorColumn = rsHM.get(columnName).toString();
+        } else {
+            System.out.println("La Columna " + columnName + " no existe (SQL).");
+        }
+        return valorColumn;
+    }
+
+    public String getString(int columnIndex) {
+        String valorColumn = "";
+        String columnName = "";
+
+        if (colsHM.get(columnIndex) != null) {
+            columnName = colsHM.get(columnIndex).toString();
+        } else {
+            System.out.println("La id (" + columnIndex + ") no existe (SQL).");
+        }
+
+        if (!columnName.equalsIgnoreCase("")) {
+            HashMap rsHM = (HashMap) rslt.get(this.columnIndex);
+            valorColumn = rsHM.get(columnName).toString();
+        }
+
+        return valorColumn;
+    }
+
+    public int getInt(String columnName) {
+        columnName = columnName.toUpperCase();
+        String valorColumn = "";
+        HashMap rsHM = (HashMap) rslt.get(this.columnIndex);
+        if (rsHM.get(columnName) != null) {
+            valorColumn = rsHM.get(columnName).toString();
+        } else {
+            System.out.println("La Columna " + columnName + " no existe (SQL).");
+        }
+        return Integer.parseInt(valorColumn);
+    }
+
+    public boolean getBoolean(String columnName) {
+        columnName = columnName.toUpperCase();
+        String valorColumn = "";
+        HashMap rsHM = (HashMap) rslt.get(this.columnIndex);
+        if (rsHM.get(columnName) != null) {
+            valorColumn = rsHM.get(columnName).toString();
+        } else {
+            System.out.println("La Columna " + columnName + " no existe (SQL).");
+        }
+        return Boolean.parseBoolean(valorColumn);
+    }
+
+    public String getObject(int columnIndex) {
+        String valorColumn = "";
+        String columnName = "";
+
+        if (colsHM.get(columnIndex) != null) {
+            columnName = colsHM.get(columnIndex).toString();
+        } else {
+            System.out.println("La id (" + columnIndex + ") no existe (SQL).");
+        }
+
+        if (!columnName.equalsIgnoreCase("")) {
+            HashMap rsHM = (HashMap) rslt.get(this.columnIndex);
+            valorColumn = rsHM.get(columnName).toString();
+        }
+
+        return valorColumn;
+    }
+
+    public void close() {
+        this.rslt = null;
+        this.colsHM = null;
+        this.columnIndex = -1;
+    }
+
+    public void afterLast() {
+        this.columnIndex = rslt.size() - 1;
+    }
+
+    public void beforeFirst() {
+        this.columnIndex = 0;
+    }
+
+    public void first() {
+        this.columnIndex = 1;
+    }
+}

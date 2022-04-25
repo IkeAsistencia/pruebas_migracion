@@ -1,0 +1,153 @@
+<%@ page contentType="text/html; charset=iso-8859-1" language="java" import="java.sql.ResultSet,Utilerias.UtileriasBDF" errorPage="" %>
+<html>
+    <head>
+        <title>Valida Reincidencias</title>
+        <link href="../StyleClasses/Global.css" rel="stylesheet" type="text/css">
+    </head>
+    <body class="cssBody">
+        <jsp:useBean id="MyUtil" scope="session" class="Utilerias.UtileriasObj"/>
+        <script src='../Utilerias/Util.js'></script>
+        <script src='../Utilerias/UtilMask.js'></script>
+        <%
+        String StrclExpediente = "0";
+        String StrclServicio = "0";
+        String StrclSubServicio = "0";
+        String StrdsServicio = "0";
+        String StrdsSubServicio = "0";
+        String StrReincidencias = "0";
+        String StrclCuenta = "0";
+        String StrClave = "0";
+        String StrCobertura = "";
+
+        StringBuffer StrSql = new StringBuffer();
+
+        if (session.getAttribute("clExpediente") != null) {
+            StrclExpediente = session.getAttribute("clExpediente").toString();
+        }
+
+        if (session.getAttribute("clCuenta") != null) {
+            StrclCuenta = session.getAttribute("clCuenta").toString();
+        }
+
+        if (session.getAttribute("Clave") != null) {
+            StrClave = session.getAttribute("Clave").toString();
+        }
+
+        if (request.getParameter("clServicio") != null) {
+            StrclServicio = request.getParameter("clServicio").toString();
+        }
+
+        if (request.getParameter("clSubservicio") != null) {
+            StrclSubServicio = request.getParameter("clSubservicio").toString();
+        }
+
+        if (request.getParameter("dsServicio") != null) {
+            StrdsServicio = request.getParameter("dsServicio").toString();
+        }
+
+        if (request.getParameter("dsSubservicio") != null) {
+            StrdsSubServicio = request.getParameter("dsSubservicio").toString();
+        }
+
+        if (request.getParameter("Cobertura") != null) {
+            StrCobertura = request.getParameter("Cobertura").toString();
+        }
+
+        StrSql.append("st_ValidaReincide " + StrclExpediente + "," + StrclServicio + "," + StrclSubServicio);
+        ResultSet rsReincide = UtileriasBDF.rsSQLNP(StrSql.toString());
+        StrSql.delete(0, StrSql.length());
+
+        if (rsReincide.next()) {
+            //System.out.println("Entra validacion de reincidencias.");
+            if (rsReincide.getString("Reincidencias") != null) {
+                StrReincidencias = rsReincide.getString("Reincidencias").toString();
+            }
+            //System.out.println("Reincidencias: " + StrReincidencias);
+
+            if (StrCobertura.equalsIgnoreCase("1")) {
+                /***  SERVICIOS CUBIERTOS  ***/
+                if (Integer.parseInt(StrReincidencias) >= 3) {%>
+        <div class='Rojo' style='position:absolute; z-index:4; left:150px; top:45px; width:150px'>
+            La clave: <%=StrClave%> ha solicitado <%=StrReincidencias%> veces, el servicio de <%=StrdsSubServicio%>
+        </div>
+
+        <form action="../servlet/Utilerias.AutorizaReincideClave" method="post">
+            <div class='VTable' style='position:absolute; z-index:5; left:20px; top:30px;'>
+                <table>
+                    <tr><td><p class='FTable'>Usuario</p></td><tr>
+                    <tr><td><input id="Usr" name="Usr" class='VTable'></input></td></tr>
+                    <tr><td><p class='FTable'>Password</p></td><tr>
+                    <tr><td><input type="password" id="Pass" name="Pass" class='VTable'></input></td></tr>
+                    <input type="hidden" id="NumReincide" name="NumReincide" value="<%=StrReincidencias%>"></input>
+                    <input type="hidden" id="clExpediente" name="clExpediente" value="<%=StrclExpediente%>"></input>
+                    <input type="hidden" id="Cuenta" name="Cuenta" value="<%=StrclCuenta%>"></input>
+                    <input type="hidden" id="Clave" name="Clave" value="<%=StrClave%>"></input>
+                    <input type="hidden" id="clServicio" name="clServicio" value="<%=StrclServicio%>"></input>
+                    <input type="hidden" id="clSubServicio" name="clSubServicio" value="<%=StrclSubServicio%>"></input>
+                    <input type="hidden" id="dsServicio" name="dsServicio" value="<%=StrdsServicio%>"></input>
+                    <input type="hidden" id="dsSubServicio" name="dsSubServicio" value="<%=StrdsSubServicio%>"></input>
+                    <tr><td><input type="submit" class="cBtn" value="Entrar"></input></td></tr>
+                </table>
+            </div>
+        </form>
+        <div class='cssBGDetSw' style='background-color:#052145; position:absolute; z-index:0; left:15px; top:15px; width:300px; height:150px;'>
+        <p class='cssTitDet'></p></div>
+        <div class='cssBGDet' style='position:absolute; z-index:1; left:10px; top:10px; width:300px; height:150px;'>
+        <p class='cssTitDet'>Favor de ingresar Usuario y Contraseña</p></div>
+        <%
+                } else {%>
+        <script>
+            window.opener.location.href='../Operacion/DetalleAsistencia.jsp?clSubServicio=<%=StrclSubServicio%>&clServicio=<%=StrclServicio%>&dsServicio=<%=StrdsServicio%>&dsSubservicio=<%=StrdsSubServicio%>';
+            window.close();
+        </script>
+        <%  }
+            /***    SERVICIOS NO CUBIERTOS  ***/
+            } else { %>
+        <div class='Rojo' style='position:absolute; z-index:4; left:150px; top:45px; width:150px'>
+            El Expediente: <%=StrclExpediente%> ha solicitado el servicio no cubierto de: <%=StrdsSubServicio%>.
+        </div>
+
+        <form action="../servlet/Utilerias.AutorizaReincideClave" method="post">
+            <div class='VTable' style='position:absolute; z-index:5; left:20px; top:30px;'>
+                <table>
+                    <tr><td><p class='FTable'>Usuario</p></td><tr>
+                    <tr><td><input id="Usr" name="Usr" class='VTable'></input></td></tr>
+                    <tr><td><p class='FTable'>Password</p></td><tr>
+                    <tr><td><input type="password" id="Pass" name="Pass" class='VTable'></input></td></tr>
+                    <input type="hidden" id="NumReincide" name="NumReincide" value="<%=StrReincidencias%>"></input>
+                    <input type="hidden" id="clExpediente" name="clExpediente" value="<%=StrclExpediente%>"></input>
+                    <input type="hidden" id="Cuenta" name="Cuenta" value="<%=StrclCuenta%>"></input>
+                    <input type="hidden" id="Clave" name="Clave" value="<%=StrClave%>"></input>
+                    <input type="hidden" id="clServicio" name="clServicio" value="<%=StrclServicio%>"></input>
+                    <input type="hidden" id="clSubServicio" name="clSubServicio" value="<%=StrclSubServicio%>"></input>
+                    <input type="hidden" id="dsServicio" name="dsServicio" value="<%=StrdsServicio%>"></input>
+                    <input type="hidden" id="dsSubServicio" name="dsSubServicio" value="<%=StrdsSubServicio%>"></input>
+                    <tr><td><input type="submit" class="cBtn" value="Entrar"></input></td></tr>
+                </table>
+            </div>
+        </form>
+        <div class='cssBGDetSw' style='background-color:#052145; position:absolute; z-index:0; left:15px; top:15px; width:300px; height:150px;'>
+        <p class='cssTitDet'></p></div>
+        <div class='cssBGDet' style='position:absolute; z-index:1; left:10px; top:10px; width:300px; height:150px;'>
+        <p class='cssTitDet'>Favor de ingresar Usuario y Contraseña</p></div>
+
+        <% }
+        }
+
+        rsReincide.close();
+        rsReincide = null;
+
+        StrclExpediente = null;
+        StrclServicio = null;
+        StrclSubServicio = null;
+        StrdsServicio = null;
+        StrdsSubServicio = null;
+        StrReincidencias = null;
+        StrclCuenta = null;
+        StrClave = null;
+
+        StrSql = null;
+        %>
+    </body>
+</html>
+

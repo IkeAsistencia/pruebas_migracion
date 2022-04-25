@@ -1,0 +1,142 @@
+<%@ page contentType="text/html; charset=iso-8859-1" language="java" import="java.sql.ResultSet,Utilerias.UtileriasBDF,Seguridad.SeguridadC,com.ike.operacion.DAOAltaCitas,com.ike.operacion.to.AltaCitas" errorPage="" %>
+<html>
+    <head>
+        <title>Crea Cita</title> 
+        <link href="../StyleClasses/Global.css" rel="stylesheet" type="text/css">
+        <link href="../StyleClasses/Calendario.css" rel="stylesheet" type="text/css">
+    </head>
+    <body class="cssBody">
+        <jsp:useBean id="MyUtil" scope="session" class="Utilerias.UtileriasObj"/>
+        <script type="text/javascript" src='../Utilerias/Util.js'></script>
+        <script type="text/javascript" src='../Utilerias/UtilMask.js'></script>
+        <script type="text/javascript" src='../Utilerias/UtilCalendario.js'></script>
+     
+        <%
+
+            String strclUsr = "0";
+            String StrProveedor = "0";
+            String StrdsProveedor = "0";
+            String StrclExpediente = "0";
+            String StrclCita = "0";
+            String StrclEstatusCita="1";
+            
+            DAOAltaCitas daos = null;
+            AltaCitas altacitas = null;
+
+            if (session.getAttribute("clUsrApp") != null) {
+                    strclUsr = session.getAttribute("clUsrApp").toString();
+                } else {
+                    strclUsr = request.getParameter("clUsrApp").toString();
+                }
+            
+            if (SeguridadC.verificaHorarioC(Integer.parseInt(strclUsr)) != true) {
+                %>Fuera de Horario<%
+                strclUsr = null;
+                StrclExpediente = null;
+                //String StrclPaginaWeb = "0";
+                return;
+            }
+            
+            if (session.getAttribute("clExpediente") != null) {
+                StrclExpediente = session.getAttribute("clExpediente").toString();
+            }
+            
+            if (request.getParameter("clProveedor") != null) {
+                StrProveedor = request.getParameter("clProveedor").toString().trim();
+            }
+            
+             if (request.getParameter("NombreOpe") != null) {
+                StrdsProveedor = request.getParameter("NombreOpe").toString().trim();
+            }
+                                                  
+            String StrclPaginaWeb = "6131";
+            session.setAttribute("clPaginaWebP", StrclPaginaWeb);
+            
+            MyUtil.InicializaParametrosC(6131, Integer.parseInt(strclUsr));
+                if (strclUsr != null) {
+                    daos = new DAOAltaCitas();
+                    altacitas = daos.getAltaCitas(StrclCita);
+                }
+                            
+        %>
+        <%=MyUtil.doMenuAct("../servlet/Utilerias.EjecutaAccion", "", "")%>
+       
+        <INPUT id='URLBACK' name='URLBACK' type='hidden' value='<%=request.getRequestURL().substring(0, request.getRequestURL().lastIndexOf("/") + 1)%><%="CreaCita2.jsp?"%>'>
+        <INPUT id='clCita' name='clCita' type='hidden' value='<%=StrclCita%>'>
+        <INPUT id='clProveedor' name='clProveedor' type='hidden' value='<%=StrProveedor%>'>
+        <INPUT id='clUsrApp' name='clUsrApp' type='hidden' value='<%=strclUsr%>'>
+        <INPUT id='clExpediente' name='clExpediente' type='hidden' value='<%=StrclExpediente%>'>
+        <INPUT id='clEstatusCita' name='clEstatusCita' type='hidden' value='<%=StrclEstatusCita%>'>
+        
+        <input id="FechaProgMomAux" name="FechaProgMomAux" value="FechaProgMom" type="hidden"/>       
+        <input name='FechaProgMomMsk' id='FechaProgMomMsk' type='hidden' value='VN09VN09VN09VN09F-/-VN09VN09F-/-VN09VN09F 00VN09VN09F:00VN00VN00'/>
+        
+            <%=MyUtil.ObjInput("Proveedor", "clProveedor", StrdsProveedor, false, false, 100, 80, "", false, false, 25)%>
+            <%=MyUtil.ObjInputF("Fecha Cita(AAAA-MM-DD)", "Fecha", "", true, true, 100, 120, "", true, false, 15, 1, "fnValidaFechaActual(this);")%>
+            <%=MyUtil.ObjInput("Hora Desde", "HoraD", "", true, true, 250, 120, "", true, false, 5)%>
+            <%=MyUtil.ObjInput("Hora Hasta", "HoraH", "", true, true, 350, 120, "", true, false, 5,"fnHrsCita();")%>           
+            <%=MyUtil.DoBlock("Nueva Cita", 0,0)%>
+            
+        <input type="button" class="cBtn" value="Cerrar" onclick="javascript:top.opener.location.reload();window.close();">
+        
+        <%=MyUtil.GeneraScripts()%>
+        
+        <%
+                strclUsr = null;
+                daos = null;
+                altacitas = null;
+        %>
+
+        <script type="text/javascript" >  
+
+            function fnHrsCita(){
+                var StrHoraD=devolverMinutos(document.getElementById("HoraD").value);
+		var StrHoraH=devolverMinutos(document.getElementById("HoraH").value);
+                
+                var StrDifHr = (StrHoraH-StrHoraD);
+                if(StrDifHr > 180){
+                    alert("No se puede ingresar un rango mayor a 3 hs");
+                }
+            }
+            
+            function devolverMinutos(horaMinutos){
+                    return (parseInt(horaMinutos.split(":")[0])*60)+parseInt(horaMinutos.split(":")[1]);
+            }
+            
+            function fnValidaFechaActual(campo){  
+            if(campo.value!=""){
+                date=campo.value;
+                Anio=date.substring(0,4);
+                Mes=date.substring(5,7)-1;
+                Mes=parseInt(Mes,10);
+                Dia=date.substring(8,10);
+                Dia=parseInt(Dia,10);
+
+                var x=new Date();
+                x.setFullYear(Anio,Mes,Dia);
+
+                if(
+                        x.getUTCFullYear()!=Anio
+                    ||  x.getUTCMonth()!=Mes
+                    ||  x.getDate()!=Dia
+                    //||  x.getHours()!=Hora
+                    //||  x.getMinutes()!=Minutos
+                        ){
+                    alert("Fecha incorrecta");  
+                    campo.value="";
+                }else{
+                Fecha=document.all.FechaProgMomAux.value;
+                if(Fecha!=campo.value && document.all.Action.value=="1"){
+                    var today = new Date(); 
+                        if (x<today){
+                            campo.value="";
+                            alert("La fecha no puede ingresar una fecha menor a hoy");
+                            }
+                        }
+                    }
+                }
+            }
+            
+          </script>
+    </body>
+</html>

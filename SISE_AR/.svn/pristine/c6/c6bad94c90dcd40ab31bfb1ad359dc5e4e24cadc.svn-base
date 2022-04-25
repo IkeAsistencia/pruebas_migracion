@@ -1,0 +1,68 @@
+<%@ page contentType="text/html; charset=iso-8859-1" language="java" import="Utilerias.UtileriasBDF,java.sql.ResultSet,WSC.EnviaExpediente" errorPage="" %>
+<%@page pageEncoding="iso-8859-1"%>
+<html>
+    <head><title>WS Envia Expediente</title> 
+        <link href="../../StyleClasses/Global.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <jsp:useBean id="MyUtil" scope="session" class="Utilerias.UtileriasObj" /> 
+        <%
+            String StrclUsrApp = "0";
+            String StrclExpediente = "0";
+            int Error = 0;
+
+            if (session.getAttribute("clUsrApp") != null) {
+                StrclUsrApp = session.getAttribute("clUsrApp").toString();
+            }
+
+            if (request.getParameter("clExpediente") != null) {
+                StrclExpediente = request.getParameter("clExpediente").toString();
+            }
+
+            ResultSet rsExpedienteWS = UtileriasBDF.rsSQLNP("st_ValidaExpWS " + StrclExpediente);
+
+            if (rsExpedienteWS.next()) {
+                if (rsExpedienteWS.getString("Existe").equalsIgnoreCase("0")) {
+                    System.out.println("WS 1");
+                    try{
+                        EnviaExpediente EnvExp = new EnviaExpediente();
+                        Error = EnvExp.EnviaExpediente(StrclExpediente, StrclUsrApp);
+                        System.out.println("Expediente Enviado");
+                    } catch (Exception e) {
+                        %>
+                            <script>
+                                alert('Error al publicar, no hay conexion con AA, intente nuevamente');
+                                window.close();
+                            </script>
+                        <%
+                    }
+                    
+                    
+                    //EnviaExpediente = null;
+                }
+            } 
+        %>
+
+        <%
+            StrclUsrApp = null;
+            StrclExpediente = null;
+            rsExpedienteWS.close();
+            rsExpedienteWS = null;
+        %>
+        <script>
+            //alert('Expediente Publicado!');
+            //window.opener.location.href = '../SeleccionaServicio.jsp'
+            //window.opener.location.href = '../../Utilerias/Lista.jsp?P=184&Apartado=S'
+            
+            if(<%=Error%>==0){
+                alert('Expediente Publicado!');    
+                window.close();    
+            }else{
+                alert('Falló la publicacion del expediente por favor intente mas tarde.');    
+                window.close();    
+            }
+            
+            
+        </script>
+    </body>
+</html>

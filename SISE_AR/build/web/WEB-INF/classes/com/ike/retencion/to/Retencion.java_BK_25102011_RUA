@@ -1,0 +1,421 @@
+/*
+ * Retencion.java
+ *
+ * Created on 27 de febrero de 2009, 05:19 PM
+ *
+ * To change this template, choose Tools | Template Manager
+ * and open the template in the editor.
+ */
+
+package com.ike.retencion.to;
+
+/*
+ *
+ * @author escobarm
+ */
+public class Retencion {
+    
+    /* Creates a new instance of Retencion */
+    public Retencion() {
+    }
+
+    /*
+     * Holds value of property clAfilTmk.
+     */
+    private String clAfilTmk;
+
+    /*
+     * Getter for property clAfilTMK.
+     * @return Value of property clAfilTMK.
+     */
+    public String getClAfilTmk() {
+        return this.clAfilTmk;
+    }
+
+    /*
+     * Setter for property clAfilTMK.
+     * @param clAfilTMK New value of property clAfilTMK.
+     */
+    public void setClAfilTmk(String clAfilTmk) {
+        this.clAfilTmk = clAfilTmk;
+    }
+
+    /*
+     * Holds value of property clRetencionTmk.
+     */
+    private String clRetencionTmk;
+
+    /*
+     * Getter for property clRetencionTmk.
+     * @return Value of property clRetencionTmk.
+     */
+    public String getClRetencionTmk() {
+        return this.clRetencionTmk;
+    }
+
+    /*
+     * Setter for property clRetencionTmk.
+     * @param clRetencionTmk New value of property clRetencionTmk.
+     */
+    public void setClRetencionTmk(String clRetencionTmk) {
+        this.clRetencionTmk = clRetencionTmk;
+    }
+
+    /*
+     * Holds value of property clAfiliado.
+     */
+    private String clAfiliado;
+
+    /*
+     * Getter for property clAfiliado.
+     * @return Value of property clAfiliado.
+     */
+    public String getClAfiliado() {
+        return this.clAfiliado;
+    }
+
+    /*
+     * Setter for property clAfiliado.
+     * @param clAfiliado New value of property clAfiliado.
+     */
+    public void setClAfiliado(String clAfiliado) {
+        this.clAfiliado = clAfiliado;
+    }
+
+    /*
+     * Holds value of property clUsrappS.
+     */
+    private String clUsrappS;
+
+    /*
+     * Getter for property clUsrappS.
+     * @return Value of property clUsrappS.
+     */
+    public String getClUsrappS() {
+        return this.clUsrappS;
+    }
+
+    /*
+     * Setter for property clUsrappS.
+     * @param clUsrappS New value of property clUsrappS.
+     */
+    public void setClUsrappS(String clUsrappS) {
+        this.clUsrappS = clUsrappS;
+    }
+
+    /*
+     * Holds value of property clCuenta.
+     */
+    private String clCuenta;
+
+    /*
+     * Getter for property clCuenta.
+     * @return Value of property clCuenta.
+     */
+    public String getClCuenta() {
+        return this.clCuenta;
+    }
+
+    /*
+     * Setter for property clCuenta.
+     * @param clCuenta New value of property clCuenta.
+     */
+    public void setClCuenta(String clCuenta) {
+        this.clCuenta = clCuenta;
+    }
+
+    /*
+     * Holds value of property nombreCta.
+     */
+    private String nombreCta;
+
+    /*
+     * Getter for property nombreCta.
+     * @return Value of property nombreCta.
+     */
+    public String getNombreCta() {
+        return this.nombreCta;
+    }
+
+    /*
+     * Setter for property nombreCta.
+     * @param nombreCta New value of property nombreCta.
+     */
+    public void setNombreCta(String nombreCta) {
+        this.nombreCta = nombreCta;
+    }
+
+    /*
+     * Holds value of property fechaLlamada.
+     */
+    private String fechaLlamada;
+
+    /*
+     * Getter for property fechaLlamada.
+     * @return Value of property fechaLlamada.
+     */
+    public String getFechaLlamada() {
+        return this.fechaLlamada;
+    }
+
+    /*
+     * Setter for property fechaLlamada.
+     * @param fechaLlamada New value of property fechaLlamada.
+     */
+    public void setFechaLlamada(String fechaLlamada) {
+        this.fechaLlamada = fechaLlamada;
+    }
+
+    /*
+     * Holds value of property nomAfil.
+     */
+    private String nomAfil;
+
+    /*
+     * Getter for property nomAfil.
+     * @return Value of property nomAfil.
+     */
+    public String getNomAfil() {
+        return this.nomAfil;
+    }
+
+    /*
+     * Setter for property nomAfil.
+     * @param nomAfil New value of property nomAfil.
+     */
+    public void setNomAfil(String nomAfil) {
+        this.nomAfil = nomAfil;
+    }
+
+    /*
+     * Holds value of property clave.
+     */
+    private String clave;
+
+    /*
+     * Getter for property clave.
+     * @return Value of property clave.
+     */
+    public String getClave() {
+        return this.clave;
+    }
+
+    /*
+     * Setter for property clave.
+     * @param clave New value of property clave.
+     */
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+
+    /*
+     * Holds value of property tarjeta.
+     */
+    private String tarjeta;
+
+    /*
+     * Getter for property tarjeta.
+     * @return Value of property tarjeta.
+     */
+    public String getTarjeta() {
+        return this.tarjeta;
+    }
+
+    /*
+     * Setter for property tarjeta.
+     * @param tarjeta New value of property tarjeta.
+     */
+    public void setTarjeta(String tarjeta) {
+        this.tarjeta = tarjeta;
+    }
+
+    /*
+     * Holds value of property personaReporta.
+     */
+    private String personaReporta;
+
+    /*
+     * Getter for property personaReporta.
+     * @return Value of property personaReporta.
+     */
+    public String getPersonaReporta() {
+        return this.personaReporta;
+    }
+
+    /*
+     * Setter for property personaReporta.
+     * @param personaReporta New value of property personaReporta.
+     */
+    public void setPersonaReporta(String personaReporta) {
+        this.personaReporta = personaReporta;
+    }
+
+    /*
+     * Holds value of property rfc.
+     */
+    private String rfc;
+
+    /*
+     * Getter for property rfc.
+     * @return Value of property rfc.
+     */
+    public String getRfc() {
+        return this.rfc;
+    }
+
+    /*
+     * Setter for property rfc.
+     * @param rfc New value of property rfc.
+     */
+    public void setRfc(String rfc) {
+        this.rfc = rfc;
+    }
+
+    /*
+     * Holds value of property clEstatus.
+     */
+    private String clEstatus;
+
+    /*
+     * Getter for property clEstatus.
+     * @return Value of property clEstatus.
+     */
+    public String getClEstatus() {
+        return this.clEstatus;
+    }
+
+    /*
+     * Setter for property clEstatus.
+     * @param clEstatus New value of property clEstatus.
+     */
+    public void setClEstatus(String clEstatus) {
+        this.clEstatus = clEstatus;
+    }
+
+    /*
+     * Holds value of property dsEstatus.
+     */
+    private String dsEstatus;
+
+    /*
+     * Getter for property dsEstatus.
+     * @return Value of property dsEstatus.
+     */
+    public String getDsEstatus() {
+        return this.dsEstatus;
+    }
+
+    /*
+     * Setter for property dsEstatus.
+     * @param dsEstatus New value of property dsEstatus.
+     */
+    public void setDsEstatus(String dsEstatus) {
+        this.dsEstatus = dsEstatus;
+    }
+
+    /*
+     * Holds value of property clMotivoCancela.
+     */
+    private String clMotivoCancela;
+
+    /*
+     * Getter for property clMotivoCancela.
+     * @return Value of property clMotivoCancela.
+     */
+    public String getClMotivoCancela() {
+        return this.clMotivoCancela;
+    }
+
+    /*
+     * Setter for property clMotivoCancela.
+     * @param clMotivoCancela New value of property clMotivoCancela.
+     */
+    public void setClMotivoCancela(String clMotivoCancela) {
+        this.clMotivoCancela = clMotivoCancela;
+    }
+
+    /*
+     * Holds value of property dsMotivoCancela.
+     */
+    private String dsMotivoCancela;
+
+    /*
+     * Getter for property dsMotivoCancela.
+     * @return Value of property dsMotivoCancela.
+     */
+    public String getDsMotivoCancela() {
+        return this.dsMotivoCancela;
+    }
+
+    /*
+     * Setter for property dsMotivoCancela.
+     * @param dsMotivoCancela New value of property dsMotivoCancela.
+     */
+    public void setDsMotivoCancela(String dsMotivoCancela) {
+        this.dsMotivoCancela = dsMotivoCancela;
+    }
+
+    /*
+     * Holds value of property observaciones.
+     */
+    private String observaciones;
+
+    /*
+     * Getter for property observaciones.
+     * @return Value of property observaciones.
+     */
+    public String getObservaciones() {
+        return this.observaciones;
+    }
+
+    /*
+     * Setter for property observaciones.
+     * @param observaciones New value of property observaciones.
+     */
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
+
+    /*
+     * Holds value of property telefono.
+     */
+    private String telefono;
+
+    /*
+     * Getter for property telefono.
+     * @return Value of property telefono.
+     */
+    public String getTelefono() {
+        return this.telefono;
+    }
+
+    /*
+     * Setter for property telefono.
+     * @param telefono New value of property telefono.
+     */
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    /*
+     * Holds value of property dni.
+     */
+    private String dni;
+
+    /*
+     * Getter for property dni.
+     * @return Value of property dni.
+     */
+    public String getDni() {
+        return this.dni;
+    }
+
+    /*
+     * Setter for property dni.
+     * @param dni New value of property dni.
+     */
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+    
+}
