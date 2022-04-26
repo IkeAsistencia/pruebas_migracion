@@ -34,10 +34,7 @@
             String StrCalleNum = "";
             String StrclCuenta = "0";
             String StrClave = "";
-<<<<<<< HEAD
             String StrclServicio = "";
-=======
->>>>>>> e291496e1549ef8afea2fc392a998845bafe8e83
             String StrdsSubServicio = "";
             String StrLimiteMonto = "";
             String StrclSubServicio = "0";
@@ -57,11 +54,8 @@
                 StrclCuenta = session.getAttribute("clCuenta").toString();            }
             if (session.getAttribute("Clave") != null) {
                 StrClave = session.getAttribute("Clave").toString();            }
-<<<<<<< HEAD
             if (session.getAttribute("clServicio") != null) {
                 StrclServicio = session.getAttribute("clServicio").toString();            }
-=======
->>>>>>> e291496e1549ef8afea2fc392a998845bafe8e83
             if (session.getAttribute("clSubServicio") != null) {
                 StrSubServ = session.getAttribute("clSubServicio").toString();            }
             if (session.getAttribute("dsSubServicio") != null) {
@@ -144,11 +138,7 @@
         %>
         <script type="text/javascript">fnOpenLinks()</script>
         <%MyUtil.InicializaParametrosC(162, Integer.parseInt(StrclUsrApp));%>
-<<<<<<< HEAD
         <%=MyUtil.doMenuAct("../../servlet/Utilerias.EjecutaAccionAsist", "fnAccionesAlta();","fnAccionesCambio();", "fnValidaCheckbox();fnGuardaSeguimiento();")%>
-=======
-        <%=MyUtil.doMenuAct("../../servlet/Utilerias.EjecutaAccionAsist", "fnAccionesAlta();","fnAccionesCambio();", "fnValidaCheckbox();")%>
->>>>>>> e291496e1549ef8afea2fc392a998845bafe8e83
         <INPUT id='URLBACK' name='URLBACK' type='hidden' value='<%=request.getRequestURL().substring(0, request.getRequestURL().lastIndexOf("/") + 1)%><%="DetalleAHogar.jsp?"%>'>
         <INPUT id='clExpediente' name='clExpediente' type='hidden' value='<%=StrclExpediente%>'>
         <INPUT id='InfoFinal' name='InfoFinal' type='hidden' value='<%=AH!=null?AH.getInformeF():"0"%>'>
@@ -176,7 +166,6 @@
                 <%=MyUtil.DoBlock("Domicilio", 80, 40)%>
 
                 <%iRowPx = iRowPx + 130;    %>
-<<<<<<< HEAD
                 
                 <% if ( StrclServicio.equals("3")  && (StrdsSubServicio.equals("Plomería") || StrdsSubServicio.equals("Cerrajería") || StrdsSubServicio.equals("Electricidad") || StrdsSubServicio.equals("Gas")  || StrdsSubServicio.equals("Vidriería"))) { %>
                     <%=MyUtil.ObjComboC("Ubicación de falla", "clUbFallaH", AH != null ? AH.getDsUbFallaH() : "", true, true, 30, iRowPx, "", "st_getUbicacionFallaHogar ".concat(StrclServicio).concat(", ").concat(StrdsSubServicio), "fnOtraUbicacion();", "", 50, true, true)%>
@@ -193,13 +182,7 @@
                 <% } %>
                 
                 <%  iRowPx = iRowPx + 110;    %>
-                
-=======
-                <%=MyUtil.ObjComboC("Ubicacion de falla", "clUbFallaH", AH != null ? AH.getDsUbFallaH() : "", true, true, 30, iRowPx, "", "st_getUbicacionF ", "", "", 50, true, true)%>
-                <%=MyUtil.ObjComboC("Tipo de falla", "clTipoFallaH", AH != null ? AH.getDsTipoFallaH(): "", true, true, 230, iRowPx, "", " st_getTipoFalla ", "", "", 50, true, true)%>
-                <%=MyUtil.DoBlock("Detalle de " + StrdsSubServicio, 100, 20)%>
-                <%  iRowPx = iRowPx + 110;    %>
->>>>>>> e291496e1549ef8afea2fc392a998845bafe8e83
+
                 <%=MyUtil.ObjTextArea("Observaciones Informe", "ObsInfo", AH != null ? AH.getObsInfo(): "", "50", "5", true, true, 30, iRowPx, "", false,false)%>
                 <%=MyUtil.ObjInput("Cobertura", "Cobertura", AH != null ? AH.getCobertura(): "", false, false, 350, iRowPx, StrLimiteMonto, false, false, 20)%>
                 <%=MyUtil.ObjInput("Fuera de Zona:", "FueraZona", AH != null ? AH.getFueraZona(): "", true, true, 500, iRowPx, "", false, false, 20)%>
@@ -271,10 +254,7 @@
                 $("#btnCambio").click(function() {    document.getElementById("DireccionA").disabled = false;      });
                 $("#btnAlta").click(function() {   document.getElementById("DireccionA").disabled = false;        });
                 $("#CalleNum").change(function() {     document.getElementById("LatLong").value = "";         })
-<<<<<<< HEAD
                 fnOtraUbicacion();                
-=======
->>>>>>> e291496e1549ef8afea2fc392a998845bafe8e83
                 });
 //------------------------------------------------------------------------------
             /*Cambio contactante, control otro*/
@@ -453,7 +433,6 @@
             }
 //------------------------------------------------------------------------------            
             function fnAccionesAlta() {   
-<<<<<<< HEAD
                 var clServicio = <%=StrclServicio%>;
                 var dsSubServicio = '<%=StrdsSubServicio%>';
                 if (clServicio === 3) {
@@ -473,8 +452,6 @@
                         default:
                     }
                 }
-=======
->>>>>>> e291496e1549ef8afea2fc392a998845bafe8e83
                 if ( document.getElementById("Action").value == 2 || 
                         document.getElementById("Action").value == 1) {
                     document.all.necesita.disabled = false;
@@ -566,7 +543,6 @@
 	
                 });  
 //------------------------------------------------------------------------------ 
-<<<<<<< HEAD
             function fnOtraUbicacion() {
                 var combobox  = document.getElementById("clUbFallaHC");
                 var lugarOU = combobox.options[combobox.selectedIndex].text;
@@ -606,8 +582,6 @@
                     }));
             }
 //------------------------------------------------------------------------------       
-=======
->>>>>>> e291496e1549ef8afea2fc392a998845bafe8e83
         </script>
     </body>
 </html>

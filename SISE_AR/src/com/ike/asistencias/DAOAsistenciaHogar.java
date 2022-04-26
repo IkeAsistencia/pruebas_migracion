@@ -69,13 +69,9 @@ public class DAOAsistenciaHogar extends com.ike.model.DAOBASE {
             AH.setOtroMotivoSiniestro(rs.getString("OtroMotivoSiniestro"));
             AH.setOtroTipoCristal(rs.getString("OtroTipoCristal"));
             AH.setOtroTipoContactante(rs.getString("OtroTipoContactante"));
-<<<<<<< HEAD
             AH.setDescripcionOtro(rs.getString("descripcionOtro"));
             AH.setUbicacionOtro(rs.getString("ubicacionOtro"));
             AH.setFrigorias(rs.getString("frigorias"));
-            
-=======
->>>>>>> e291496e1549ef8afea2fc392a998845bafe8e83
             return AH;
         }
     }
