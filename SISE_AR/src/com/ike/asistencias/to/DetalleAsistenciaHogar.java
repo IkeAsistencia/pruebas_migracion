@@ -48,10 +48,13 @@ public class DetalleAsistenciaHogar
   private String OtroMotivoSiniestro;
   private String OtroTipoCristal;
   private String OtroTipoContactante;
+<<<<<<< HEAD
   private String descripcionOtro;
   private String ubicacionOtro;
   private String frigorias;
   
+=======
+>>>>>>> e291496e1549ef8afea2fc392a998845bafe8e83
 //------------------------------------------------------------------------------
     public String getClTipoContactante() {        return clTipoContactante;    }
     public void setClTipoContactante(String clTipoContactante) {        this.clTipoContactante = clTipoContactante;    }
@@ -187,6 +190,7 @@ public class DetalleAsistenciaHogar
 //------------------------------------------------------------------------------
     public String getOtroTipoContactante() {    return OtroTipoContactante;    }
     public void setOtroTipoContactante(String OtroTipoContactante) {    this.OtroTipoContactante = OtroTipoContactante;    }
+<<<<<<< HEAD
 //------------------------------------------------------------------------------
     public String getDescripcionOtro() {        return descripcionOtro;}
     public void setDescripcionOtro(String descripcionOtro) {        this.descripcionOtro = descripcionOtro;    }
@@ -196,5 +200,7 @@ public class DetalleAsistenciaHogar
 //------------------------------------------------------------------------------
     public String getFrigorias() {        return frigorias;    }
     public void setFrigorias(String frigorias) {        this.frigorias = frigorias;    }
+=======
+>>>>>>> e291496e1549ef8afea2fc392a998845bafe8e83
 //------------------------------------------------------------------------------    
 }

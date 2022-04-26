@@ -18,8 +18,13 @@
 
         -->
 <project xmlns:webproject1="http://www.netbeans.org/ns/web-project/1" xmlns:webproject2="http://www.netbeans.org/ns/web-project/2" xmlns:webproject3="http://www.netbeans.org/ns/web-project/3" basedir=".." default="default" name="SISE_AR-impl">
+<<<<<<< HEAD
     <import file="jaxws-build.xml"/>
     <import file="rest-build.xml"/>
+=======
+    <import file="rest-build.xml"/>
+    <import file="jaxws-build.xml"/>
+>>>>>>> e291496e1549ef8afea2fc392a998845bafe8e83
     <import file="ant-deploy.xml"/>
     <fail message="Please build using Ant 1.7.1 or higher.">
         <condition>
@@ -570,8 +575,17 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
                     <formatter type="brief" usefile="false"/>
                     <formatter type="xml"/>
                     <jvmarg value="-ea"/>
+<<<<<<< HEAD
                     <jvmarg line="${debug-args-line}"/>
                     <jvmarg value="-Xrunjdwp:transport=${debug-transport},address=${jpda.address}"/>
+=======
+<<<<<<< HEAD
+                    <jvmarg line="${debug-args-line}"/>
+                    <jvmarg value="-Xrunjdwp:transport=${debug-transport},address=${jpda.address}"/>
+=======
+                    <jvmarg value="-agentlib:jdwp=transport=${debug-transport},address=${jpda.address}"/>
+>>>>>>> 1c7afb6fe1b621dcab3c68c245e4754db27bf266
+>>>>>>> e291496e1549ef8afea2fc392a998845bafe8e83
                     <customize/>
                 </junit>
             </sequential>
@@ -600,8 +614,17 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
                     <formatter type="xml"/>
                     <jvmarg value="-ea"/>
                     <jvmarg line="${run.jvmargs.ide}"/>
+<<<<<<< HEAD
                     <jvmarg line="${debug-args-line}"/>
                     <jvmarg value="-Xrunjdwp:transport=${debug-transport},address=${jpda.address}"/>
+=======
+<<<<<<< HEAD
+                    <jvmarg line="${debug-args-line}"/>
+                    <jvmarg value="-Xrunjdwp:transport=${debug-transport},address=${jpda.address}"/>
+=======
+                    <jvmarg value="-agentlib:jdwp=transport=${debug-transport},address=${jpda.address}"/>
+>>>>>>> 1c7afb6fe1b621dcab3c68c245e4754db27bf266
+>>>>>>> e291496e1549ef8afea2fc392a998845bafe8e83
                     <customize/>
                 </junit>
             </sequential>
@@ -762,6 +785,10 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
         </macrodef>
     </target>
     <target name="-init-debug-args">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> e291496e1549ef8afea2fc392a998845bafe8e83
         <exec executable="${platform.java}" outputproperty="version-output">
             <arg value="-version"/>
         </exec>
@@ -776,6 +803,11 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
         <condition else="-Xdebug" property="debug-args-line" value="-Xdebug -Xnoagent -Djava.compiler=none">
             <istrue value="${have-jdk-older-than-1.4}"/>
         </condition>
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 1c7afb6fe1b621dcab3c68c245e4754db27bf266
+>>>>>>> e291496e1549ef8afea2fc392a998845bafe8e83
         <condition else="dt_socket" property="debug-transport-by-os" value="dt_shmem">
             <os family="windows"/>
         </condition>
@@ -792,8 +824,17 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
             <sequential>
                 <java classname="@{classname}" fork="true" jvm="${platform.java}">
                     <jvmarg line="${endorsed.classpath.cmd.line.arg}"/>
+<<<<<<< HEAD
                     <jvmarg line="${debug-args-line}"/>
                     <jvmarg value="-Xrunjdwp:transport=${debug-transport},address=${jpda.address}"/>
+=======
+<<<<<<< HEAD
+                    <jvmarg line="${debug-args-line}"/>
+                    <jvmarg value="-Xrunjdwp:transport=${debug-transport},address=${jpda.address}"/>
+=======
+                    <jvmarg value="-agentlib:jdwp=transport=${debug-transport},address=${jpda.address}"/>
+>>>>>>> 1c7afb6fe1b621dcab3c68c245e4754db27bf266
+>>>>>>> e291496e1549ef8afea2fc392a998845bafe8e83
                     <jvmarg line="${runmain.jvmargs}"/>
                     <classpath>
                         <path path="@{classpath}"/>
@@ -1455,6 +1496,13 @@ exists or setup the property manually. For example like this:
     </target>
     <target depends="init,compile-test,-debug-start-debugger-test,-debug-start-debuggee-test" name="debug-test"/>
     <target depends="init,compile-test-single,-debug-start-debugger-test,-debug-start-debuggee-test-method" name="debug-test-method"/>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+    <target depends="debug-test-method" name="debug-single-method"/>
+>>>>>>> 1c7afb6fe1b621dcab3c68c245e4754db27bf266
+>>>>>>> e291496e1549ef8afea2fc392a998845bafe8e83
     <target depends="init,-pre-debug-fix,compile-test-single" if="netbeans.home" name="-do-debug-fix-test">
         <webproject1:nbjpdareload dir="${build.test.classes.dir}"/>
     </target>
