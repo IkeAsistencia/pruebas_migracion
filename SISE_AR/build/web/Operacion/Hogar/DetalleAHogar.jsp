@@ -34,6 +34,7 @@
             String StrCalleNum = "";
             String StrclCuenta = "0";
             String StrClave = "";
+            String StrclServicio = "";
             String StrdsSubServicio = "";
             String StrLimiteMonto = "";
             String StrclSubServicio = "0";
@@ -53,6 +54,8 @@
                 StrclCuenta = session.getAttribute("clCuenta").toString();            }
             if (session.getAttribute("Clave") != null) {
                 StrClave = session.getAttribute("Clave").toString();            }
+            if (session.getAttribute("clServicio") != null) {
+                StrclServicio = session.getAttribute("clServicio").toString();            }
             if (session.getAttribute("clSubServicio") != null) {
                 StrSubServ = session.getAttribute("clSubServicio").toString();            }
             if (session.getAttribute("dsSubServicio") != null) {
@@ -135,7 +138,7 @@
         %>
         <script type="text/javascript">fnOpenLinks()</script>
         <%MyUtil.InicializaParametrosC(162, Integer.parseInt(StrclUsrApp));%>
-        <%=MyUtil.doMenuAct("../../servlet/Utilerias.EjecutaAccionAsist", "fnAccionesAlta();","fnAccionesCambio();", "fnValidaCheckbox();")%>
+        <%=MyUtil.doMenuAct("../../servlet/Utilerias.EjecutaAccionAsist", "fnAccionesAlta();","fnAccionesCambio();", "fnValidaCheckbox();fnGuardaSeguimiento();")%>
         <INPUT id='URLBACK' name='URLBACK' type='hidden' value='<%=request.getRequestURL().substring(0, request.getRequestURL().lastIndexOf("/") + 1)%><%="DetalleAHogar.jsp?"%>'>
         <INPUT id='clExpediente' name='clExpediente' type='hidden' value='<%=StrclExpediente%>'>
         <INPUT id='InfoFinal' name='InfoFinal' type='hidden' value='<%=AH!=null?AH.getInformeF():"0"%>'>
@@ -163,10 +166,23 @@
                 <%=MyUtil.DoBlock("Domicilio", 80, 40)%>
 
                 <%iRowPx = iRowPx + 130;    %>
+                
+                <% if ( StrclServicio.equals("3")  && (StrdsSubServicio.equals("Plomería") || StrdsSubServicio.equals("Cerrajería") || StrdsSubServicio.equals("Electricidad") || StrdsSubServicio.equals("Gas")  || StrdsSubServicio.equals("Vidriería"))) { %>
+                    <%=MyUtil.ObjComboC("Ubicación de falla", "clUbFallaH", AH != null ? AH.getDsUbFallaH() : "", true, true, 30, iRowPx, "", "st_getUbicacionFallaHogar ".concat(StrclServicio).concat(", ").concat(StrdsSubServicio), "fnOtraUbicacion();", "", 50, true, true)%>
+                    <%=MyUtil.ObjTextArea("Describa la falla", "descripcionOtro", AH != null ? AH.getDescripcionOtro() : "", "50", "5", true, true, 230, iRowPx, "Agregue una breve descripción de la falla...", false, false)%>
+                    <%  iRowPx = iRowPx + 30;    %>
+                    <div id="otraUbicacionContainer" style="visibility: hidden">
+                        <%=MyUtil.ObjInput("Especifique ubicación", "ubicacionOtro", AH != null ? AH.getUbicacionOtro() : "", true, true, 30, iRowPx, "", false, false, 25)%>                                             
+                    </div>
+                    <%=MyUtil.DoBlock("Detalle de " + StrdsSubServicio, 100, 20)%>
+                <% } else { %>
                 <%=MyUtil.ObjComboC("Ubicacion de falla", "clUbFallaH", AH != null ? AH.getDsUbFallaH() : "", true, true, 30, iRowPx, "", "st_getUbicacionF ", "", "", 50, true, true)%>
                 <%=MyUtil.ObjComboC("Tipo de falla", "clTipoFallaH", AH != null ? AH.getDsTipoFallaH(): "", true, true, 230, iRowPx, "", " st_getTipoFalla ", "", "", 50, true, true)%>
                 <%=MyUtil.DoBlock("Detalle de " + StrdsSubServicio, 100, 20)%>
+                <% } %>
+                
                 <%  iRowPx = iRowPx + 110;    %>
+                
                 <%=MyUtil.ObjTextArea("Observaciones Informe", "ObsInfo", AH != null ? AH.getObsInfo(): "", "50", "5", true, true, 30, iRowPx, "", false,false)%>
                 <%=MyUtil.ObjInput("Cobertura", "Cobertura", AH != null ? AH.getCobertura(): "", false, false, 350, iRowPx, StrLimiteMonto, false, false, 20)%>
                 <%=MyUtil.ObjInput("Fuera de Zona:", "FueraZona", AH != null ? AH.getFueraZona(): "", true, true, 500, iRowPx, "", false, false, 20)%>
@@ -238,6 +254,7 @@
                 $("#btnCambio").click(function() {    document.getElementById("DireccionA").disabled = false;      });
                 $("#btnAlta").click(function() {   document.getElementById("DireccionA").disabled = false;        });
                 $("#CalleNum").change(function() {     document.getElementById("LatLong").value = "";         })
+                fnOtraUbicacion();                
                 });
 //------------------------------------------------------------------------------
             /*Cambio contactante, control otro*/
@@ -416,6 +433,25 @@
             }
 //------------------------------------------------------------------------------            
             function fnAccionesAlta() {   
+                var clServicio = <%=StrclServicio%>;
+                var dsSubServicio = '<%=StrdsSubServicio%>';
+                if (clServicio === 3) {
+                    switch (dsSubServicio) {
+                        case 'Cerrajería':
+                            alert("Recuerde consultar: \n  ¿Esta trabada? \n  ¿Esta rota? \n  ¿Hay alguien encerrado? \n  ¿Conoce el tipo de cerradura?");
+                            break;
+                        case 'Electricidad':
+                            alert("Recuerde indicarle al usuario verificar que es un problema del domicilio y no del barrio/edificio.");
+                            break;
+                        case 'Vidriería': 
+                            alert("Recuerde consultar si el vidrio se partió o esta rajado. \n ¿Corre riesgo la seguridad del domicilio?");
+                            break;
+                        case 'Gas':
+                            alert("Recuerde que por su seguridad el ente regulador nos obliga a notificar en el caso de que usted decida no realizar el arreglo o no se permita anular la fuga del equipo.");
+                            break;
+                        default:
+                    }
+                }
                 if ( document.getElementById("Action").value == 2 || 
                         document.getElementById("Action").value == 1) {
                     document.all.necesita.disabled = false;
@@ -507,6 +543,45 @@
 	
                 });  
 //------------------------------------------------------------------------------ 
+            function fnOtraUbicacion() {
+                var combobox  = document.getElementById("clUbFallaHC");
+                var lugarOU = combobox.options[combobox.selectedIndex].text;
+                if (lugarOU.toString().toUpperCase() === "OTRO") {
+                    document.getElementById("otraUbicacionContainer").style.visibility = "visible";
+                    document.getElementById("ubicacionOtro").disabled = false;        
+                }
+                else {
+                    document.getElementById("ubicacionOtro").disabled = true;
+                    document.getElementById("otraUbicacionContainer").style.visibility = "hidden";
+                }
+            }
+//------------------------------------------------------------------------------
+            function fnGuardaSeguimiento() {
+                var selectLugar = $("#clUbFallaHC").children(":selected").text();
+                var lugar = selectLugar === 'OTRO'? $("#ubicacionOtro").val() : selectLugar;
+                var descProblema = $("#descripcionOtro").val(); 
+                var detalleExp = '[* Ubicación: ' + lugar + '; Problema: ' + descProblema + ' *]';
+                var clExpediente = <%=StrclExpediente%>;
+                var clUsrApp = <%=Integer.parseInt(StrclUsrApp)%>;
+                
+                var datos = {
+                    clExpediente: clExpediente,
+                    clUsrApp: clUsrApp,
+                    descripcionOcurrido: detalleExp,
+                }
+                
+                $.when(
+                    $.ajax({
+                        type: "POST",
+                        url: "./InsertInfoAdicionalHogar.jsp",
+                        async: false,
+                        data: datos,
+                        dataType: 'Json',
+                        success: function(responseData, status, xhr) {},
+                        error: function(req, status, error) {},
+                    }));
+            }
+//------------------------------------------------------------------------------       
         </script>
     </body>
 </html>
