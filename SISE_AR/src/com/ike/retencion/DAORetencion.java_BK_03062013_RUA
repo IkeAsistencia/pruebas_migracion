@@ -1,0 +1,65 @@
+/*
+ * DAORetencion.java
+ *
+ * Created on 27 de febrero de 2009, 05:18 PM
+ *
+ * To change this template, choose Tools | Template Manager
+ * and open the template in the editor.
+ */
+package com.ike.retencion;
+
+import com.ike.retencion.to.Retencion;
+import java.util.Collection;
+import java.util.Iterator;
+import com.ike.model.DAOException;
+
+/*
+ *
+ * @author escobarm
+ */
+public class DAORetencion extends com.ike.model.DAOBASE {
+
+    /* Creates a new instance of DAODatosPaciente */
+    public DAORetencion() {
+    }
+
+    public Retencion getRetencion(String clRetencTmk) throws DAOException {
+        StringBuilder sb = new StringBuilder();
+        Collection col = null;
+
+        sb.append("sp_getRetenciones ").append(clRetencTmk);
+
+        col = this.rsSQLNP(sb.toString(), new RetencionFiller());
+
+        Iterator it = col.iterator();
+        return it.hasNext() ? (Retencion) it.next() : null;
+    }
+
+    public class RetencionFiller implements com.ike.model.LlenaDatos {
+
+        public Object llena(java.sql.ResultSet rs) throws java.sql.SQLException {
+
+            Retencion ret = new Retencion();
+
+            ret.setClRetencionTmk(rs.getString("clRetencTmk"));
+            ret.setClAfiliado(rs.getString("clAfil"));
+            ret.setNombreCta(rs.getString("Nombre"));
+            ret.setFechaLlamada(rs.getString("FechaLlamada"));
+            ret.setNomAfil(rs.getString("NomAfil"));
+            ret.setClave(rs.getString("Clave"));
+            ret.setPersonaReporta(rs.getString("NombPerReporta"));
+            ret.setTelefono(rs.getString("TelefonoCasa"));
+            ret.setRfc(rs.getString("Rfc"));
+            ret.setBeneficiario(rs.getString("Beneficiario"));
+            ret.setDsEstatus(rs.getString("dsStatus"));
+            ret.setDsMotivoCancela(rs.getString("dsMotivoCancela"));
+            ret.setObservaciones(rs.getString("Observaciones"));
+            ret.setDni(rs.getString("DNI"));
+            ret.setChkBCompleta(rs.getString("MismaPerReporta"));
+            ret.setClaveMask(rs.getString("ClaveMask"));
+            ret.setCanalVenta(rs.getString("CanalVenta"));
+
+            return ret;
+        }
+    }
+}

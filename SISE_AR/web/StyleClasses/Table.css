@@ -1,0 +1,65 @@
+/* 
+    Document   : Table
+    Created on : 25 de octubre de 2006, 03:22 PM
+    Author     : pereac
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+.TableList {
+	background-color: #FFFFFF;
+	border-style: none;
+}
+.RTitulo {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	text-transform: none;
+        text-align: left;        
+	color: #000066;
+        border-style: none;
+}
+.RTitulos {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	text-transform: uppercase;
+        text-align: left;
+	color: #ecf2f9;
+	background-color: #000066;
+        border-style: none;
+}
+.R1TableList {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #000066;
+	font-size: 9px;
+	text-transform: uppercase;
+	background-color: #e6f2f9;
+
+}
+.R2TableList {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	color: #000066;
+	text-transform: uppercase;
+}
+.Hora{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #000066;
+	font-size: 16px;
+	text-transform: uppercase;        	
+}
+.Fecha{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	text-transform: uppercase;
+	color: #ecf2f9;
+	background-color: #000066;
+        border-style: none;
+}
+p{        
+        border-bottom: solid #000000;
+}
