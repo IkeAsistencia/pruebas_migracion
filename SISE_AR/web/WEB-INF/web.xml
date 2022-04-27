@@ -396,10 +396,19 @@
         <servlet-class>Utilerias.RegistraSMSConcierge</servlet-class>
     </servlet>
     <servlet>
+<<<<<<< HEAD
+        <servlet-name>DobleAutenticacion</servlet-name>
+        <servlet-class>Seguridad.DobleAutenticacion</servlet-class>
+    </servlet>
+    <servlet>
+=======
+>>>>>>> e291496e1549ef8afea2fc392a998845bafe8e83
         <servlet-name>WSSISEAR</servlet-name>
         <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+<<<<<<< HEAD
+=======
     <servlet>
         <servlet-name>DobleAutenticacion</servlet-name>
         <servlet-class>Seguridad.DobleAutenticacion</servlet-class>
@@ -407,6 +416,7 @@
     
     
     
+>>>>>>> e291496e1549ef8afea2fc392a998845bafe8e83
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/servlet/Seguridad.Login</url-pattern>

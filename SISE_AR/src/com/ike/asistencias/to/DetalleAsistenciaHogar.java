@@ -48,6 +48,10 @@ public class DetalleAsistenciaHogar
   private String OtroMotivoSiniestro;
   private String OtroTipoCristal;
   private String OtroTipoContactante;
+  private String descripcionOtro;
+  private String ubicacionOtro;
+  private String frigorias;
+  
 //------------------------------------------------------------------------------
     public String getClTipoContactante() {        return clTipoContactante;    }
     public void setClTipoContactante(String clTipoContactante) {        this.clTipoContactante = clTipoContactante;    }
@@ -183,5 +187,14 @@ public class DetalleAsistenciaHogar
 //------------------------------------------------------------------------------
     public String getOtroTipoContactante() {    return OtroTipoContactante;    }
     public void setOtroTipoContactante(String OtroTipoContactante) {    this.OtroTipoContactante = OtroTipoContactante;    }
+//------------------------------------------------------------------------------
+    public String getDescripcionOtro() {        return descripcionOtro;}
+    public void setDescripcionOtro(String descripcionOtro) {        this.descripcionOtro = descripcionOtro;    }
+//------------------------------------------------------------------------------
+    public String getUbicacionOtro() {        return ubicacionOtro;    }
+    public void setUbicacionOtro(String ubicacionOtro) {        this.ubicacionOtro = ubicacionOtro;    }
+//------------------------------------------------------------------------------
+    public String getFrigorias() {        return frigorias;    }
+    public void setFrigorias(String frigorias) {        this.frigorias = frigorias;    }
 //------------------------------------------------------------------------------    
 }
