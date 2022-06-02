@@ -30,6 +30,11 @@ public class DetalleAsistenciaHogar
   private String clGarantiaHogar;
   private String dsGarantiaHogar;
   private String latLong;
+  private String DescripcionOtro;
+  private String UbicacionOtro;
+  private String Frigorias;
+  private String Piso;
+  private String Departamento;
   //Nuevas columnas para HDI CRI
   private String clUbFallaHLugar;
   private String dsUbFallaHLugar;
@@ -48,9 +53,6 @@ public class DetalleAsistenciaHogar
   private String OtroMotivoSiniestro;
   private String OtroTipoCristal;
   private String OtroTipoContactante;
-  private String descripcionOtro;
-  private String ubicacionOtro;
-  private String frigorias;
   
 //------------------------------------------------------------------------------
     public String getClTipoContactante() {        return clTipoContactante;    }
@@ -187,14 +189,20 @@ public class DetalleAsistenciaHogar
 //------------------------------------------------------------------------------
     public String getOtroTipoContactante() {    return OtroTipoContactante;    }
     public void setOtroTipoContactante(String OtroTipoContactante) {    this.OtroTipoContactante = OtroTipoContactante;    }
-//------------------------------------------------------------------------------
-    public String getDescripcionOtro() {        return descripcionOtro;}
-    public void setDescripcionOtro(String descripcionOtro) {        this.descripcionOtro = descripcionOtro;    }
-//------------------------------------------------------------------------------
-    public String getUbicacionOtro() {        return ubicacionOtro;    }
-    public void setUbicacionOtro(String ubicacionOtro) {        this.ubicacionOtro = ubicacionOtro;    }
-//------------------------------------------------------------------------------
-    public String getFrigorias() {        return frigorias;    }
-    public void setFrigorias(String frigorias) {        this.frigorias = frigorias;    }
 //------------------------------------------------------------------------------    
+    public String getDescripcionOtro() {        return DescripcionOtro;    }
+    public void setDescripcionOtro(String DescripcionOtro) {        this.DescripcionOtro = DescripcionOtro;    }
+//------------------------------------------------------------------------------    
+    public String getUbicacionOtro() {        return UbicacionOtro;    }
+    public void setUbicacionOtro(String UbicacionOtro) {        this.UbicacionOtro = UbicacionOtro;    }
+//------------------------------------------------------------------------------    
+    public String getFrigorias() {        return Frigorias;    }
+    public void setFrigorias(String Frigorias) {        this.Frigorias = Frigorias;    }
+//------------------------------------------------------------------------------        
+    public String getPiso() {        return Piso;    }
+    public void setPiso(String Piso) {        this.Piso = Piso;    }
+//------------------------------------------------------------------------------        
+    public String getDepartamento() {        return Departamento;    }
+    public void setDepartamento(String Departamento) {        this.Departamento = Departamento;    }
+//------------------------------------------------------------------------------        
 }

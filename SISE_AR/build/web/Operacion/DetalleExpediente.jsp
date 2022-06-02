@@ -60,7 +60,7 @@
         %>
         <script>fnOpenLinks();</script>
         <%MyUtil.InicializaParametrosC(Integer.parseInt(StrclPaginaWeb), Integer.parseInt(strclUsr));%>
-        <%=MyUtil.doMenuAct("../servlet/Utilerias.EjecutaAccionExp", "fnAccionesAlta();fnPaisDefault();", "", "fnValidaPaisEF();validaCorreoAntesGuardar();")%>
+        <%=MyUtil.doMenuAct("../servlet/Utilerias.EjecutaAccionExp", "fnAccionesAlta();fnPaisDefault();", "", "fnValidaPaisEF();validaCorreoAntesGuardar();fnCargaDatos();")%>
         <%
             PermisosExp per = null;
             DAOExpPermisos daoper = null;
@@ -216,7 +216,7 @@
             <IMG alt=""  SRC='../Imagenes/Lupa.gif' onClick='fnBuscaCuenta();' WIDTH=20 HEIGHT=20>
         </div>
         <% }%>
-        <%=MyUtil.ObjInput("Nuestro Usuario", "NuestroUsuario", exp != null ? exp.getNuestroUsuario() : "", true, true, 365, 300, "", true, true, 40, "if(this.readOnly==false){fnBuscaClienteVIP()}")%>
+        <%=MyUtil.ObjInput("Nuestro Usuario", "NuestroUsuario", exp != null ? exp.getNuestroUsuario() : "", true, true, 365, 300, "", true, true, 40, "if(this.readOnly==false){fnBuscaClienteVIP();}")%>
         <% if (MyUtil.blnAccess[4] == true) {%>
         <div class='VTable' style='position:absolute; z-index:25; left:585px; top:315px;'>
                 <IMG alt=""  SRC='../Imagenes/Lupa.gif' onClick='fnBuscaAfiliado();' WIDTH=20 HEIGHT=20>
@@ -731,6 +731,53 @@
                     }
                 }
 //------------------------------------------------------------------------------                
+            function fnCargaDatos() {
+                var clCuenta = $('#clCuenta').val();
+                var nombre = $('#NuestroUsuario').val();
+                var datos = {nombre: nombre,
+                             clCuenta: clCuenta
+                            };
+                $.when(
+                    $.ajax({
+                        type: "POST",
+                        url: "./BuscaAltaYAntiguedad.jsp",
+                        async: false,
+                        data: datos,
+                        dataType: 'Json',
+                        success: function(responseData, status, xhr) {
+                            var altaYAntiguedad = responseData.msg.toString();
+                            var nuevoDetalleOcurrido = ""; 
+                            var detalleOcurrido = $("#DescripcionOcurrido").val();
+                            if (detalleOcurrido.length > 0) {
+                                if (detalleOcurrido.indexOf("\[\*") >= 0) {
+                                    var posAntiguedad = detalleOcurrido.indexOf("Antiguedad:");
+                                    if ( posAntiguedad > 0) {
+                                        var reg = /(Fecha de alta: .+; Antiguedad: [0-9]{1,4}a [0-9]{1,2}m [0-9]{1,3}d)|(Fecha de alta: No tiene; Antiguedad: No tiene)/;
+                                        nuevoDetalleOcurrido = detalleOcurrido.replace(reg, altaYAntiguedad);
+                                    }
+                                    else {
+                                        var posAsterisco = detalleOcurrido.indexOf("\[\*") + 3;
+                                        var izq = detalleOcurrido.substring(0, posAsterisco); 
+                                        var der = detalleOcurrido.substring(posAsterisco, detalleOcurrido.length);
+                                        nuevoDetalleOcurrido = izq + altaYAntiguedad + "; " + der;
+                                    }
+                                } 
+                                else {
+                                    if ( detalleOcurrido.charAt(detalleOcurrido.length - 1)  === "\n") detalleOcurrido += "\n";
+                                    nuevoDetalleOcurrido = detalleOcurrido + "[* " + altaYAntiguedad + "*]";
+                                }
+                            }
+                            else {
+                                nuevoDetalleOcurrido = "[* " + altaYAntiguedad + " *]";
+                            }
+                            $("#DescripcionOcurrido").val(nuevoDetalleOcurrido);
+                        },
+                        error: function(req, status, error) {},
+                    }));
+            } 
+            //Lineas modificadas: 219 llamo a fnCargaDatos
+            //                    734 defino fnCargaDatos
+//------------------------------------------------------------------------------                        
         </script>
         <%
             exp = null;

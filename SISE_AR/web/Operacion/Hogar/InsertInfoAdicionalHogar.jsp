@@ -1,4 +1,5 @@
-<%@page contentType="application/json; charset=UTF-8" pageEncoding="UTF-8" import="java.io.PrintWriter,Utilerias.UtileriasBDF, java.sql.ResultSet"%>
+<%@page import="java.io.PrintWriter"%>
+<%@page contentType="application/json; charset=UTF-8" pageEncoding="UTF-8" import="Utilerias.UtileriasBDF, java.sql.ResultSet"%>
 <%
     String clExpediente = request.getParameter("clExpediente");
     String clUsrApp = request.getParameter("clUsrApp");

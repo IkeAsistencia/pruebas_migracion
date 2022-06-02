@@ -51,6 +51,8 @@ public class DAOAsistenciaHogar extends com.ike.model.DAOBASE {
             AH.setClGarantiaHogar(rs.getString("clGarantiaHogar"));
             AH.setDsGarantiaHogar(rs.getString("dsGarantiaHogar"));
             AH.setLatLong(rs.getString("LatLong"));
+            AH.setPiso(rs.getString("Piso"));
+            AH.setDepartamento(rs.getString("Departamento"));
             /*Nuevas columnas para HDI CRI*/
             AH.setClUbFallaHLugar(rs.getString("clUbFallaHLugar"));
             AH.setDsUbFallaHLugar(rs.getString("dsUbFallaHLugar"));
@@ -69,9 +71,9 @@ public class DAOAsistenciaHogar extends com.ike.model.DAOBASE {
             AH.setOtroMotivoSiniestro(rs.getString("OtroMotivoSiniestro"));
             AH.setOtroTipoCristal(rs.getString("OtroTipoCristal"));
             AH.setOtroTipoContactante(rs.getString("OtroTipoContactante"));
-            AH.setDescripcionOtro(rs.getString("descripcionOtro"));
-            AH.setUbicacionOtro(rs.getString("ubicacionOtro"));
-            AH.setFrigorias(rs.getString("frigorias"));
+            AH.setDescripcionOtro(rs.getString("DescripcionOtro"));
+            AH.setUbicacionOtro(rs.getString("UbicacionOtro"));
+            AH.setFrigorias(rs.getString("Frigorias"));
             return AH;
         }
     }

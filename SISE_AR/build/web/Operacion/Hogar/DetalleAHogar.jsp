@@ -1,12 +1,15 @@
+
 <%@ page contentType="text/html; charset=iso-8859-1" language="java" import="com.ike.asistencias.DAOAsistenciaHogar,com.ike.asistencias.to.DetalleAsistenciaHogar,Seguridad.SeguridadC,Combos.cbPais,Combos.cbEntidad,Combos.cbAMIS,java.sql.ResultSet,Utilerias.UtileriasBDF"%>
 <html>
     <head>
         <title>Detalle Asistencia Hogar</title>
         <link href="../../StyleClasses/Global.css" rel="stylesheet" type="text/css">
         <link href="../../StyleClasses/Calendario.css" rel="stylesheet" type="text/css">
-        <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@3/dark.css" rel="stylesheet" type="text/css">
+        <!--link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@3/dark.css"--><!-- Swal, Alertas personalizadas, SOLO FUNCIONA CON CHROME, CAMBIAR CUANDO SE MIGRE A ÉL POR COMPLETO JOA-->
     </head>
-    <body class="cssBody" onload="fnValidaOption()">
+    <!--body class="cssBody" onload="fnValidaOption()" --><!-- original joa -->
+    <body class="cssBody" onload="fnValidaOption()" >
+        
         <jsp:useBean id="MyUtil" scope="session" class="Utilerias.UtileriasObj"/>
         <script type="text/javascript" src='../../Utilerias/Util.js'></script>
         <script type="text/javascript" src='../../Utilerias/UtilAuto.js'></script>
@@ -15,7 +18,7 @@
         <script type="text/javascript" src="../../Geolocalizacion/js/jquery.js"></script>
         <script type="text/javascript" src="../../Geolocalizacion/js/mapUtils.js"></script>
         <script type="text/javascript" src='../../Utilerias/UtilCalendario.js'></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@9/dist/sweetalert2.min.js"></script>
+        <!--script src="https://cdn.jsdelivr.net/npm/sweetalert2@9/dist/sweetalert2.min.js"></script--><!-- Swal, Alertas personalizadas, SOLO FUNCIONA CON CHROME, CAMBIAR CUANDO SE MIGRE A ÉL POR COMPLETO JOA-->
         <%
             String StrclUsrApp = "0";
             if (session.getAttribute("clUsrApp") != null) {
@@ -55,7 +58,7 @@
             if (session.getAttribute("Clave") != null) {
                 StrClave = session.getAttribute("Clave").toString();            }
             if (session.getAttribute("clServicio") != null) {
-                StrclServicio = session.getAttribute("clServicio").toString();            }
+            StrclServicio = session.getAttribute("clServicio").toString();            }
             if (session.getAttribute("clSubServicio") != null) {
                 StrSubServ = session.getAttribute("clSubServicio").toString();            }
             if (session.getAttribute("dsSubServicio") != null) {
@@ -109,12 +112,19 @@
             } else{
                 rs2.close();
                 rs2 = null;
-            }                                     
+            }   
+
             StrSql = new StringBuffer();
             StrSql.append(" st_getDatosAfiliadoGral '").append(StrClave).append("','").append(StrclCuenta).append("'");
             ResultSet rsDatosAfil = UtileriasBDF.rsSQLNP(StrSql.toString());
             if (rsDatosAfil.next()) {
-                StrCalleNum = rsDatosAfil.getString("calleNum");     }
+                StrCalleNum = rsDatosAfil.getString("calleNum");     
+             //System.out.println("jomu dato StrCalleNum    "+StrCalleNum);
+
+            }else{
+            System.out.println("No hay datos de Domicilio en Base");
+                }
+
             /*Lectura de datos para la opcion de     alta hdi cri     */
             String strCobertura = "";
             String strCoberturaFinanciera= "";
@@ -138,15 +148,19 @@
         %>
         <script type="text/javascript">fnOpenLinks()</script>
         <%MyUtil.InicializaParametrosC(162, Integer.parseInt(StrclUsrApp));%>
-        <%=MyUtil.doMenuAct("../../servlet/Utilerias.EjecutaAccionAsist", "fnAccionesAlta();","fnAccionesCambio();", "fnValidaCheckbox();fnGuardaSeguimiento();")%>
+        <%=MyUtil.doMenuAct("../../servlet/Utilerias.EjecutaAccionAsist", "fnAccionesAlta();","fnAccionesCambio();", "fnAccionesGuardado();")%>
         <INPUT id='URLBACK' name='URLBACK' type='hidden' value='<%=request.getRequestURL().substring(0, request.getRequestURL().lastIndexOf("/") + 1)%><%="DetalleAHogar.jsp?"%>'>
         <INPUT id='clExpediente' name='clExpediente' type='hidden' value='<%=StrclExpediente%>'>
         <INPUT id='InfoFinal' name='InfoFinal' type='hidden' value='<%=AH!=null?AH.getInformeF():"0"%>'>
         <input id='clSubservicio' name='clSubservicio' type='hidden' value='<%=StrclSubServicio%>'>
         <input id='dsSubservicio' name='dsSubservicio' type='hidden' value='<%=StrdsSubServicio%>'>
         <input id='subServicio' name="subServicio" type='hidden' value="<%=StrSubServ%>" >
+        
+        
+        
         <!-- GEOLOC TARGET LOCAL-->
-        <% String sTmpDirA = new String( StrdsEntFed + ", " + StrdsMunDel + ", " + (AH != null ? AH.getCalle(): "") );   %>       
+        <% String sTmpDirA = new String( StrdsEntFed + ", " + StrdsMunDel + ", " + (AH != null ? AH.getCalle(): "") );   %>  
+        <% Boolean esSubServicioModificado = StrclServicio.equals("3")  && (StrdsSubServicio.equals("Plomería") || StrdsSubServicio.equals("Cerrajería") || StrdsSubServicio.equals("Electricidad") || StrdsSubServicio.equals("Gas")  || StrdsSubServicio.equals("Vidriería")); %>
         <% if ( !esHDICri ) { %>
             <div id="divNoHDICri"  style="visibility: 'visible'">
                 <%  iRowPx = iRowPxOri; %>
@@ -161,28 +175,33 @@
                 <%  iRowPx = iRowPx + 30;      %>
                 <%=MyUtil.ObjInput("Calle", "Calle",AH != null ? AH.getCalle() : "", true, true, 30, iRowPx, StrCalleNum, false, false, 58)%>
                 <%=MyUtil.ObjInput("Latitud y Longitud", "LatLong", AH != null ? AH.getLatLong(): "", true, true, 330, iRowPx, "", false, false, 34)%>
+                <% if (esSubServicioModificado) {%>
+                <%  iRowPx = iRowPx + 30;   %>
+                <%=MyUtil.ObjInput("Piso", "Piso", AH != null ? AH.getPiso() : "", true, true, 30, iRowPx, "", false, false, 3)%>
+                    <%=MyUtil.ObjInput("Departamento", "Departamento", AH != null ? AH.getDepartamento(): "", true, true, 330, iRowPx, "", false, false, 8)%>
+                    <% } %>
                 <%  iRowPx = iRowPx + 30;   %>
                 <%=MyUtil.ObjTextArea("Referencias Visuales", "Referencias", AH != null ? AH.getReferencias() : "", "75", "5", true, true, 30, iRowPx, "", false, false)%>
                 <%=MyUtil.DoBlock("Domicilio", 80, 40)%>
 
                 <%iRowPx = iRowPx + 130;    %>
                 
-                <% if ( StrclServicio.equals("3")  && (StrdsSubServicio.equals("Plomería") || StrdsSubServicio.equals("Cerrajería") || StrdsSubServicio.equals("Electricidad") || StrdsSubServicio.equals("Gas")  || StrdsSubServicio.equals("Vidriería"))) { %>
+                <% if (esSubServicioModificado) { %>
                     <%=MyUtil.ObjComboC("Ubicación de falla", "clUbFallaH", AH != null ? AH.getDsUbFallaH() : "", true, true, 30, iRowPx, "", "st_getUbicacionFallaHogar ".concat(StrclServicio).concat(", ").concat(StrdsSubServicio), "fnOtraUbicacion();", "", 50, true, true)%>
-                    <%=MyUtil.ObjTextArea("Describa la falla", "descripcionOtro", AH != null ? AH.getDescripcionOtro() : "", "50", "5", true, true, 230, iRowPx, "Agregue una breve descripción de la falla...", false, false)%>
+                    <%=MyUtil.ObjTextArea("Describa la falla", "DescripcionOtro", AH != null ? AH.getDescripcionOtro() : "", "50", "5", true, true, 230, iRowPx, "Agregue una breve descripción de la falla...", false, false)%>
                     <%  iRowPx = iRowPx + 30;    %>
                     <div id="otraUbicacionContainer" style="visibility: hidden">
-                        <%=MyUtil.ObjInput("Especifique ubicación", "ubicacionOtro", AH != null ? AH.getUbicacionOtro() : "", true, true, 30, iRowPx, "", false, false, 25)%>                                             
+                        <%=MyUtil.ObjInput("Especifique ubicación", "UbicacionOtro", AH != null ? AH.getUbicacionOtro() : "", true, true, 30, iRowPx, "", false, false, 25)%>                                             
                     </div>
                     <%=MyUtil.DoBlock("Detalle de " + StrdsSubServicio, 100, 20)%>
                 <% } else { %>
-                <%=MyUtil.ObjComboC("Ubicacion de falla", "clUbFallaH", AH != null ? AH.getDsUbFallaH() : "", true, true, 30, iRowPx, "", "st_getUbicacionF ", "", "", 50, true, true)%>
-                <%=MyUtil.ObjComboC("Tipo de falla", "clTipoFallaH", AH != null ? AH.getDsTipoFallaH(): "", true, true, 230, iRowPx, "", " st_getTipoFalla ", "", "", 50, true, true)%>
-                <%=MyUtil.DoBlock("Detalle de " + StrdsSubServicio, 100, 20)%>
+                    <%=MyUtil.ObjComboC("Ubicacion de falla", "clUbFallaH", AH != null ? AH.getDsUbFallaH() : "", true, true, 30, iRowPx, "", "st_getUbicacionF ", "", "", 50, true, true)%>
+                    <%=MyUtil.ObjComboC("Tipo de falla", "clTipoFallaH", AH != null ? AH.getDsTipoFallaH(): "", true, true, 230, iRowPx, "", " st_getTipoFalla ", "", "", 50, true, true)%>
+                    <%=MyUtil.DoBlock("Detalle de " + StrdsSubServicio, 100, 20)%>
                 <% } %>
                 
                 <%  iRowPx = iRowPx + 110;    %>
-
+                
                 <%=MyUtil.ObjTextArea("Observaciones Informe", "ObsInfo", AH != null ? AH.getObsInfo(): "", "50", "5", true, true, 30, iRowPx, "", false,false)%>
                 <%=MyUtil.ObjInput("Cobertura", "Cobertura", AH != null ? AH.getCobertura(): "", false, false, 350, iRowPx, StrLimiteMonto, false, false, 20)%>
                 <%=MyUtil.ObjInput("Fuera de Zona:", "FueraZona", AH != null ? AH.getFueraZona(): "", true, true, 500, iRowPx, "", false, false, 20)%>
@@ -197,7 +216,8 @@
                 <%=MyUtil.GeneraScripts()%>
             </div>
         <%} else {%>
-            <div id="divSiHDICri"  style="visibility: 'visible'">
+            <div  id="divSiHDICri"  style="visibility: 'visible' ">
+                
                 <% iRowPx = iRowPxOri; %>
                 <%=MyUtil.ObjInput("NU", "NuestroUsuarioH", strNuestroUsuario, false, false, 10, iRowPx, strNuestroUsuario, false, false, 30)%>
                 <%=MyUtil.ObjInput("Cobertura $", "Cobertura", (AH != null && AH.getCobertura() != null && AH.getCobertura() != "0") ? AH.getCobertura(): strCobertura, false, false, 210, iRowPx, strCobertura, false, false, 20,"")%>
@@ -215,10 +235,14 @@
                 <input id="FechaProgMomAux" name="FechaProgMomAux" value="FechaProgMom" type="hidden"/>       
                 <input name='FechaProgMomMsk' id='FechaProgMomMsk' type='hidden' value='VN09VN09VN09VN09F-/-VN09VN09F-/-VN09VN09F'/>
                 <%=MyUtil.ObjInputFNAC("Fecha del Siniestro (AAAA-MM-DD)", "fechaSiniestro", fechaProgramado, true, true, 30, iRowPx, "", esHDICri, esHDICri, 15, 2, "fnValidaFechaActual(this);")%>
-                <%=MyUtil.ObjInput("Hora Cita (HH:MM)", "horaCita", horaCita, true, true, 260, iRowPx, "", esHDICri, esHDICri, 5,"fnHrsD(this);")%>
+                <!--%=MyUtil.ObjInput("Hora Cita (HH:MM)", "horaCita", horaCita, true, true, 260, iRowPx, "", esHDICri, esHDICri, 5,"fnHrsD(this);")%-->
                 <%  iRowPx = iRowPx + 58;  %>
-                <%=MyUtil.ObjComboC("Ubicacion del siniestro", "clUbFallaH", AH != null ? AH.getDsUbFallaH() : "", true, true, 30, iRowPx, "", "st_getUbicacionSiniestroH", "", "", 50, esHDICri, esHDICri)%>
-                <%=MyUtil.ObjComboC("", "clUbFallaHLugar", AH != null ? AH.getDsUbFallaHLugar(): "", true, true, 230, iRowPx, "", "st_getUbicacionMontajeH", "", "", 50, esHDICri, esHDICri)%>
+                
+                <%=MyUtil.ObjComboC("Ubicacion del siniestro", "clUbFallaH", AH != null ? AH.getDsUbFallaH() : "", true, true, 30, iRowPx, "", "st_getUbicacionSiniestroH", "fnCambioUbicacion();", "", 50, esHDICri, esHDICri)%>
+                <div id="divOtroTipoLugar"  style="visibility: 'hidden'">
+                    <%=MyUtil.ObjComboC("", "clUbFallaHLugar", AH != null ? AH.getDsUbFallaHLugar(): " ", true, true, 230, iRowPx, "", "st_getUbicacionMontajeH", "", "", 50, esHDICri, esHDICri)%>
+                </div>
+                
                 <% iRowPx = iRowPx + 48;   %>
                 <%=MyUtil.ObjComboC("Tipo de cristal", "clTipoCristalH", AH != null ? AH.getDsTipoCristalH() : "", true, true, 30, iRowPx, "", "st_getTipoCristalH", "fnCambioTipoCristal();", "", 50, esHDICri, esHDICri)%>
                 <%=MyUtil.ObjComboC("Estado del vidrio", "clTipoFallaH", AH != null ? AH.getDsTipoFallaH() : "", true, true, 230, iRowPx, "", "st_getEstadoVidrioH", "", "", 50, esHDICri, esHDICri)%>
@@ -248,16 +272,27 @@
         AH = null;
         %>
         <input name='FechaProgMomMsk' id='FechaProgMomMsk' type='hidden' value='VN09VN09VN09VN09F-/-VN09VN09F-/-VN09VN09F 00VN09VN09F:00VN00VN00'>
+
         <script type="text/javascript" >
+            
+            /* 
+             * SE COMPILAN LOS DATOS NECESARIOS PARA MOSTRAR EN LA BITÁCORA
+            SE CONECTA Y ENVÍA ESTO SDATOS A    url: "./InsertInfoAdicionalKM0.jsp",
+            EN ESTA JSP SE HACE LA CONEXIÓN AL SP   st_InsertInfoAdicionalKM0 Y LO IMPORTANTE ES QUE AFECTA A LA TABLA 
+            "Seguimiento ", QUE ES LA TABLA DE LA QUE SE ALIMENTA EL BitacoraExpediente.jsp
+    
+            */
+            
 //------------------------------------------------------------------------------
            $(document).ready(function() {
                 $("#btnCambio").click(function() {    document.getElementById("DireccionA").disabled = false;      });
                 $("#btnAlta").click(function() {   document.getElementById("DireccionA").disabled = false;        });
-                $("#CalleNum").change(function() {     document.getElementById("LatLong").value = "";         })
-                fnOtraUbicacion();                
+                $("#CalleNum").change(function() {     document.getElementById("LatLong").value = "";         });
+		fnOtraUbicacion();
                 });
 //------------------------------------------------------------------------------
             /*Cambio contactante, control otro*/
+            if (document.all.subServicio.value.toString() === '494') document.all.divOtroTipoContactante.style.visibility = 'hidden';
             function fnCambioContactante(){
                 var comboboxTipoContactante  = document.getElementById("clTipoContactanteC");
                 var tipoContactante = comboboxTipoContactante.options[comboboxTipoContactante.selectedIndex].text;
@@ -269,6 +304,28 @@
                     document.all.OtroTipoContactante.value = ' ';
                 }               
             }
+            
+            //------------------------------------------------------------------------------
+            /*Cambio UBICACION SINESTRO JOA*/
+            if (document.all.subServicio.value.toString() === '494') document.all.divOtroTipoLugar.style.visibility = 'hidden'; // Combo OTRA UBICACION escondido en ALTA
+            function fnCambioUbicacion(){
+                    var UbiSin = document.getElementById("clUbFallaHC").value;
+                    if ( UbiSin=== '22' || UbiSin=== '25' || UbiSin=== '26' || UbiSin=== '27'  ){
+                    document.all.divOtroTipoLugar.style.visibility = 'visible';
+                    var elementHF= document.getElementById("clUbFallaHLugarC");
+                    elementHF.disabled = false;
+                    elementHF.value = '';
+                } else {
+                   
+                    document.all.divOtroTipoLugar.style.visibility = 'hidden';
+                    var elementHF= document.getElementById("clUbFallaHLugarC");
+                    elementHF.disabled = true; 
+                    elementHF.value = '31';
+                }               
+            }
+            
+            
+    
 //------------------------------------------------------------------------------            
             function fnCambioTipoCristal() {
                 var comboboxTipoCristal  = document.getElementById("clTipoCristalHC");
@@ -288,6 +345,7 @@
                 if ( motivoSiniestro.toString().toUpperCase() === 'OTRO' ) {
                     document.all.divOtroMotivoSiniestro.style.visibility = 'visible';
                     document.all.OtroMotivoSiniestro.value = '';
+                    
                 } else {
                     document.all.divOtroMotivoSiniestro.style.visibility = 'hidden';
                     document.all.OtroMotivoSiniestro.value = ' ';
@@ -297,33 +355,39 @@
             /*Verifico carga del checkbox*/
             function fnValidaCheckbox() {              
                if ( document.all.subServicio.value.toString() === '494' ) {
-                    var necesita =document.all.NecesitaProvisorio.value==null?'':document.all.NecesitaProvisorio.value;
-                    if ( necesita.toString() === '' ) {         msgVal = msgVal + " Falta opción Necesita provisorio";       }
+                    var necesita =document.all.NecesitaProvisorio.value===null?'':document.all.NecesitaProvisorio.value;
+                    if ( necesita.toString() === '' ) {
+                        msgVal = msgVal + " Falta opción Necesita provisorio";       }
                     }
                 }
 //------------------------------------------------------------------------------
             /*Funiciones para validar front end*/
             function fnValidaOption() {
+                var joaco = document.all.NecesitaProvisorio.value.toString() ;
+                console.log('REGISTRO_kkkkkkkkkkkkkkkkkkkkkkkkkkkkk: ' + joaco);
                 if ( document.all.subServicio.value.toString() === '494' ) {
-                    if ( document.all.NecesitaProvisorio.value !== '' ) {
-                        document.all.necesita.checked  = document.all.NecesitaProvisorio.value === '1'?true:false;
-                        document.all.noNecesita.checked= document.all.NecesitaProvisorio.value === '1'?false:true;
-                    } else {
+                    if ( document.all.NecesitaProvisorio.value !== '1' || document.all.NecesitaProvisorio.value !== '2' ) {
+                        document.all.NecesitaProvisorio.value = '2' //Valor por defecto (NoNecesita) JOA
                         document.all.necesita.checked  = false;
-                        document.all.noNecesita.checked= false;
+                        document.all.noNecesita.checked  = true;
+                        document.all.necesita.disabled = false; //comentado JOA PREGUNTAR SI QUEDA ASI 
+                       document.all.noNecesita.disabled = false;  //comentado JOA PREGUNTAR SI QUEDA ASI 
+                    } if ( document.all.NecesitaProvisorio.value === '1' ) {
+                        document.all.necesita.checked  = true;
+                        document.all.noNecesita.checked= false; 
                     }
-                    document.all.necesita.disabled = true;
-                    document.all.noNecesita.disabled = true;
-                    /*Dependiendo de ciertas opciones, se habilita o deshabilita
-                     * la opcion te ingreso de texto para Otro*/
-                    var comboboxTipoContactante  = document.getElementById("clTipoContactanteC");
-                    var tipoContactante = comboboxTipoContactante.options[comboboxTipoContactante.selectedIndex].text;
-                    if ( tipoContactante.toString().toUpperCase() === 'OTRO' ) {
-                        document.all.divOtroTipoContactante.style.visibility = 'visible';
-                } else {
-                        document.all.divOtroTipoContactante.style.visibility = 'hidden';
+                    else if ( document.all.NecesitaProvisorio.value === '2' ) {
+                        document.all.necesita.checked  = false;
+                        document.all.noNecesita.checked= true;
                     }
+               //     document.all.necesita.disabled = true; //comentado JOA PREGUNTAR SI QUEDA ASI 
+               //     document.all.noNecesita.disabled = true;  //comentado JOA PREGUNTAR SI QUEDA ASI 
+                
                     
+                    
+                    
+                    
+                    //SUBCOMBO UBICACION SINIESTRO 
                     var comboboxTipoCristal  = document.getElementById("clTipoCristalHC");
                     var tipoCristal = comboboxTipoCristal.options[comboboxTipoCristal.selectedIndex].text;
                     if ( tipoCristal.toString().toUpperCase() === 'OTRO' ) {
@@ -338,10 +402,7 @@
                         document.all.divOtroMotivoSiniestro.style.visibility = 'visible';
                     } else {
                         document.all.divOtroMotivoSiniestro.style.visibility = 'hidden';
-                    }                   
-                    //document.all.divSiHDICri.style.visibility = 'visible';
-                    //document.all.divNoHDICri.style.visibility = 'hidden';
-                    //document.all.Cobertura.value= document.all.CoberturaH.value;
+                    }             
 
                 } else {
                     //document.all.divNoHDICri.style.visibility = 'visible';
@@ -356,6 +417,8 @@
                     document.all.OtroMotivoSiniestro.value = ' ';
                     document.all.OtroTipoCristal.value = ' ';
                     document.all.OtroTipoContactante.value = ' ';
+                    
+ 
                 }
             }
 //------------------------------------------------------------------------------            
@@ -426,13 +489,13 @@
             }
 //------------------------------------------------------------------------------            
             function fnAlertaInfoFinal(){               
-                if (document.getElementById("InformeF").value == 1) {
+                if (document.getElementById("InformeF").value === 1) {
                    if ( confirm('¿Este es el informe final?') ) {        return 1;
                    } else {  return 0;  }
                 }else {   return 0;  }
             }
 //------------------------------------------------------------------------------            
-            function fnAccionesAlta() {   
+            function fnAccionesAlta() {   //JOA
                 var clServicio = <%=StrclServicio%>;
                 var dsSubServicio = '<%=StrdsSubServicio%>';
                 if (clServicio === 3) {
@@ -452,22 +515,29 @@
                         default:
                     }
                 }
-                if ( document.getElementById("Action").value == 2 || 
-                        document.getElementById("Action").value == 1) {
+                if ( document.all.subServicio.value.toString() === '494' &&
+                        (document.getElementById("Action").value === 2 || 
+                        document.getElementById("Action").value === 1)) {
                     document.all.necesita.disabled = false;
                     document.all.noNecesita.disabled = false;
                 }
                if ( document.all.subServicio.value.toString() === '494' ) { 
+                   if ( document.getElementById("Action").value === 2 || 
+                        document.getElementById("Action").value === 1) {
+                    document.all.necesita.disabled = false;
+                    document.all.noNecesita.disabled = false;
+                    }
                     document.all.QuienSeComunica.value = '<%=StrContacto%>';
-                    document.all.Calle.value = '<%=StrCalleNum%>';
+                    document.all.Calle.value = '<%=StrCalleNum%>'; 
                         $("#Calle").change(function(){
-                            //alert('alerta cambio calle');
-                            Swal.fire(
-                                'Advertencia',
-                                'Estás cambiando la dirección.',
-                                )
+                            alert('Recuerda avisar NU que si se modifica la dirección registrada en base, debemos pedir autorización al seguro antes de coordinar servicio.');
+                            //SWAL SOLO FUNCIONA CON CHROME, CAMBIAR CUANDO SE MIGRE A ÉL POR COMPLETO
+                            //Swal.fire(
+                                //'Advertencia',
+                                //'Recuerda avisar NU que si se modifica la dirección registrada en base, debemos pedir autorización al seguro antes de coordinar servicio.',
+                               //)
                         });
-            }
+                }
             }
 //------------------------------------------------------------------------------            
             function fnAccionesCambio() {  
@@ -475,7 +545,7 @@
                     document.all.necesita.disabled = false;
                     document.all.noNecesita.disabled = false;
                 } else {
-                    if (document.getElementById("Action").value == 2 &&  document.getElementById("InfoFinal").value == 1) { 
+                    if (document.getElementById("Action").value === 2 &&  document.getElementById("InfoFinal").value === 1) { 
                         document.getElementById("ObsInfo").disabled=true;
                         document.getElementById("Cobertura").disabled=true;
                         document.getElementById("Costo").disabled=true;
@@ -487,80 +557,52 @@
                     }
                 }
             }
-//------------------------------------------------------------------------------                          
-        // INFO ADICIONAL QUE SE GUARDA EN Expedientes y Seguimiento                     
-        const botonGDR = document.querySelector("#btnGuarda");
-        // Agregar listener
-        botonGDR.addEventListener("click", function(evento){	
-            // Aquí todo el código que se ejecuta cuando se da click al botón GUARDAR	
-            var clUsrApp       = <%=Integer.parseInt(StrclUsrApp)%>;
-            var Expediente = <%=StrclExpediente%>;
-            var calle       =(document.all.Calle.value ==null || document.all.Calle.value =='')?0:document.all.Calle.value;
-            var detExp = "\'[* UBICACION: " + calle;
-            var cargo = clTipoContactanteC.options[clTipoContactanteC.selectedIndex].text;
-            if ( cargo === 'Otro'){
-                var otroCarg =(document.all.OtroTipoContactante.value ==null || document.all.OtroTipoContactante.value =='')?0:document.all.OtroTipoContactante.value;
-                detExp = detExp.concat(' - CARGO : ' +otroCarg);
-            }else{   detExp = detExp.concat(' - CARGO : ' +cargo);         }                
-            var siniestr = clUbFallaHC.options[clUbFallaHC.selectedIndex].text;
-            detExp = detExp.concat(' - UBICACION_SINIESTRO : ' +siniestr);               
-            var soport = clUbFallaHLugarC.options[clUbFallaHLugarC.selectedIndex].text;
-            detExp = detExp.concat(' - SOPORTE : ' +soport);                 
-            var tipo = clTipoCristalHC.options[clTipoCristalHC.selectedIndex].text;
-            if ( tipo === 'Otro'){
-                var otrotip =(document.all.OtroTipoCristal.value ==null || document.all.OtroTipoCristal.value =='')?0:document.all.OtroTipoCristal.value;
-                detExp = detExp.concat(' - TIPO_CRISTAL : ' +otrotip);
-                }else{      detExp = detExp.concat(' - TIPO_CRISTAL : ' +tipo);      }                
-            var estado = clTipoFallaHC.options[clTipoFallaHC.selectedIndex].text;
-            detExp = detExp.concat(' - ESTADO_del_VIDRIO : ' +estado);                
-            var motiv = clMotivoSiniestroHC.options[clMotivoSiniestroHC.selectedIndex].text;
-            if ( motiv === 'Otro'){
-                var otro =(document.all.OtroMotivoSiniestro.value ==null || document.all.OtroMotivoSiniestro.value =='')?0:document.all.OtroMotivoSiniestro.value;
-                detExp = detExp.concat(' - MOTIVO : ' +otro);
-            }else{      detExp = detExp.concat(' - MOTIVO : ' +motiv);     }                  
-            if (document.getElementById('necesita').checked){
-                detExp = detExp.concat(" - NECESITA_PROVISORIO : SI *]\'");
-            }else{     detExp = detExp.concat(" - NECESITA_PROVISORIO : NO *]\'");        }                                    
-            var datosCRI ={
-                clUsrApp : clUsrApp,
-                Expediente : Expediente,
-                detExp : detExp};
-                $.when(
-		$.ajax({
-			type: "POST",
-			url: "./InsertInfAddCRI.jsp",
-                        async:false,
-			data: datosCRI,
-			dataType: 'json',
-			success: function(responseData, status, xhr) {	},
-			error: function(req, status, error) {				
-				if ( req.status === 413 ) {
-					alert("Largo de "+error+" inválido.");				}
-				if ( req.status === 403 ) {
-					alert("Código de "+error+" inválido.Debe verificar el dato ingresado.");	}
-                                }
-                    }));
-	
-                });  
-//------------------------------------------------------------------------------ 
+            //============================INICIO DE FUNCIONES DE WALTER=====================
+            function fnEsPlantillaModificada () {
+                var dsSubServicio = '<%=StrdsSubServicio%>';
+                var arraySubServicios = ["Plomería", "Cerrajería", "Electricidad", "Gas", "Vidriería"];
+                return jQuery.inArray(dsSubServicio, arraySubServicios) >= 0;
+            }
             function fnOtraUbicacion() {
                 var combobox  = document.getElementById("clUbFallaHC");
                 var lugarOU = combobox.options[combobox.selectedIndex].text;
                 if (lugarOU.toString().toUpperCase() === "OTRO") {
                     document.getElementById("otraUbicacionContainer").style.visibility = "visible";
-                    document.getElementById("ubicacionOtro").disabled = false;        
+                    document.getElementById("UbicacionOtro").disabled = false;        
                 }
                 else {
-                    document.getElementById("ubicacionOtro").disabled = true;
+                    document.getElementById("UbicacionOtro").disabled = true;
                     document.getElementById("otraUbicacionContainer").style.visibility = "hidden";
                 }
+            }          
+//------------------------------------------------------------------------------
+            function fnEsPisoValido() {
+                var piso = $("#Piso").val();
+                //No es campo obligatorio
+                if (piso.length === 0) return true;
+                var esPisoValido = isNaN(piso) ? piso.toString().toUpperCase() === "PB" : piso > -16 && piso < 101;
+                if (!esPisoValido) {
+                    msgVal = msgVal + ' El piso debe expresarse de forma númerica entre -15 y 100. En caso de ser planta baja también puede escribir "pb".';
+                }
+                return esPisoValido;
+            }
+//------------------------------------------------------------------------------
+            function fnEsDepartamentoValido() {
+                var depto = $("#Departamento").val();
+                //No es campo obligatorio
+                if (depto.length === 0) return true;
+                var esDeptoValido = depto.length <= 8;
+                if (!esDeptoValido) {
+                    msgVal = msgVal + ' El campo departamento debe tener como máximo 8 caracteres.';
+                }
+                return esDeptoValido;
             }
 //------------------------------------------------------------------------------
             function fnGuardaSeguimiento() {
                 var selectLugar = $("#clUbFallaHC").children(":selected").text();
-                var lugar = selectLugar === 'OTRO'? $("#ubicacionOtro").val() : selectLugar;
-                var descProblema = $("#descripcionOtro").val(); 
-                var detalleExp = '[* Ubicación: ' + lugar + '; Problema: ' + descProblema + ' *]';
+                var lugar = selectLugar === 'OTRO'? $("#UbicacionOtro").val() : selectLugar;
+                var descProblema = $("#DescripcionOtro").val(); 
+                var detalleExp = 'Ubicación: ' + lugar + '; Problema: ' + descProblema;
                 var clExpediente = <%=StrclExpediente%>;
                 var clUsrApp = <%=Integer.parseInt(StrclUsrApp)%>;
                 
@@ -581,7 +623,163 @@
                         error: function(req, status, error) {},
                     }));
             }
-//------------------------------------------------------------------------------       
+            function fnAccionesGuardado() {
+                fnValidaCheckbox();
+                if (fnEsPlantillaModificada()){
+                    if (!fnEsPisoValido() || !fnEsDepartamentoValido()) {
+                        document.all.btnGuarda.disabled= false;
+                        document.all.btnCancela.disabled= false;
+                        return;
+                    }                   
+                    fnGuardaSeguimiento();
+                }
+            }
+//=====================FIN DE FUNCIONES DE WALTER===============================
+
+//------------------------------------------------------------------------------ 
+
+        
+        //poliza
+        var salida_1 = document.all.Poliza.value ;
+        if (  salida_1  === 'null'  || salida_1 === '' ){
+           salida_1 = '--';
+        }else{
+            //console.log('REGISTRO_CRI_JOA_DETALLES para Mail_2 : ' + salida_1);
+        }
+        
+        //nuestro usuario
+        var salida_2 = document.all.NuestroUsuarioH.value ;
+        if (  salida_2  === 'null'  || salida_2 === '' ){
+           salida_2 = '--';
+        }else{
+            //console.log('REGISTRO_CRI_JOA_DETALLES para Mail_2 : ' + salida_2);
+        }
+        //QuienSeComunica
+        var salida_3 = document.all.QuienSeComunica.value ;
+        if (  salida_3  === 'null'  || salida_3 === '' ){
+           salida_3 = '--';
+        }else{
+            //console.log('REGISTRO_CRI_JOA_DETALLES para Mail_2 : ' + salida_3);
+        }
+                                
+//------------------------------------------------------------------------------                              
+        // INFO ADICIONAL QUE SE GUARDA EN Expedientes y Seguimiento                     
+        const botonGDR = document.querySelector("#btnGuarda");
+        // Agregar listener
+        botonGDR.addEventListener("click", function(evento){	
+            // Aquí todo el código que se ejecuta cuando se dá click al botón GUARDAR solo si es por subservicio VIDRIERIA CRI
+            if ( document.all.subServicio.value.toString() === '494' ) { 
+
+                    
+                var clUsrApp   = <%=Integer.parseInt(StrclUsrApp)%>;
+                var Expediente = <%=StrclExpediente%>;
+                
+                var Cober      =(document.all.Cobertura.value ===null || document.all.Cobertura.value ==='')?0:document.all.Cobertura.value;
+                var CobFin     =(document.all.CoberturaFin.value ===null || document.all.CoberturaFin.value ==='')?0:document.all.CoberturaFin.value;
+                var detExp = "\'[* Cobertura: " + Cober +" - Cobertura Financiera:"+CobFin;
+                
+                
+                var cargo = clTipoContactanteC.options[clTipoContactanteC.selectedIndex].text;
+                if ( cargo === 'Otro'){
+                    var otroCarg =(document.all.OtroTipoContactante.value ===null || document.all.OtroTipoContactante.value ==='')?0:document.all.OtroTipoContactante.value;
+                    detExp = detExp.concat(' - CARGO : ' +otroCarg);
+                }else{
+                    detExp = detExp.concat(' - CARGO : ' +cargo);
+                     }
+                
+                
+                var siniestr = clUbFallaHC.options[clUbFallaHC.selectedIndex].text;
+                console.log('REGISTRO_CRI_JOA_siniestr: ' + siniestr);
+                    if ( siniestr.toString().toUpperCase() === 'HALL DE ENTRADA' || siniestr.toString().toUpperCase() === 'HABITACION' || siniestr.toString().toUpperCase() === 'TERRAZA' || siniestr.toString().toUpperCase() === 'BALCON'){
+                        var soport = clUbFallaHLugarC.options[clUbFallaHLugarC.selectedIndex].text;
+                        console.log('REGISTRO_CRI_JOA_soport: ' + soport);
+                        detExp = detExp.concat(' - UBICACION_SINIESTRO : ' +siniestr+ '/'+soport);
+                        var elementHF= document.getElementById("clUbFallaHLugarC");
+                        elementHF.disabled = false;
+                        elementHF.value = '';
+                        console.log('REGISTRO_CRI_JOA_soport 2: ' + detExp);
+                    }else{
+                        detExp = detExp.concat(' - UBICACION_SINIESTRO : ' +siniestr);
+                        document.all.divOtroTipoLugar.style.visibility = 'hidden';
+                        var elementHF= document.getElementById("clUbFallaHLugarC");
+                        elementHF.disabled = true; 
+                        elementHF.value = '31';
+                    }
+                
+                
+
+                 
+                var tipo = clTipoCristalHC.options[clTipoCristalHC.selectedIndex].text;
+                console.log('REGISTRo tipo de vidrio JOA ' +tipo );
+                if ( tipo === 'Otro'){
+                    var otrotip =(document.all.OtroTipoCristal.value ===null || document.all.OtroTipoCristal.value ==='')?0:document.all.OtroTipoCristal.value;
+                    detExp = detExp.concat(' - TIPO_CRISTAL : ' +otrotip);
+                }else{
+                    detExp = detExp.concat(' - TIPO_CRISTAL : ' +tipo);
+                    }
+                    console.log('REGISTRo tipo de vidrio JOA_2 ' +detExp );
+                
+                var estado = clTipoFallaHC.options[clTipoFallaHC.selectedIndex].text;
+                detExp = detExp.concat(' - ESTADO_del_VIDRIO : ' +estado);
+                
+                var motiv = clMotivoSiniestroHC.options[clMotivoSiniestroHC.selectedIndex].text;
+                if ( motiv === 'Otro'){
+                    var otro =(document.all.OtroMotivoSiniestro.value ===null || document.all.OtroMotivoSiniestro.value ==='')?0:document.all.OtroMotivoSiniestro.value;
+                    detExp = detExp.concat(' - MOTIVO : ' +otro);
+                }else{
+                    detExp = detExp.concat(' - MOTIVO : ' +motiv);
+                     }
+                  
+                if (document.getElementById('necesita').checked){
+                    detExp = detExp.concat(" - NECESITA_PROVISORIO : SI *]\'");
+                }else{
+                    detExp = detExp.concat(" - NECESITA_PROVISORIO : NO *]\'");
+                     } 
+                
+            //  });  // FIN addEventListener
+            
+            //var StringMail = "'"+ '"'+salida +'"'+ "," + Expediente + "," + salida_1 + "," +'"'+salida_2 +'"'+ "," +'"'+ salida_4 +'"'+ "," +'"'+ salida_5+'"'+ "'" ;
+       
+
+            var datosCRI ={
+                clUsrApp : clUsrApp,
+                Expediente : Expediente,
+                detExp : detExp  }; //ORIGINAL JOA FUNCIONA
+ 
+           
+            //-----------------------------------------------------------------------------------------------------------    
+                $.when(
+		$.ajax({
+			type: "POST",
+			url: "./InsertInfAddCRI.jsp",
+                        async:false,
+			data: datosCRI,
+			dataType: 'json',
+			//success: function(responseData, status, xhr) {
+			//},
+                        
+			error: function(req, status, error) {
+				
+				if ( req.status === 413 ) {
+					alert("Largo de "+error+" inválido.");
+				}
+				if ( req.status === 403 ) {
+					alert("Código de "+error+" inválido.Debe verificar el dato ingresado.");
+				}
+				if ( req.status === 500 ) {
+					//alert("Error grabando InfoAdicional:  " + error);
+				}
+                            }
+                        }));
+                        
+                        
+                  
+                        
+                        
+                    }  //FIN IF 
+                });  // FIN addEventListener
+//------------------------------------------------------------------------------ 
         </script>
+  
     </body>
 </html>
