@@ -36,40 +36,12 @@ public class ObjectFactory {
     private final static QName _SayHelloResponse_QNAME = new QName("tns", "say_helloResponse");
     private final static QName _AgregarServicio_QNAME = new QName("tns", "agregar_servicio");
     private final static QName _IkePrestadorDeleteResponse_QNAME = new QName("tns", "ike_prestador_deleteResponse");
-    private final static QName _IkePrestadorDeleteResponseIkePrestadorDeleteResult_QNAME = new QName("tns", "ike_prestador_deleteResult");
-    private final static QName _IkePrestadorProcessResponseIkePrestadorProcessResult_QNAME = new QName("tns", "ike_prestador_processResult");
-    private final static QName _AgregarServicioObservaciones_QNAME = new QName("tns", "observaciones");
-    private final static QName _AgregarServicioDenunciante_QNAME = new QName("tns", "denunciante");
-    private final static QName _AgregarServicioLocalidad_QNAME = new QName("tns", "localidad");
-    private final static QName _AgregarServicioDestino_QNAME = new QName("tns", "destino");
-    private final static QName _AgregarServicioTelefono_QNAME = new QName("tns", "telefono");
-    private final static QName _AgregarServicioOperador_QNAME = new QName("tns", "operador");
-    private final static QName _AgregarServicioTitular_QNAME = new QName("tns", "titular");
-    private final static QName _AgregarServicioDestinogeo_QNAME = new QName("tns", "destinogeo");
-    private final static QName _AgregarServicioNombreOrigen_QNAME = new QName("tns", "nombre_origen");
-    private final static QName _AgregarServicioModelo_QNAME = new QName("tns", "modelo");
-    private final static QName _AgregarServicioCodigoDeAutorizacion_QNAME = new QName("tns", "codigo_de_autorizacion");
-    private final static QName _AgregarServicioDesperfecto_QNAME = new QName("tns", "desperfecto");
-    private final static QName _AgregarServicioPatente_QNAME = new QName("tns", "patente");
-    private final static QName _AgregarServicioCobertura_QNAME = new QName("tns", "cobertura");
-    private final static QName _AgregarServicioOrigengeo_QNAME = new QName("tns", "origengeo");
-    private final static QName _AgregarServicioTipoSrvInicial_QNAME = new QName("tns", "tipo_srv_inicial");
-    private final static QName _AgregarServicioUbicacion_QNAME = new QName("tns", "ubicacion");
-    private final static QName _AgregarServicioColor_QNAME = new QName("tns", "color");
-    private final static QName _AgregarServicioHoraInicio_QNAME = new QName("tns", "hora_inicio");
     private final static QName _AgregarServicioResponseAgregarServicioResult_QNAME = new QName("tns", "agregar_servicioResult");
-    private final static QName _PrestadoresServicioResponsePrestadoresServicioResult_QNAME = new QName("tns", "prestadores_servicioResult");
-    private final static QName _PrestadoresServicioIdDestino_QNAME = new QName("tns", "id_destino");
-    private final static QName _PrestadoresServicioIdServicio_QNAME = new QName("tns", "id_servicio");
-    private final static QName _PrestadoresServicioIdCaso_QNAME = new QName("tns", "id_caso");
-    private final static QName _PrestadoresServicioIdSubservicio_QNAME = new QName("tns", "id_subservicio");
-    private final static QName _PrestadoresServicioIdOrigen_QNAME = new QName("tns", "id_origen");
-    private final static QName _IkePrestadorResponseIkePrestadorResult_QNAME = new QName("tns", "ike_prestadorResult");
-    private final static QName _SayHelloName_QNAME = new QName("tns", "name");
-    private final static QName _SayHelloTimes_QNAME = new QName("tns", "times");
     private final static QName _IkePrestadorAlias_QNAME = new QName("tns", "alias");
     private final static QName _IkePrestadorEnvioElectronico_QNAME = new QName("tns", "envio_electronico");
+    private final static QName _IkePrestadorLocalidad_QNAME = new QName("tns", "localidad");
     private final static QName _IkePrestadorTelefonos_QNAME = new QName("tns", "telefonos");
+    private final static QName _IkePrestadorTitular_QNAME = new QName("tns", "titular");
     private final static QName _IkePrestadorEmail_QNAME = new QName("tns", "email");
     private final static QName _IkePrestadorActivo_QNAME = new QName("tns", "activo");
     private final static QName _IkePrestadorCuit_QNAME = new QName("tns", "cuit");
@@ -83,7 +55,35 @@ public class ObjectFactory {
     private final static QName _IkePrestadorArea_QNAME = new QName("tns", "area");
     private final static QName _IkePrestadorTipo_QNAME = new QName("tns", "tipo");
     private final static QName _IkePrestadorHorario_QNAME = new QName("tns", "horario");
+    private final static QName _PrestadoresServicioResponsePrestadoresServicioResult_QNAME = new QName("tns", "prestadores_servicioResult");
+    private final static QName _IkePrestadorDeleteResponseIkePrestadorDeleteResult_QNAME = new QName("tns", "ike_prestador_deleteResult");
+    private final static QName _SayHelloName_QNAME = new QName("tns", "name");
+    private final static QName _SayHelloTimes_QNAME = new QName("tns", "times");
+    private final static QName _PrestadoresServicioIdDestino_QNAME = new QName("tns", "id_destino");
+    private final static QName _PrestadoresServicioIdServicio_QNAME = new QName("tns", "id_servicio");
+    private final static QName _PrestadoresServicioIdCaso_QNAME = new QName("tns", "id_caso");
+    private final static QName _PrestadoresServicioIdSubservicio_QNAME = new QName("tns", "id_subservicio");
+    private final static QName _PrestadoresServicioIdOrigen_QNAME = new QName("tns", "id_origen");
     private final static QName _SayHelloResponseSayHelloResult_QNAME = new QName("tns", "say_helloResult");
+    private final static QName _IkePrestadorResponseIkePrestadorResult_QNAME = new QName("tns", "ike_prestadorResult");
+    private final static QName _AgregarServicioObservaciones_QNAME = new QName("tns", "observaciones");
+    private final static QName _AgregarServicioDenunciante_QNAME = new QName("tns", "denunciante");
+    private final static QName _AgregarServicioDestino_QNAME = new QName("tns", "destino");
+    private final static QName _AgregarServicioTelefono_QNAME = new QName("tns", "telefono");
+    private final static QName _AgregarServicioOperador_QNAME = new QName("tns", "operador");
+    private final static QName _AgregarServicioDestinogeo_QNAME = new QName("tns", "destinogeo");
+    private final static QName _AgregarServicioNombreOrigen_QNAME = new QName("tns", "nombre_origen");
+    private final static QName _AgregarServicioModelo_QNAME = new QName("tns", "modelo");
+    private final static QName _AgregarServicioCodigoDeAutorizacion_QNAME = new QName("tns", "codigo_de_autorizacion");
+    private final static QName _AgregarServicioDesperfecto_QNAME = new QName("tns", "desperfecto");
+    private final static QName _AgregarServicioPatente_QNAME = new QName("tns", "patente");
+    private final static QName _AgregarServicioCobertura_QNAME = new QName("tns", "cobertura");
+    private final static QName _AgregarServicioOrigengeo_QNAME = new QName("tns", "origengeo");
+    private final static QName _AgregarServicioTipoSrvInicial_QNAME = new QName("tns", "tipo_srv_inicial");
+    private final static QName _AgregarServicioUbicacion_QNAME = new QName("tns", "ubicacion");
+    private final static QName _AgregarServicioColor_QNAME = new QName("tns", "color");
+    private final static QName _AgregarServicioHoraInicio_QNAME = new QName("tns", "hora_inicio");
+    private final static QName _IkePrestadorProcessResponseIkePrestadorProcessResult_QNAME = new QName("tns", "ike_prestador_processResult");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: ar.com.ike.geo.ws.tns
@@ -300,279 +300,9 @@ public class ObjectFactory {
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "tns", name = "ike_prestador_deleteResult", scope = IkePrestadorDeleteResponse.class)
-    public JAXBElement<String> createIkePrestadorDeleteResponseIkePrestadorDeleteResult(String value) {
-        return new JAXBElement<String>(_IkePrestadorDeleteResponseIkePrestadorDeleteResult_QNAME, String.class, IkePrestadorDeleteResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "ike_prestador_processResult", scope = IkePrestadorProcessResponse.class)
-    public JAXBElement<String> createIkePrestadorProcessResponseIkePrestadorProcessResult(String value) {
-        return new JAXBElement<String>(_IkePrestadorProcessResponseIkePrestadorProcessResult_QNAME, String.class, IkePrestadorProcessResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "observaciones", scope = AgregarServicio.class)
-    public JAXBElement<String> createAgregarServicioObservaciones(String value) {
-        return new JAXBElement<String>(_AgregarServicioObservaciones_QNAME, String.class, AgregarServicio.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "denunciante", scope = AgregarServicio.class)
-    public JAXBElement<String> createAgregarServicioDenunciante(String value) {
-        return new JAXBElement<String>(_AgregarServicioDenunciante_QNAME, String.class, AgregarServicio.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "localidad", scope = AgregarServicio.class)
-    public JAXBElement<String> createAgregarServicioLocalidad(String value) {
-        return new JAXBElement<String>(_AgregarServicioLocalidad_QNAME, String.class, AgregarServicio.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "destino", scope = AgregarServicio.class)
-    public JAXBElement<String> createAgregarServicioDestino(String value) {
-        return new JAXBElement<String>(_AgregarServicioDestino_QNAME, String.class, AgregarServicio.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "telefono", scope = AgregarServicio.class)
-    public JAXBElement<String> createAgregarServicioTelefono(String value) {
-        return new JAXBElement<String>(_AgregarServicioTelefono_QNAME, String.class, AgregarServicio.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "operador", scope = AgregarServicio.class)
-    public JAXBElement<String> createAgregarServicioOperador(String value) {
-        return new JAXBElement<String>(_AgregarServicioOperador_QNAME, String.class, AgregarServicio.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "titular", scope = AgregarServicio.class)
-    public JAXBElement<String> createAgregarServicioTitular(String value) {
-        return new JAXBElement<String>(_AgregarServicioTitular_QNAME, String.class, AgregarServicio.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "destinogeo", scope = AgregarServicio.class)
-    public JAXBElement<String> createAgregarServicioDestinogeo(String value) {
-        return new JAXBElement<String>(_AgregarServicioDestinogeo_QNAME, String.class, AgregarServicio.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "nombre_origen", scope = AgregarServicio.class)
-    public JAXBElement<String> createAgregarServicioNombreOrigen(String value) {
-        return new JAXBElement<String>(_AgregarServicioNombreOrigen_QNAME, String.class, AgregarServicio.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "modelo", scope = AgregarServicio.class)
-    public JAXBElement<String> createAgregarServicioModelo(String value) {
-        return new JAXBElement<String>(_AgregarServicioModelo_QNAME, String.class, AgregarServicio.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "codigo_de_autorizacion", scope = AgregarServicio.class)
-    public JAXBElement<String> createAgregarServicioCodigoDeAutorizacion(String value) {
-        return new JAXBElement<String>(_AgregarServicioCodigoDeAutorizacion_QNAME, String.class, AgregarServicio.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "desperfecto", scope = AgregarServicio.class)
-    public JAXBElement<String> createAgregarServicioDesperfecto(String value) {
-        return new JAXBElement<String>(_AgregarServicioDesperfecto_QNAME, String.class, AgregarServicio.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "patente", scope = AgregarServicio.class)
-    public JAXBElement<String> createAgregarServicioPatente(String value) {
-        return new JAXBElement<String>(_AgregarServicioPatente_QNAME, String.class, AgregarServicio.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "cobertura", scope = AgregarServicio.class)
-    public JAXBElement<String> createAgregarServicioCobertura(String value) {
-        return new JAXBElement<String>(_AgregarServicioCobertura_QNAME, String.class, AgregarServicio.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "origengeo", scope = AgregarServicio.class)
-    public JAXBElement<String> createAgregarServicioOrigengeo(String value) {
-        return new JAXBElement<String>(_AgregarServicioOrigengeo_QNAME, String.class, AgregarServicio.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "tipo_srv_inicial", scope = AgregarServicio.class)
-    public JAXBElement<String> createAgregarServicioTipoSrvInicial(String value) {
-        return new JAXBElement<String>(_AgregarServicioTipoSrvInicial_QNAME, String.class, AgregarServicio.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "ubicacion", scope = AgregarServicio.class)
-    public JAXBElement<String> createAgregarServicioUbicacion(String value) {
-        return new JAXBElement<String>(_AgregarServicioUbicacion_QNAME, String.class, AgregarServicio.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "color", scope = AgregarServicio.class)
-    public JAXBElement<String> createAgregarServicioColor(String value) {
-        return new JAXBElement<String>(_AgregarServicioColor_QNAME, String.class, AgregarServicio.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "hora_inicio", scope = AgregarServicio.class)
-    public JAXBElement<String> createAgregarServicioHoraInicio(String value) {
-        return new JAXBElement<String>(_AgregarServicioHoraInicio_QNAME, String.class, AgregarServicio.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
     @XmlElementDecl(namespace = "tns", name = "agregar_servicioResult", scope = AgregarServicioResponse.class)
     public JAXBElement<String> createAgregarServicioResponseAgregarServicioResult(String value) {
         return new JAXBElement<String>(_AgregarServicioResponseAgregarServicioResult_QNAME, String.class, AgregarServicioResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "prestadores_servicioResult", scope = PrestadoresServicioResponse.class)
-    public JAXBElement<String> createPrestadoresServicioResponsePrestadoresServicioResult(String value) {
-        return new JAXBElement<String>(_PrestadoresServicioResponsePrestadoresServicioResult_QNAME, String.class, PrestadoresServicioResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "id_destino", scope = PrestadoresServicio.class)
-    public JAXBElement<String> createPrestadoresServicioIdDestino(String value) {
-        return new JAXBElement<String>(_PrestadoresServicioIdDestino_QNAME, String.class, PrestadoresServicio.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "id_servicio", scope = PrestadoresServicio.class)
-    public JAXBElement<String> createPrestadoresServicioIdServicio(String value) {
-        return new JAXBElement<String>(_PrestadoresServicioIdServicio_QNAME, String.class, PrestadoresServicio.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "id_caso", scope = PrestadoresServicio.class)
-    public JAXBElement<String> createPrestadoresServicioIdCaso(String value) {
-        return new JAXBElement<String>(_PrestadoresServicioIdCaso_QNAME, String.class, PrestadoresServicio.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "id_subservicio", scope = PrestadoresServicio.class)
-    public JAXBElement<String> createPrestadoresServicioIdSubservicio(String value) {
-        return new JAXBElement<String>(_PrestadoresServicioIdSubservicio_QNAME, String.class, PrestadoresServicio.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "id_origen", scope = PrestadoresServicio.class)
-    public JAXBElement<String> createPrestadoresServicioIdOrigen(String value) {
-        return new JAXBElement<String>(_PrestadoresServicioIdOrigen_QNAME, String.class, PrestadoresServicio.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "ike_prestadorResult", scope = IkePrestadorResponse.class)
-    public JAXBElement<String> createIkePrestadorResponseIkePrestadorResult(String value) {
-        return new JAXBElement<String>(_IkePrestadorResponseIkePrestadorResult_QNAME, String.class, IkePrestadorResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "name", scope = SayHello.class)
-    public JAXBElement<String> createSayHelloName(String value) {
-        return new JAXBElement<String>(_SayHelloName_QNAME, String.class, SayHello.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "tns", name = "times", scope = SayHello.class)
-    public JAXBElement<String> createSayHelloTimes(String value) {
-        return new JAXBElement<String>(_SayHelloTimes_QNAME, String.class, SayHello.class, value);
     }
 
     /**
@@ -599,7 +329,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "tns", name = "localidad", scope = IkePrestador.class)
     public JAXBElement<String> createIkePrestadorLocalidad(String value) {
-        return new JAXBElement<String>(_AgregarServicioLocalidad_QNAME, String.class, IkePrestador.class, value);
+        return new JAXBElement<String>(_IkePrestadorLocalidad_QNAME, String.class, IkePrestador.class, value);
     }
 
     /**
@@ -617,7 +347,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "tns", name = "titular", scope = IkePrestador.class)
     public JAXBElement<String> createIkePrestadorTitular(String value) {
-        return new JAXBElement<String>(_AgregarServicioTitular_QNAME, String.class, IkePrestador.class, value);
+        return new JAXBElement<String>(_IkePrestadorTitular_QNAME, String.class, IkePrestador.class, value);
     }
 
     /**
@@ -741,9 +471,279 @@ public class ObjectFactory {
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
      * 
      */
+    @XmlElementDecl(namespace = "tns", name = "prestadores_servicioResult", scope = PrestadoresServicioResponse.class)
+    public JAXBElement<String> createPrestadoresServicioResponsePrestadoresServicioResult(String value) {
+        return new JAXBElement<String>(_PrestadoresServicioResponsePrestadoresServicioResult_QNAME, String.class, PrestadoresServicioResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "ike_prestador_deleteResult", scope = IkePrestadorDeleteResponse.class)
+    public JAXBElement<String> createIkePrestadorDeleteResponseIkePrestadorDeleteResult(String value) {
+        return new JAXBElement<String>(_IkePrestadorDeleteResponseIkePrestadorDeleteResult_QNAME, String.class, IkePrestadorDeleteResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "name", scope = SayHello.class)
+    public JAXBElement<String> createSayHelloName(String value) {
+        return new JAXBElement<String>(_SayHelloName_QNAME, String.class, SayHello.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "times", scope = SayHello.class)
+    public JAXBElement<String> createSayHelloTimes(String value) {
+        return new JAXBElement<String>(_SayHelloTimes_QNAME, String.class, SayHello.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "id_destino", scope = PrestadoresServicio.class)
+    public JAXBElement<String> createPrestadoresServicioIdDestino(String value) {
+        return new JAXBElement<String>(_PrestadoresServicioIdDestino_QNAME, String.class, PrestadoresServicio.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "id_servicio", scope = PrestadoresServicio.class)
+    public JAXBElement<String> createPrestadoresServicioIdServicio(String value) {
+        return new JAXBElement<String>(_PrestadoresServicioIdServicio_QNAME, String.class, PrestadoresServicio.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "id_caso", scope = PrestadoresServicio.class)
+    public JAXBElement<String> createPrestadoresServicioIdCaso(String value) {
+        return new JAXBElement<String>(_PrestadoresServicioIdCaso_QNAME, String.class, PrestadoresServicio.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "id_subservicio", scope = PrestadoresServicio.class)
+    public JAXBElement<String> createPrestadoresServicioIdSubservicio(String value) {
+        return new JAXBElement<String>(_PrestadoresServicioIdSubservicio_QNAME, String.class, PrestadoresServicio.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "id_origen", scope = PrestadoresServicio.class)
+    public JAXBElement<String> createPrestadoresServicioIdOrigen(String value) {
+        return new JAXBElement<String>(_PrestadoresServicioIdOrigen_QNAME, String.class, PrestadoresServicio.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
     @XmlElementDecl(namespace = "tns", name = "say_helloResult", scope = SayHelloResponse.class)
     public JAXBElement<String> createSayHelloResponseSayHelloResult(String value) {
         return new JAXBElement<String>(_SayHelloResponseSayHelloResult_QNAME, String.class, SayHelloResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "ike_prestadorResult", scope = IkePrestadorResponse.class)
+    public JAXBElement<String> createIkePrestadorResponseIkePrestadorResult(String value) {
+        return new JAXBElement<String>(_IkePrestadorResponseIkePrestadorResult_QNAME, String.class, IkePrestadorResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "observaciones", scope = AgregarServicio.class)
+    public JAXBElement<String> createAgregarServicioObservaciones(String value) {
+        return new JAXBElement<String>(_AgregarServicioObservaciones_QNAME, String.class, AgregarServicio.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "denunciante", scope = AgregarServicio.class)
+    public JAXBElement<String> createAgregarServicioDenunciante(String value) {
+        return new JAXBElement<String>(_AgregarServicioDenunciante_QNAME, String.class, AgregarServicio.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "localidad", scope = AgregarServicio.class)
+    public JAXBElement<String> createAgregarServicioLocalidad(String value) {
+        return new JAXBElement<String>(_IkePrestadorLocalidad_QNAME, String.class, AgregarServicio.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "destino", scope = AgregarServicio.class)
+    public JAXBElement<String> createAgregarServicioDestino(String value) {
+        return new JAXBElement<String>(_AgregarServicioDestino_QNAME, String.class, AgregarServicio.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "telefono", scope = AgregarServicio.class)
+    public JAXBElement<String> createAgregarServicioTelefono(String value) {
+        return new JAXBElement<String>(_AgregarServicioTelefono_QNAME, String.class, AgregarServicio.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "operador", scope = AgregarServicio.class)
+    public JAXBElement<String> createAgregarServicioOperador(String value) {
+        return new JAXBElement<String>(_AgregarServicioOperador_QNAME, String.class, AgregarServicio.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "titular", scope = AgregarServicio.class)
+    public JAXBElement<String> createAgregarServicioTitular(String value) {
+        return new JAXBElement<String>(_IkePrestadorTitular_QNAME, String.class, AgregarServicio.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "destinogeo", scope = AgregarServicio.class)
+    public JAXBElement<String> createAgregarServicioDestinogeo(String value) {
+        return new JAXBElement<String>(_AgregarServicioDestinogeo_QNAME, String.class, AgregarServicio.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "nombre_origen", scope = AgregarServicio.class)
+    public JAXBElement<String> createAgregarServicioNombreOrigen(String value) {
+        return new JAXBElement<String>(_AgregarServicioNombreOrigen_QNAME, String.class, AgregarServicio.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "modelo", scope = AgregarServicio.class)
+    public JAXBElement<String> createAgregarServicioModelo(String value) {
+        return new JAXBElement<String>(_AgregarServicioModelo_QNAME, String.class, AgregarServicio.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "codigo_de_autorizacion", scope = AgregarServicio.class)
+    public JAXBElement<String> createAgregarServicioCodigoDeAutorizacion(String value) {
+        return new JAXBElement<String>(_AgregarServicioCodigoDeAutorizacion_QNAME, String.class, AgregarServicio.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "desperfecto", scope = AgregarServicio.class)
+    public JAXBElement<String> createAgregarServicioDesperfecto(String value) {
+        return new JAXBElement<String>(_AgregarServicioDesperfecto_QNAME, String.class, AgregarServicio.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "patente", scope = AgregarServicio.class)
+    public JAXBElement<String> createAgregarServicioPatente(String value) {
+        return new JAXBElement<String>(_AgregarServicioPatente_QNAME, String.class, AgregarServicio.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "cobertura", scope = AgregarServicio.class)
+    public JAXBElement<String> createAgregarServicioCobertura(String value) {
+        return new JAXBElement<String>(_AgregarServicioCobertura_QNAME, String.class, AgregarServicio.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "origengeo", scope = AgregarServicio.class)
+    public JAXBElement<String> createAgregarServicioOrigengeo(String value) {
+        return new JAXBElement<String>(_AgregarServicioOrigengeo_QNAME, String.class, AgregarServicio.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "tipo_srv_inicial", scope = AgregarServicio.class)
+    public JAXBElement<String> createAgregarServicioTipoSrvInicial(String value) {
+        return new JAXBElement<String>(_AgregarServicioTipoSrvInicial_QNAME, String.class, AgregarServicio.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "ubicacion", scope = AgregarServicio.class)
+    public JAXBElement<String> createAgregarServicioUbicacion(String value) {
+        return new JAXBElement<String>(_AgregarServicioUbicacion_QNAME, String.class, AgregarServicio.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "color", scope = AgregarServicio.class)
+    public JAXBElement<String> createAgregarServicioColor(String value) {
+        return new JAXBElement<String>(_AgregarServicioColor_QNAME, String.class, AgregarServicio.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "hora_inicio", scope = AgregarServicio.class)
+    public JAXBElement<String> createAgregarServicioHoraInicio(String value) {
+        return new JAXBElement<String>(_AgregarServicioHoraInicio_QNAME, String.class, AgregarServicio.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "tns", name = "ike_prestador_processResult", scope = IkePrestadorProcessResponse.class)
+    public JAXBElement<String> createIkePrestadorProcessResponseIkePrestadorProcessResult(String value) {
+        return new JAXBElement<String>(_IkePrestadorProcessResponseIkePrestadorProcessResult_QNAME, String.class, IkePrestadorProcessResponse.class, value);
     }
 
 }

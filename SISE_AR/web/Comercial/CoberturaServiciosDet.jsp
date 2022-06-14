@@ -218,7 +218,7 @@
 			error: function(req, status, error) {				
 				if ( req.status === 404 ) {//alert("No tiene registros asociados.");
 				}
-				if ( req.status === 500 ) {alert("Error leyendo subservicios asociados:  " + error);				}
+				if ( req.status === 500 ) {lert("Error leyendo subservicios asociados:  " + error);				}
 			}
 		})).then( successFunc(), failureFunc() );
             }            
