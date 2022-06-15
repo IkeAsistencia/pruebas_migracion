@@ -33,8 +33,12 @@
         String EventosAnuales = "0";
         String EventosUltimoMes = "0";
         String LimiteMensual = "0";
+        String StrclTipoServicio = "0";
+        Boolean noHayCupoMensual  = true;
+        Boolean noHayCupoAnual = true;
         StringBuffer StrSql = new StringBuffer();
-        ResultSet rsReincide=null;
+        ResultSet rsReincide = null;
+        ResultSet rsGetTipoServicio = null;
         if (session.getAttribute("clExpediente") != null) {
             StrclExpediente = session.getAttribute("clExpediente").toString();        }
         if (session.getAttribute("clCuenta") != null) {
@@ -59,18 +63,50 @@
             rsReincide = UtileriasBDF.rsSQLNP(StrSql.toString());
             StrSql.delete(0, StrSql.length());
             if (rsReincide.next()) {
-                if ( rsReincide.getString("LimiteEventosAnuales") != null ) {
-                    LimiteEventosAnuales = rsReincide.getString("LimiteEventosAnuales");                }
-                if ( rsReincide.getString("EventosAnuales") != null ) {
-                    EventosAnuales = rsReincide.getString("EventosAnuales");                }
-                if ( rsReincide.getString("EventosUltimoMes") != null ) {   
-                    EventosUltimoMes = rsReincide.getString("EventosUltimoMes");                }
-                if ( rsReincide.getString("LimiteMensual") != null ) {
-                    LimiteMensual = rsReincide.getString("LimiteMensual");                }                
+                if (StrclServicio.equals("3")) {
+                rsGetTipoServicio = UtileriasBDF.rsSQLNP("SELECT clTipoServicio FROM Expediente WHERE clExpediente = " + StrclExpediente );
+                    if (rsGetTipoServicio.next()) {
+                        StrclTipoServicio = rsGetTipoServicio.getString("clTipoServicio");
+                        //Para tipo mantenimiento    
+                        if (StrclTipoServicio.equals("8")) {
+                            if ( rsReincide.getString("LimiteEventosAnual") != null ) {
+                                LimiteEventosAnuales = rsReincide.getString("LimiteEventosAnual");                }
+                            if ( rsReincide.getString("MantenimientosAnuales") != null ) {
+                                EventosAnuales = rsReincide.getString("MantenimientosAnuales");                }
+                            if ( rsReincide.getString("MantenimientosMensuales") != null ) {   
+                                EventosUltimoMes = rsReincide.getString("MantenimientosMensuales");                }
+                            if ( rsReincide.getString("LimiteMensual") != null ) {
+                                LimiteMensual = rsReincide.getString("LimiteMensual");                } 
+                        } else {
+                            if ( rsReincide.getString("LimiteEventosAnuales") != null ) {
+                                LimiteEventosAnuales = rsReincide.getString("LimiteEventosAnuales");                }
+                            if ( rsReincide.getString("EmergenciasAnuales") != null ) {
+                                EventosAnuales = rsReincide.getString("EmergenciasAnuales");                }
+                            if ( rsReincide.getString("EmergenciasMensuales") != null ) {   
+                                EventosUltimoMes = rsReincide.getString("EmergenciasMensuales");                }
+                            if ( rsReincide.getString("LimiteMensual") != null ) {
+                                LimiteMensual = rsReincide.getString("LimiteMensual");                }
+                        }
+                    }
+                rsGetTipoServicio.close();
+                rsGetTipoServicio = null;
+                } else {
+                    if ( rsReincide.getString("LimiteEventosAnuales") != null ) {
+                        LimiteEventosAnuales = rsReincide.getString("LimiteEventosAnuales");                }
+                    if ( rsReincide.getString("EventosAnuales") != null ) {
+                        EventosAnuales = rsReincide.getString("EventosAnuales");                }
+                    if ( rsReincide.getString("EventosUltimoMes") != null ) {   
+                        EventosUltimoMes = rsReincide.getString("EventosUltimoMes");                }
+                    if ( rsReincide.getString("LimiteMensual") != null ) {
+                        LimiteMensual = rsReincide.getString("LimiteMensual");                }
+                }                
                 /***  SERVICIOS CUBIERTOS  ***/
-                if ( (Integer.parseInt(EventosUltimoMes) >= Integer.parseInt(LimiteMensual)  &&  Integer.parseInt(LimiteMensual) >0) 
-                    ||  (Integer.parseInt(EventosAnuales) >= Integer.parseInt(LimiteEventosAnuales) && Integer.parseInt(LimiteEventosAnuales) >0)) {                    
-                    if ( Integer.parseInt(EventosUltimoMes) >= Integer.parseInt(LimiteMensual) &&  Integer.parseInt(LimiteMensual) >0 ) {
+                // Para servicio se tienen diferentes conteos de eventos dependiendo del tipo de asistencia              
+                // si es servicio hogar y de Mantenimiento entonces no tiene control mensual y eventosUltimoMes es 0
+                noHayCupoMensual = (Integer.parseInt(EventosUltimoMes) >= Integer.parseInt(LimiteMensual))  &&  Integer.parseInt(LimiteMensual) >0;
+                noHayCupoAnual = (Integer.parseInt(EventosAnuales) >= Integer.parseInt(LimiteEventosAnuales) && Integer.parseInt(LimiteEventosAnuales) >0);
+                if ( noHayCupoMensual || noHayCupoAnual ) {                    
+                    if ( noHayCupoMensual ) {
                         evAnualMensual = "2";
                         titTipoSiniest = "LISTADO SINIESTRALIDAD MES EN CURSO";
                         StrNumReincide = EventosUltimoMes.toString();
