@@ -100,6 +100,26 @@ public class cbEntidad {
         return true;
     }
 
+  public static synchronized boolean altaLocalidadEnCache(String codEnt, String codMD, String dsMunDel){
+    Entidad provincia = (Entidad)comboHash.get(codEnt);
+    if (provincia == null)
+    {
+      System.out.println("cbEntidad.java.WARNING: Provincia No encontrada" + codEnt);
+      return false;
+    }
+    System.out.println("cbEntidad.java: Provincia encontrada" + codEnt);
+    
+
+    Municipio localidad = new Municipio();
+    localidad.setStrCodMD(codMD);
+    localidad.setStrDescripcion(dsMunDel);
+    
+    System.out.println("Cantidad localidades:" + provincia.getLstMunicipio().size());
+    provincia.getLstMunicipio().add(localidad);
+    
+    return true;
+    }
+    
     public static HashMap getComboHash() {
         loadComboList();
         return comboHash;
