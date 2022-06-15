@@ -72,6 +72,7 @@
             String StrclSubServicio = "0";
             String StrclPaginaWeb = "47";
             String StrclSubServicioAsociado = "";
+            String StrclServicio = "";
             if (session.getAttribute("clCobertura") != null) {
                 StrclCobertura = session.getAttribute("clCobertura").toString();            }
             if (StrclCobertura.compareToIgnoreCase("0") == 0) {     %>
@@ -102,6 +103,13 @@
                 <% } else {%>  <script>document.all.btnElimina.disabled = true;</script>      <% }
                 }
             StrSql.delete(0, StrSql.length());
+            StrSql.append("select clServicio from cSubServicio where clSubServicio = ").append(StrclSubServicio);
+            ResultSet rs3 = UtileriasBDF.rsSQLNP(StrSql.toString());
+            rs3.next();
+            StrclServicio = rs3.getString("clServicio");
+            StrSql.delete(0, StrSql.length());
+            rs3.close();
+            rs3 = null;
             session.setAttribute("clPaginaWebP", StrclPaginaWeb);
             // se checan permisos de alta,baja,cambio,consulta de esta pagina
             MyUtil.InicializaParametrosC(Integer.parseInt(StrclPaginaWeb), Integer.parseInt(StrclUsrApp)); %>
@@ -118,10 +126,17 @@
                 <%=MyUtil.ObjInput("Límite Eventos", "LimiteEventos", rs.getString("LimiteEventos"), true, true, 170, 200, "", false, false, 10, "fnRango(document.all.LimiteEventos,0,255)")%>
                 <%=MyUtil.ObjInput("Límite Mensual", "LimiteEventosMensual", rs.getString("LimiteEventosMensual"), true, true, 300, 200, "", false, false, 10, "fnRango(document.all.LimiteEventosMensual,0,5)")%>
                 <%=MyUtil.ObjChkBox("SubServicio Opcional","SubServicioOpcional", rs.getString("SubServicioOpcional"),true,true,410,200,"0","SI","NO","")%>
-                <div id="div1000KM"  name="div1000KM" style="visibility: 'hidden'">
-                    <%=MyUtil.ObjInput("Límite KM anual", "LimiteMontoAnual", rs.getString("LimiteMontoAnual"), true, true, 30, 240, "", false, false, 10, "EsNumerico(document.all.LimiteMontoAnual)")%>
-                    <%=MyUtil.ObjInput("Límite Eventos anual", "LimiteEventosAnual", rs.getString("LimiteEventosAnual"), true, true, 170, 240, "", false, false, 10, "fnRango(document.all.LimiteEventosAnual,0,3)")%>
-                </div>
+                <% if (StrclServicio.equals("3") ) { %>    
+                    <div id="divHogar" name="divHogar"  style="visibility: 'hidden'">
+                        <%=MyUtil.ObjInput("Cobertura anual", "LimiteMontoAnual", rs.getString("LimiteMontoAnual"), true, true, 30, 240, "", false, false, 10, "EsNumerico(document.all.LimiteMontoAnual)")%>
+                        <%=MyUtil.ObjInput("Límite Eventos anual", "LimiteEventosAnual", rs.getString("LimiteEventosAnual"), true, true, 170, 240, "", false, false, 10, "fnRango(document.all.LimiteEventosAnual,0,3)")%>
+                    </div>
+                <% } else { %>
+                    <div id="div1000KM"  name="div1000KM" style="visibility: 'hidden'">
+                        <%=MyUtil.ObjInput("Límite KM anual", "LimiteMontoAnual", rs.getString("LimiteMontoAnual"), true, true, 30, 240, "", false, false, 10, "EsNumerico(document.all.LimiteMontoAnual)")%>
+                        <%=MyUtil.ObjInput("Límite Eventos anual", "LimiteEventosAnual", rs.getString("LimiteEventosAnual"), true, true, 170, 240, "", false, false, 10, "fnRango(document.all.LimiteEventosAnual,0,3)")%>
+                    </div>
+                <% } %>
                 <%=MyUtil.ObjTextArea("Puntos Importantes", "PtosImportantes", rs.getString("PtosImportantes"), "55", "4", true, true, 30, 280, "", false, false)%>
                 <%=MyUtil.ObjTextArea("Exclusiones", "Exclusiones", rs.getString("Exclusiones"), "55", "7", true, true, 30, 430, "", false, false)%>
             <% } else {%>
@@ -133,13 +148,20 @@
                 <%=MyUtil.ObjInput("Límite Eventos", "LimiteEventos", "", true, true, 170, 200, "", false, false, 10, "fnRango(document.all.LimiteEventos,0,255)")%>
                 <%=MyUtil.ObjInput("Límite Mensual", "LimiteEventosMensual", "", true, true, 300, 200, "", false, false, 10, "fnRango(document.all.LimiteEventosMensual,0,5)")%>
                 <%=MyUtil.ObjChkBox("SubServicio Opcional","SubServicioOpcional", "",true,true,410,200,"0","SI","NO","")%>
-                <div id="div1000KM" name="div1000KM"  style="visibility: 'hidden'">
-                    <%=MyUtil.ObjInput("Límite KM anual", "LimiteMontoAnual", "", true, true, 30, 240, "", false, false, 10, "EsNumerico(document.all.LimiteMontoAnual)")%>
-                    <%=MyUtil.ObjInput("Límite Eventos anual", "LimiteEventosAnual", "", true, true, 170, 240, "", false, false, 10, "fnRango(document.all.LimiteEventosAnual,0,3)")%>
-                </div>
+                <% if (StrclServicio.equals("3") ) { %>
+                    <div id="divHogar" name="divHogar"  style="visibility: 'hidden'">
+                        <%=MyUtil.ObjInput("Cobertura anual", "LimiteMontoAnual", "", true, true, 30, 240, "", false, false, 10, "EsNumerico(document.all.LimiteMontoAnual)")%>
+                        <%=MyUtil.ObjInput("Límite Eventos anual", "LimiteEventosAnual", "", true, true, 170, 240, "", false, false, 10, "fnRango(document.all.LimiteEventosAnual,0,3)")%>
+                    </div>
+                <% } else {%>
+                    <div id="div1000KM" name="div1000KM"  style="visibility: 'hidden'">
+                        <%=MyUtil.ObjInput("Límite KM anual", "LimiteMontoAnual", "", true, true, 30, 240, "", false, false, 10, "EsNumerico(document.all.LimiteMontoAnual)")%>
+                        <%=MyUtil.ObjInput("Límite Eventos anual", "LimiteEventosAnual", "", true, true, 170, 240, "", false, false, 10, "fnRango(document.all.LimiteEventosAnual,0,3)")%>
+                    </div>
+                <% } %>
                 <%=MyUtil.ObjTextArea("Puntos Importantes", "PtosImportantes", "", "55", "4", true, true, 30, 280, "", false, false)%>
                 <%=MyUtil.ObjTextArea("Exclusiones", "Exclusiones", "", "55", "7", true, true, 30, 430, "", false, false)%>
-                <% }%>
+            <% }%>
             <%=MyUtil.DoBlock("SUBSERVICIO CUBIERTO", 10, 120)%>
             <%=MyUtil.GeneraScripts()%>
         <%
@@ -160,8 +182,17 @@
             document.all.LimiteEventos.maxLength = 3;
             document.all.LimiteEventosMensual.maxLength =2;            
             var subservicioSeleccionado = <%=request.getParameter("clSubServicio")%>;
-            if ( subservicioSeleccionado !== 211 ) {        document.all.div1000KM.style.visibility = 'hidden';
-            } else {  document.all.div1000KM.style.visibility = 'visible';          }
+            var clServicio = <%=StrclServicio%>;
+            if ( subservicioSeleccionado !== 211 ) {
+                document.all.div1000KM.style.visibility = 'hidden';
+            } else {  
+                document.all.div1000KM.style.visibility = 'visible';
+            }
+            if ( clServicio !== 3 ) {
+                document.all.divHogar.style.visibility = 'hidden';
+            } else {
+                document.all.divHogar.style.visibility = 'visible';
+            }
 //------------------------------------------------------------------------------
             /*Función para obtener el servicio
              * asociado en caso de altas*/
