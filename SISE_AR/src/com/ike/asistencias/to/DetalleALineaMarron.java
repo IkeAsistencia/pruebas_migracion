@@ -20,6 +20,8 @@ public class DetalleALineaMarron {
     private String Frigorias;
     private String Piso;
     private String Departamento;
+    private String Calle;
+    private String latLong;
 //------------------------------------------------------------------------------
     public String getClExpediente() {       return clExpediente;    }
     public void setClExpediente(String clExpediente) {       this.clExpediente = clExpediente;    }
@@ -75,4 +77,10 @@ public class DetalleALineaMarron {
     public String getDepartamento() {        return Departamento;    }
     public void setDepartamento(String Departamento) {        this.Departamento = Departamento;    }
 //------------------------------------------------------------------------------    
+    public String getCalle() {        return this.Calle;    }
+    public void setCalle(String Calle) {        this.Calle = Calle;    }
+//------------------------------------------------------------------------------        
+    public String getLatLong() {        return this.latLong;    }
+    public void setLatLong(String ll) {        this.latLong = ll;    }      
+//------------------------------------------------------------------------------        
 }

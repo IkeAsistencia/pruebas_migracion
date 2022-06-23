@@ -10,9 +10,14 @@
         <script type="text/javascript" src='../../Utilerias/Util.js'></script>
         <script type="text/javascript" src='../../Utilerias/UtilDireccion.js'></script>
         <script type="text/javascript" src='../../Utilerias/UtilAjax.js'></script>
+        <script type="text/javascript" src='../../Utilerias/UtilAuto.js'></script>
         <script type="text/javascript" src='../../Utilerias/UtilCalendarioV.js'></script>
         <script type="text/javascript" src='../../Utilerias/UtilMask.js'></script>
         <script type="text/javascript" src="../../Geolocalizacion/js/jquery.js"></script>
+        <script type="text/javascript" src="../../Geolocalizacion/js/mapUtils.js"></script>
+        <script type="text/javascript" src="../../Geolocalizacion/modernizr-custom.js"></script>
+        <script type="text/javascript" src='../../Utilerias/UtilCalendario.js'></script>
+
         <%
                     String StrclUsrApp = "0";
                     if (session.getAttribute("clUsrApp") != null) {
@@ -26,13 +31,17 @@
                     String StrclPaginaWeb = "170";
                     String StrclServicio = "";
                     String StrclSubServicio = "";                   
+                    String StrCalleNum = "";
+                    String StrclCuenta = "0";
+                    String StrClave = "";
                     //  DATOS DE LA UBICACION ORIGEN, VIENEN DEL EXPEDIENTE EN SESION
                     String StrclPais = "";
                     String StrdsPais = "";
                     String StrCodEnt = "";
                     String StrdsEntFed = "";
                     String StrCodMD = "";
-                    String StrdsMunDel = "";                   
+                    String StrdsMunDel = "";    
+                    Boolean esAireAcondicionado = false;
                     if (session.getAttribute("clExpediente") != null) {
                         StrclExpediente = session.getAttribute("clExpediente").toString();                    }
                     if (session.getAttribute("clPais") != null) {
@@ -50,7 +59,13 @@
                     if (session.getAttribute("clServicio") != null) {
                         StrclServicio = session.getAttribute("clServicio").toString();                    }
                     if (session.getAttribute("clSubServicio") != null) {
-                        StrclSubServicio = session.getAttribute("clSubServicio").toString();                    }
+                        StrclSubServicio = session.getAttribute("clSubServicio").toString();                    
+                        esAireAcondicionado = StrclSubServicio.equals("471");
+                        }
+                    if (session.getAttribute("clCuenta") != null) {
+                        StrclCuenta = session.getAttribute("clCuenta").toString();                    }
+                    if (session.getAttribute("Clave") != null) {
+                        StrClave = session.getAttribute("Clave").toString();                    }
                     //  DATOS DE UBICACION
                     String StrclPaisOtro = "";
                     String StrdsPaisOtro = "";
@@ -86,6 +101,11 @@
                         StrdsMunDel = null;
                         return;
                     }
+                    StrSql.append(" st_getDatosAfiliadoGral '").append(StrClave).append("','").append(StrclCuenta).append("'");
+                    ResultSet rsDatosAfil = UtileriasBDF.rsSQLNP(StrSql.toString());
+                    if (rsDatosAfil.next()) {
+                        StrCalleNum = rsDatosAfil.getString("calleNum");       } 
+                    StrSql.delete(0, StrSql.length());
                     session.setAttribute("clPaginaWebP", StrclPaginaWeb);
                     int iRowPx = 80;
         %>
@@ -114,11 +134,25 @@
         <%=MyUtil.DoBlock("Datos Generales de la Asistencia - Línea Marrón", 100, 0)%>
         <% } %>
         <%  iRowPx = iRowPx + 100;    %>
-        <%=MyUtil.ObjComboMem("Pais", "clPais", StrdsPaisOtro, StrclPaisOtro, cbPais.GeneraHTML(20, StrdsPaisOtro), true, true, 30, iRowPx, StrclPais, "fnLlenaEntidadAjaxFn(this.value);", "", 20, false, false)%>
-        <%  iRowPx = iRowPx + 40;    %>
-        <%=MyUtil.ObjComboMemDiv("Provincia", "CodEnt", StrdsEntFedOtro, StrCodEntOtro, cbEntidad.GeneraHTML(40, StrdsEntFed, Integer.parseInt(StrclPais)), true, true, 30, iRowPx, StrCodEnt, "fnLLenaComboMDAjax(this.value);", "", 20, false, false, "CodEntDiv")%>
-        <%=MyUtil.ObjComboMemDiv("Localidad", "CodMD", StrdsMunDelOtro, StrCodMDOtro, cbEntidad.GeneraHTMLMD(40, StrCodEnt, StrdsMunDel), true, true, 250, iRowPx, StrCodMD, "", "", 20, false, false, "LocalidadDiv")%>
-        <% if (StrclSubServicio.equals("471")) {%>
+        <% if (!esAireAcondicionado) {%>
+            <%=MyUtil.ObjComboMem("Pais", "clPais", StrdsPaisOtro, StrclPaisOtro, cbPais.GeneraHTML(20, StrdsPaisOtro), true, true, 30, iRowPx, StrclPais, "fnLlenaEntidadAjaxFn(this.value);", "", 20, false, false)%>
+            <%  iRowPx = iRowPx + 40;    %>
+            <%=MyUtil.ObjComboMemDiv("Provincia", "CodEnt", StrdsEntFedOtro, StrCodEntOtro, cbEntidad.GeneraHTML(40, StrdsEntFed, Integer.parseInt(StrclPais)), true, true, 30, iRowPx, StrCodEnt, "fnLLenaComboMDAjax(this.value);", "", 20, false, false, "CodEntDiv")%>
+            <%=MyUtil.ObjComboMemDiv("Localidad", "CodMD", StrdsMunDelOtro, StrCodMDOtro, cbEntidad.GeneraHTMLMD(40, StrCodEnt, StrdsMunDel), true, true, 250, iRowPx, StrCodMD, "", "", 20, false, false, "LocalidadDiv")%>
+        <% } else {%>
+            <% String sTmpDirA = new String( StrdsEntFed + ", " + StrdsMunDel + ", " + (LM != null ? LM.getCalle(): "") );   %>
+            <input type="hidden" name="calle" id="DireccionA" value="<%=sTmpDirA%>" >
+            <%  iRowPx = iRowPx + 40;    %>
+            <div class='VTable' style='position:absolute; z-index:20; left:510px; top:<%=iRowPx+16%>px; '>
+                <input id="MapaOrig" name="MapaOrig" type='button' VALUE='Mapa' onClick='openMap("DireccionA", "LatLong","Calle","dsMunDel","dsEntFed","CodMD","CodEnt");return false;' class='cBtn'/>
+            </div>
+            <%=MyUtil.ObjInput("Provincia", "dsEntFed", StrdsEntFed, false, false, 30, iRowPx, StrdsEntFed, false, false, 45)%>
+            <%=MyUtil.ObjInput("Localidad", "dsMunDel", StrdsMunDel, false, false, 280, iRowPx, StrdsEntFed, false, false, 45)%>
+            <input type="hidden" id="CodMD" name="CodMD" value="<%=StrCodMD%>">
+            <input type="hidden" id="CodEnt" name="CodEnt" value="<%=StrCodEnt%>">
+            <%  iRowPx = iRowPx + 40;   %>
+            <%=MyUtil.ObjInput("Calle", "Calle",LM != null ? LM.getCalle() : "", true, true, 30, iRowPx, StrCalleNum, false, false, 58)%>
+            <%=MyUtil.ObjInput("Latitud y Longitud", "LatLong", LM != null ? LM.getLatLong(): "", true, true, 330, iRowPx, "", false, false, 34)%>
             <%  iRowPx = iRowPx + 40;   %>
             <%=MyUtil.ObjInput("Piso", "Piso", LM != null ? LM.getPiso() : "", true, true, 30, iRowPx, "", false, false, 3)%>
             <%=MyUtil.ObjInput("Departamento", "Departamento", LM != null ? LM.getDepartamento(): "", true, true, 250, iRowPx, "", false, false, 8)%>
@@ -180,6 +214,14 @@
                 }
             }
 //------------------------------------------------------------------------------
+            function openMap(campo, latLong, calle, localidad, provincia,codMD, codEnt) {
+                direccion = document.getElementById(campo).value;
+                geo = window.open('../../Geolocalizacion/gmap3.jsp?dire='+ direccion +'&dDir=' + campo + '&dLatLon=' + latLong
+                + '&fCalle=' + calle + "&fLoc=" + localidad + "&fPro=" + provincia + "&fCodMD=" + codMD + "&fCodEnt=" + codEnt, 'GEO',
+                'modal=yes,resizable=yes,menubar=0,status=0,toolbar=0,height=820,width=1200,screenX=1,screenY=1');
+                geo.focus();
+            }
+//------------------------------------------------------------------------------            
             function fnEsPisoValido() {
                 var piso = $("#Piso").val();
                 //No es campo obligatorio
@@ -276,4 +318,3 @@
         </script>
     </body>
 </html>
-

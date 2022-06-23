@@ -39,6 +39,8 @@ public class DAOALineaMarron extends com.ike.model.DAOBASE {
             LM.setFrigorias(rs.getString("Frigorias"));
             LM.setPiso(rs.getString("Piso"));
             LM.setDepartamento(rs.getString("Departamento"));
+            LM.setCalle(rs.getString("Calle"));
+            LM.setLatLong(rs.getString("LatLong"));
             return LM;
         }    
     }

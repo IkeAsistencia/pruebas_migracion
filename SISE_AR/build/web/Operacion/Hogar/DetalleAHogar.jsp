@@ -188,7 +188,7 @@
                 
                 <% if (esSubServicioModificado) { %>
                     <%=MyUtil.ObjComboC("Ubicación de falla", "clUbFallaH", AH != null ? AH.getDsUbFallaH() : "", true, true, 30, iRowPx, "", "st_getUbicacionFallaHogar ".concat(StrclServicio).concat(", ").concat(StrdsSubServicio), "fnOtraUbicacion();", "", 50, true, true)%>
-                    <%=MyUtil.ObjTextArea("Describa la falla", "DescripcionOtro", AH != null ? AH.getDescripcionOtro() : "", "50", "5", true, true, 230, iRowPx, "Agregue una breve descripción de la falla...", false, false)%>
+                    <%=MyUtil.ObjTextArea("Describa la falla", "DescripcionOtro", AH != null ? AH.getDescripcionOtro() : "", "50", "5", true, true, 230, iRowPx, "", true, false)%>
                     <%  iRowPx = iRowPx + 30;    %>
                     <div id="otraUbicacionContainer" style="visibility: hidden">
                         <%=MyUtil.ObjInput("Especifique ubicación", "UbicacionOtro", AH != null ? AH.getUbicacionOtro() : "", true, true, 30, iRowPx, "", false, false, 25)%>                                             
@@ -288,6 +288,7 @@
                 $("#btnCambio").click(function() {    document.getElementById("DireccionA").disabled = false;      });
                 $("#btnAlta").click(function() {   document.getElementById("DireccionA").disabled = false;        });
                 $("#CalleNum").change(function() {     document.getElementById("LatLong").value = "";         });
+                $("#DescripcionOtro").css("resize", "none");
 		fnOtraUbicacion();
                 });
 //------------------------------------------------------------------------------
@@ -623,10 +624,19 @@
                         error: function(req, status, error) {},
                     }));
             }
+//------------------------------------------------------------------------------
+            function fnEsDescripcionValida() {
+                var descValida = $("#DescripcionOtro").val().length > 9;
+                if (!descValida) {
+                    msgVal = msgVal + ' El campo departamento debe tener como mínimo 10 caracteres.';
+                }
+                return descValida;
+            }
+//------------------------------------------------------------------------------
             function fnAccionesGuardado() {
                 fnValidaCheckbox();
                 if (fnEsPlantillaModificada()){
-                    if (!fnEsPisoValido() || !fnEsDepartamentoValido()) {
+                    if (!fnEsPisoValido() || !fnEsDepartamentoValido() || !fnEsDescripcionValida()) {
                         document.all.btnGuarda.disabled= false;
                         document.all.btnCancela.disabled= false;
                         return;

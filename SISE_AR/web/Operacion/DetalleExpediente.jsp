@@ -60,7 +60,7 @@
         %>
         <script>fnOpenLinks();</script>
         <%MyUtil.InicializaParametrosC(Integer.parseInt(StrclPaginaWeb), Integer.parseInt(strclUsr));%>
-        <%=MyUtil.doMenuAct("../servlet/Utilerias.EjecutaAccionExp", "fnAccionesAlta();fnPaisDefault();", "", "fnValidaPaisEF();validaCorreoAntesGuardar();fnCargaDatos();")%>
+        <%=MyUtil.doMenuAct("../servlet/Utilerias.EjecutaAccionExp", "fnAccionesAlta();fnPaisDefault();", "", "fnValidaPaisEF();validaCorreoAntesGuardar();fnCargaDetalle();")%>
         <%
             PermisosExp per = null;
             DAOExpPermisos daoper = null;
@@ -731,7 +731,7 @@
                     }
                 }
 //------------------------------------------------------------------------------                
-            function fnCargaDatos() {
+            function fnCargaDetalle() {
                 var clCuenta = $('#clCuenta').val();
                 var nombre = $('#NuestroUsuario').val();
                 var datos = {nombre: nombre,
@@ -752,7 +752,7 @@
                                 if (detalleOcurrido.indexOf("\[\*") >= 0) {
                                     var posAntiguedad = detalleOcurrido.indexOf("Antiguedad:");
                                     if ( posAntiguedad > 0) {
-                                        var reg = /(Fecha de alta: .+; Antiguedad: [0-9]{1,4}a [0-9]{1,2}m [0-9]{1,3}d)|(Fecha de alta: No tiene; Antiguedad: No tiene)/;
+                                        var reg = /(Antiguedad: [0-9]{1,4}a [0-9]{1,2}m [0-9]{1,3}d)|(Antiguedad: No tiene)/;
                                         nuevoDetalleOcurrido = detalleOcurrido.replace(reg, altaYAntiguedad);
                                     }
                                     else {
@@ -775,8 +775,8 @@
                         error: function(req, status, error) {},
                     }));
             } 
-            //Lineas modificadas: 219 llamo a fnCargaDatos
-            //                    734 defino fnCargaDatos
+            //Lineas modificadas: 219 llamo a fnCargaDetalle
+            //                    734 defino fnCargaDetalle
 //------------------------------------------------------------------------------                        
         </script>
         <%
