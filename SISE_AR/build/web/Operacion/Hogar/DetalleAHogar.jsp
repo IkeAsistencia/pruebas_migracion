@@ -49,6 +49,7 @@
             String StrContacto = "";
             String horaCita    = "";  
             String StrOtroTipoContactante = "";
+            String StrOtraUbica = "";   //JOA
             String StrOtroMotivoSiniestro = "";
             String StrOtroTipoCristal = "";
             if (session.getAttribute("clExpediente") != null) {
@@ -89,6 +90,7 @@
                 provisorio      = (AH != null?String.valueOf(AH.getNecesitaProvisorio()) :"");
                 horaCita        = (AH != null?String.valueOf(AH.getHoraCita()) :"");
                 StrOtroTipoContactante = (AH != null?String.valueOf(AH.getOtroTipoContactante()) :"");
+                StrOtraUbica = (AH != null?String.valueOf(AH.getStrOtraUbica()) :"");   //JOA
                 StrOtroMotivoSiniestro = (AH != null?String.valueOf(AH.getOtroMotivoSiniestro()) :"");
                 StrOtroTipoCristal     = (AH != null?String.valueOf(AH.getOtroTipoCristal()) :"");
 
@@ -240,9 +242,14 @@
                 
                 <%=MyUtil.ObjComboC("Ubicacion del siniestro", "clUbFallaH", AH != null ? AH.getDsUbFallaH() : "", true, true, 30, iRowPx, "", "st_getUbicacionSiniestroH", "fnCambioUbicacion();", "", 50, esHDICri, esHDICri)%>
                 <div id="divOtroTipoLugar"  style="visibility: 'hidden'">
-                    <%=MyUtil.ObjComboC("", "clUbFallaHLugar", AH != null ? AH.getDsUbFallaHLugar(): " ", true, true, 230, iRowPx, "", "st_getUbicacionMontajeH", "", "", 50, esHDICri, esHDICri)%>
+                    <%=MyUtil.ObjComboC("Ubicacion del vidrio", "clUbFallaHLugar", AH != null ? AH.getDsUbFallaHLugar(): " ", true, true, 230, iRowPx, "", "st_getUbicacionMontajeH", "", "", 50, esHDICri, esHDICri)%>
                 </div>
                 
+                <div id="divOtraUbic"  style="visibility: 'hidden'">
+                   <%=MyUtil.ObjInput("Otra Ubicacion", "StrOtraUbica", AH != null ? AH.getStrOtraUbica(): StrOtraUbica, true, true, 430, iRowPx, "", esHDICri, esHDICri, 50)%>
+                </div>
+                
+
                 <% iRowPx = iRowPx + 48;   %>
                 <%=MyUtil.ObjComboC("Tipo de cristal", "clTipoCristalH", AH != null ? AH.getDsTipoCristalH() : "", true, true, 30, iRowPx, "", "st_getTipoCristalH", "fnCambioTipoCristal();", "", 50, esHDICri, esHDICri)%>
                 <%=MyUtil.ObjComboC("Estado del vidrio", "clTipoFallaH", AH != null ? AH.getDsTipoFallaH() : "", true, true, 230, iRowPx, "", "st_getEstadoVidrioH", "", "", 50, esHDICri, esHDICri)%>
@@ -308,25 +315,38 @@
             
             //------------------------------------------------------------------------------
             /*Cambio UBICACION SINESTRO JOA*/
-            if (document.all.subServicio.value.toString() === '494') document.all.divOtroTipoLugar.style.visibility = 'hidden'; // Combo OTRA UBICACION escondido en ALTA
+            if (document.all.subServicio.value.toString() === '494'){
+                document.all.divOtroTipoLugar.style.visibility = 'hidden';
+                document.all.divOtraUbic.style.visibility = 'hidden';
+            } // Combo OTRA UBICACION escondido en ALTA
             function fnCambioUbicacion(){
                     var UbiSin = document.getElementById("clUbFallaHC").value;
+                    var elementHF= document.getElementById("clUbFallaHLugarC");  // Valor catual del subcombo
+                    var elementOU= document.getElementById("StrOtraUbica");      // Valor catual del TEXT INPUT
                     if ( UbiSin=== '22' || UbiSin=== '25' || UbiSin=== '26' || UbiSin=== '27'  ){
                     document.all.divOtroTipoLugar.style.visibility = 'visible';
-                    var elementHF= document.getElementById("clUbFallaHLugarC");
-                    elementHF.disabled = false;
-                    elementHF.value = '';
-                } else {
-                   
+                    document.all.divOtraUbic.style.visibility = 'hidden';
+                    elementHF.disabled = false; //CAMBIA A MODO HABILITADO PARA EDICIÓN
+                    elementHF.value = '31'; // ELIGE UN  VALOR POR DEFECTO 
+                    elementOU.disabled = false;
+                    elementOU.value = 'Vidriera'; // AÑADE UN VALOR POR DEFECTO PARA EL TEXT INPUT
+                } else if( UbiSin === '1032'  ){ // OTRO
+                    document.all.divOtraUbic.style.visibility = 'visible';
                     document.all.divOtroTipoLugar.style.visibility = 'hidden';
-                    var elementHF= document.getElementById("clUbFallaHLugarC");
+                    elementOU.disabled = false;
+                    elementOU.value = ' ';
+                    elementHF.disabled = true;
+                    elementHF.value = '31';
+                } else {
+                    document.all.divOtroTipoLugar.style.visibility = 'hidden';
+                    document.all.divOtraUbic.style.visibility = 'hidden';
                     elementHF.disabled = true; 
                     elementHF.value = '31';
+                    elementOU.disabled = true;
+                    elementOU.value = '31';
                 }               
             }
             
-            
-    
 //------------------------------------------------------------------------------            
             function fnCambioTipoCristal() {
                 var comboboxTipoCristal  = document.getElementById("clTipoCristalHC");
@@ -385,9 +405,6 @@
                //     document.all.noNecesita.disabled = true;  //comentado JOA PREGUNTAR SI QUEDA ASI 
                 
                     
-                    
-                    
-                    
                     //SUBCOMBO UBICACION SINIESTRO 
                     var comboboxTipoCristal  = document.getElementById("clTipoCristalHC");
                     var tipoCristal = comboboxTipoCristal.options[comboboxTipoCristal.selectedIndex].text;
@@ -404,7 +421,6 @@
                     } else {
                         document.all.divOtroMotivoSiniestro.style.visibility = 'hidden';
                     }             
-
                 } else {
                     //document.all.divNoHDICri.style.visibility = 'visible';
                     //document.all.divSiHDICri.style.visibility = 'hidden';
@@ -418,8 +434,7 @@
                     document.all.OtroMotivoSiniestro.value = ' ';
                     document.all.OtroTipoCristal.value = ' ';
                     document.all.OtroTipoContactante.value = ' ';
-                    
- 
+                    document.all.divOtraUbic.value = ' ';   //JOA
                 }
             }
 //------------------------------------------------------------------------------            
@@ -646,9 +661,6 @@
             }
 //=====================FIN DE FUNCIONES DE WALTER===============================
 
-//------------------------------------------------------------------------------ 
-
-        
         //poliza
         var salida_1 = document.all.Poliza.value ;
         if (  salida_1  === 'null'  || salida_1 === '' ){
@@ -692,9 +704,11 @@
                 var cargo = clTipoContactanteC.options[clTipoContactanteC.selectedIndex].text;
                 if ( cargo === 'Otro'){
                     var otroCarg =(document.all.OtroTipoContactante.value ===null || document.all.OtroTipoContactante.value ==='')?0:document.all.OtroTipoContactante.value;
-                    detExp = detExp.concat(' - CARGO : ' +otroCarg);
+                    //detExp = detExp.concat(' - CARGO : ' +otroCarg);  //ORIGINAL JOA
+                    detExp = detExp.concat(' - QUIEN REPORTA : ' +otroCarg);
                 }else{
-                    detExp = detExp.concat(' - CARGO : ' +cargo);
+                    //detExp = detExp.concat(' - CARGO : ' +cargo);  //ORIGINAL JOA
+                    detExp = detExp.concat(' - QUIEN REPORTA  : ' +cargo);
                      }
                 
                 
@@ -708,6 +722,9 @@
                         elementHF.disabled = false;
                         elementHF.value = '';
                         console.log('REGISTRO_CRI_JOA_soport 2: ' + detExp);
+                    }else if ( siniestr.toString().toUpperCase() === 'OTRO'){   //JOA
+                        var otraUbi =(document.all.OtraUbic.value ===null || document.all.OtraUbic.value ==='')?0:document.all.OtraUbic.value;
+                        detExp = detExp.concat(' - UBICACION_SINIESTRO : ' +otraUbi);
                     }else{
                         detExp = detExp.concat(' - UBICACION_SINIESTRO : ' +siniestr);
                         document.all.divOtroTipoLugar.style.visibility = 'hidden';
@@ -750,13 +767,11 @@
             
             //var StringMail = "'"+ '"'+salida +'"'+ "," + Expediente + "," + salida_1 + "," +'"'+salida_2 +'"'+ "," +'"'+ salida_4 +'"'+ "," +'"'+ salida_5+'"'+ "'" ;
        
-
             var datosCRI ={
                 clUsrApp : clUsrApp,
                 Expediente : Expediente,
                 detExp : detExp  }; //ORIGINAL JOA FUNCIONA
  
-           
             //-----------------------------------------------------------------------------------------------------------    
                 $.when(
 		$.ajax({
@@ -784,8 +799,6 @@
                         
                         
                   
-                        
-                        
                     }  //FIN IF 
                 });  // FIN addEventListener
 //------------------------------------------------------------------------------ 

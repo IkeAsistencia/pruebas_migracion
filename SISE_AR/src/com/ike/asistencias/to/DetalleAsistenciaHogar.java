@@ -53,6 +53,7 @@ public class DetalleAsistenciaHogar
   private String OtroMotivoSiniestro;
   private String OtroTipoCristal;
   private String OtroTipoContactante;
+  private String StrOtraUbica;
   
 //------------------------------------------------------------------------------
     public String getClTipoContactante() {        return clTipoContactante;    }
@@ -205,4 +206,7 @@ public class DetalleAsistenciaHogar
     public String getDepartamento() {        return Departamento;    }
     public void setDepartamento(String Departamento) {        this.Departamento = Departamento;    }
 //------------------------------------------------------------------------------        
+    public String getStrOtraUbica() {        return StrOtraUbica;    }
+    public void setStrOtraUbica(String StrOtraUbica) {        this.StrOtraUbica = StrOtraUbica;    }
+//------------------------------------------------------------------------------   
 }
