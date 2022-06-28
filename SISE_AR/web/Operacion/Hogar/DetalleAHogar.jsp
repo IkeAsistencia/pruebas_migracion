@@ -52,6 +52,7 @@
             String StrOtraUbica = "";   //JOA
             String StrOtroMotivoSiniestro = "";
             String StrOtroTipoCristal = "";
+            String StrCambioCalle= "";
             if (session.getAttribute("clExpediente") != null) {
                 StrclExpediente = session.getAttribute("clExpediente").toString();            }
             if (session.getAttribute("clCuenta") != null) {
@@ -230,6 +231,9 @@
                 <%=MyUtil.ObjComboC("Cargo", "clTipoContactante", AH != null ? AH.getDsTipoContactante() : "", true, true, 550, iRowPx, "", "sp_GetTipoContactanteH", "fnCambioContactante();", "", 50, esHDICri, esHDICri)%>
                 <%  iRowPx = iRowPx+48;   %>
                 <%=MyUtil.ObjInput("Domicilio del siniestro", "Calle",AH != null ? AH.getCalle() : StrCalleNum, true, true, 10, iRowPx, "", esHDICri, esHDICri, 90)%>
+                
+                <input type="hidden" id="CambioCalle" name="CambioCalle" value="0">
+                
                 <div id="divOtroTipoContactante"  style="visibility: 'visible'">
                    <%=MyUtil.ObjInput("Otro Cargo", "OtroTipoContactante", AH != null ? AH.getOtroTipoContactante(): StrOtroTipoContactante, true, true, 550, iRowPx, "", esHDICri, esHDICri, 30)%>
                 </div>                
@@ -552,6 +556,7 @@
                                 //'Advertencia',
                                 //'Recuerda avisar NU que si se modifica la dirección registrada en base, debemos pedir autorización al seguro antes de coordinar servicio.',
                                //)
+                           document.all.CambioCalle.value = '1';  // Informo que la dirección fue cambiada
                         });
                 }
             }
@@ -764,7 +769,8 @@
                      } 
                 
             //  });  // FIN addEventListener
-            
+            var elementCalle= document.getElementById("CambioCalle");
+            console.log('valor nuevo de la calle' +elementCalle);
             //var StringMail = "'"+ '"'+salida +'"'+ "," + Expediente + "," + salida_1 + "," +'"'+salida_2 +'"'+ "," +'"'+ salida_4 +'"'+ "," +'"'+ salida_5+'"'+ "'" ;
        
             var datosCRI ={

@@ -54,7 +54,7 @@ public class DetalleAsistenciaHogar
   private String OtroTipoCristal;
   private String OtroTipoContactante;
   private String StrOtraUbica;
-  
+  private String CambioCalle;
 //------------------------------------------------------------------------------
     public String getClTipoContactante() {        return clTipoContactante;    }
     public void setClTipoContactante(String clTipoContactante) {        this.clTipoContactante = clTipoContactante;    }
@@ -209,4 +209,7 @@ public class DetalleAsistenciaHogar
     public String getStrOtraUbica() {        return StrOtraUbica;    }
     public void setStrOtraUbica(String StrOtraUbica) {        this.StrOtraUbica = StrOtraUbica;    }
 //------------------------------------------------------------------------------   
+    public String getCambioCalle() {       return CambioCalle;   }
+    public void setCambioCalle(String CambioCalle) { this.CambioCalle = CambioCalle;}
+//------------------------------------------------------------------------------        
 }

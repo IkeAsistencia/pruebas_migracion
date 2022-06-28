@@ -105,8 +105,7 @@
             StrSql.delete(0, StrSql.length());
             StrSql.append("select clServicio from cSubServicio where clSubServicio = ").append(StrclSubServicio);
             ResultSet rs3 = UtileriasBDF.rsSQLNP(StrSql.toString());
-            rs3.next();
-            StrclServicio = rs3.getString("clServicio");
+            if(rs3.next()){  StrclServicio = rs3.getString("clServicio");}
             StrSql.delete(0, StrSql.length());
             rs3.close();
             rs3 = null;
@@ -121,7 +120,7 @@
                 <%=MyUtil.ObjInput("Cuenta", "Cuenta", rs2.getString("Nombre"), false, false, 30, 80, rs2.getString("Nombre"), false, false, 73)%>
                 <%=MyUtil.ObjComboC("Servicio", "clServicio", rs.getString("dsServicio"), true, false, 30, 120, "", "Select clServicio,dsServicio From cServicio Order by dsServicio", "fnLlenaSubServiciosCob()", "", 60, true, false)%>
                 <%=MyUtil.ObjComboC("SubServicio", "clSubServicio", rs.getString("dsSubServicio"), true, false, 30, 160, "", "Select clSubServicio, dsSubServicio From cSubServicio Where clServicio=" + rs.getString("clServicio") + " Order by dsSubServicio", "fnCargaSubAsociado();", "", 160, true, false)%>
-                <%=MyUtil.ObjComboC("SubServicio asociado", "clSubServicioAsociado", rs.getString("dsSubServicioAsociado"), true, true, 300, 160, "", "Select clSubServicio as 'clSubServicioAsociado', dsSubServicio as 'dsSubServicioAsociado' From cSubServicio Where clServicio=" + rs.getString("clServicio") +" Order by dsSubServicio", "", "", 70, false, false)%>
+                <%=MyUtil.ObjComboC("SubServicio asociado", "clSubServicioAsociado", rs.getString("dsSubServicioAsociado"), true, true, 300, 160, "", "Select clSubServicio ,dsSubServicio From cSubServicio Where clServicio=" + rs.getString("clServicio") +" Order by dsSubServicio", "", "", 70, false, false)%>
                 <%=MyUtil.ObjInput("Límite Monto", "LimiteMonto", rs.getString("LimiteMonto"), true, true, 30, 200, "", false, false, 10, "EsNumerico(document.all.LimiteMonto)")%>
                 <%=MyUtil.ObjInput("Límite Eventos", "LimiteEventos", rs.getString("LimiteEventos"), true, true, 170, 200, "", false, false, 10, "fnRango(document.all.LimiteEventos,0,255)")%>
                 <%=MyUtil.ObjInput("Límite Mensual", "LimiteEventosMensual", rs.getString("LimiteEventosMensual"), true, true, 300, 200, "", false, false, 10, "fnRango(document.all.LimiteEventosMensual,0,5)")%>
@@ -143,7 +142,7 @@
                 <%=MyUtil.ObjInput("Cuenta", "Cuenta", rs2.getString("Nombre"), false, false, 30, 80, rs2.getString("Nombre"), false, false, 73)%>
                 <%=MyUtil.ObjComboC("Servicio", "clServicio", "", true, false, 30, 120, "", "Select clServicio,dsServicio From cServicio Order by dsServicio", "fnLlenaSubServiciosCob()", "", 60, true, false)%>
                 <%=MyUtil.ObjComboC("SubServicio", "clSubServicio", "", true, false, 30, 160, "", "Select clSubServicio, dsSubServicio From cSubServicio Order by dsSubServicio", "fnCargaSubAsociado();", "", 160, true, false)%>
-                <%=MyUtil.ObjComboC("SubServicio asociado", "clSubServicioAsociado", "", true, true, 200, 160, "", "Select clSubServicio as 'clSubServicioAsociado', dsSubServicio dsSubServicio as 'dsSubServicioAsociado' From cSubServicio Order by dsSubServicio", "", "", 70, false, false)%>
+                <%=MyUtil.ObjComboC("SubServicio asociado", "clSubServicioAsociado", "", true, true, 200, 160, "", "Select clSubServicio, dsSubServicio From cSubServicio Order by dsSubServicio", "", "", 70, false, false)%>
                 <%=MyUtil.ObjInput("Límite Monto", "LimiteMonto", "", true, true, 30, 200, "", false, false, 10, "EsNumerico(document.all.LimiteMonto)")%>
                 <%=MyUtil.ObjInput("Límite Eventos", "LimiteEventos", "", true, true, 170, 200, "", false, false, 10, "fnRango(document.all.LimiteEventos,0,255)")%>
                 <%=MyUtil.ObjInput("Límite Mensual", "LimiteEventosMensual", "", true, true, 300, 200, "", false, false, 10, "fnRango(document.all.LimiteEventosMensual,0,5)")%>
