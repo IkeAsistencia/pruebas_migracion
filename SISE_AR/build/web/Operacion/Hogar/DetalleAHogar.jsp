@@ -389,7 +389,6 @@
             /*Funiciones para validar front end*/
             function fnValidaOption() {
                 var joaco = document.all.NecesitaProvisorio.value.toString() ;
-                console.log('REGISTRO_kkkkkkkkkkkkkkkkkkkkkkkkkkkkk: ' + joaco);
                 if ( document.all.subServicio.value.toString() === '494' ) {
                     if ( document.all.NecesitaProvisorio.value !== '1' || document.all.NecesitaProvisorio.value !== '2' ) {
                         document.all.NecesitaProvisorio.value = '2' //Valor por defecto (NoNecesita) JOA
@@ -520,9 +519,6 @@
                 var dsSubServicio = '<%=StrdsSubServicio%>';
                 if (clServicio === 3) {
                     switch (dsSubServicio) {
-                        case 'Cerrajería':
-                            alert("Recuerde consultar: \n  ¿Esta trabada? \n  ¿Esta rota? \n  ¿Hay alguien encerrado? \n  ¿Conoce el tipo de cerradura?");
-                            break;
                         case 'Electricidad':
                             alert("Recuerde indicarle al usuario verificar que es un problema del domicilio y no del barrio/edificio.");
                             break;
@@ -665,30 +661,24 @@
                 }
             }
 //=====================FIN DE FUNCIONES DE WALTER===============================
-
         //poliza
         var salida_1 = document.all.Poliza.value ;
         if (  salida_1  === 'null'  || salida_1 === '' ){
            salida_1 = '--';
         }else{
-            //console.log('REGISTRO_CRI_JOA_DETALLES para Mail_2 : ' + salida_1);
-        }
-        
+        }        
         //nuestro usuario
         var salida_2 = document.all.NuestroUsuarioH.value ;
         if (  salida_2  === 'null'  || salida_2 === '' ){
            salida_2 = '--';
         }else{
-            //console.log('REGISTRO_CRI_JOA_DETALLES para Mail_2 : ' + salida_2);
         }
         //QuienSeComunica
         var salida_3 = document.all.QuienSeComunica.value ;
         if (  salida_3  === 'null'  || salida_3 === '' ){
            salida_3 = '--';
         }else{
-            //console.log('REGISTRO_CRI_JOA_DETALLES para Mail_2 : ' + salida_3);
-        }
-                                
+        }                                
 //------------------------------------------------------------------------------                              
         // INFO ADICIONAL QUE SE GUARDA EN Expedientes y Seguimiento                     
         const botonGDR = document.querySelector("#btnGuarda");
@@ -696,37 +686,25 @@
         botonGDR.addEventListener("click", function(evento){	
             // Aquí todo el código que se ejecuta cuando se dá click al botón GUARDAR solo si es por subservicio VIDRIERIA CRI
             if ( document.all.subServicio.value.toString() === '494' ) { 
-
-                    
                 var clUsrApp   = <%=Integer.parseInt(StrclUsrApp)%>;
-                var Expediente = <%=StrclExpediente%>;
-                
+                var Expediente = <%=StrclExpediente%>;                
                 var Cober      =(document.all.Cobertura.value ===null || document.all.Cobertura.value ==='')?0:document.all.Cobertura.value;
                 var CobFin     =(document.all.CoberturaFin.value ===null || document.all.CoberturaFin.value ==='')?0:document.all.CoberturaFin.value;
-                var detExp = "\'[* Cobertura: " + Cober +" - Cobertura Financiera:"+CobFin;
-                
-                
+                var detExp = "\'[* Cobertura: " + Cober +" - Cobertura Financiera:"+CobFin;                
                 var cargo = clTipoContactanteC.options[clTipoContactanteC.selectedIndex].text;
                 if ( cargo === 'Otro'){
                     var otroCarg =(document.all.OtroTipoContactante.value ===null || document.all.OtroTipoContactante.value ==='')?0:document.all.OtroTipoContactante.value;
-                    //detExp = detExp.concat(' - CARGO : ' +otroCarg);  //ORIGINAL JOA
                     detExp = detExp.concat(' - QUIEN REPORTA : ' +otroCarg);
                 }else{
-                    //detExp = detExp.concat(' - CARGO : ' +cargo);  //ORIGINAL JOA
                     detExp = detExp.concat(' - QUIEN REPORTA  : ' +cargo);
                      }
-                
-                
                 var siniestr = clUbFallaHC.options[clUbFallaHC.selectedIndex].text;
-                console.log('REGISTRO_CRI_JOA_siniestr: ' + siniestr);
                     if ( siniestr.toString().toUpperCase() === 'HALL DE ENTRADA' || siniestr.toString().toUpperCase() === 'HABITACION' || siniestr.toString().toUpperCase() === 'TERRAZA' || siniestr.toString().toUpperCase() === 'BALCON'){
                         var soport = clUbFallaHLugarC.options[clUbFallaHLugarC.selectedIndex].text;
-                        console.log('REGISTRO_CRI_JOA_soport: ' + soport);
                         detExp = detExp.concat(' - UBICACION_SINIESTRO : ' +siniestr+ '/'+soport);
                         var elementHF= document.getElementById("clUbFallaHLugarC");
                         elementHF.disabled = false;
                         elementHF.value = '';
-                        console.log('REGISTRO_CRI_JOA_soport 2: ' + detExp);
                     }else if ( siniestr.toString().toUpperCase() === 'OTRO'){   //JOA
                         var otraUbi =(document.all.OtraUbic.value ===null || document.all.OtraUbic.value ==='')?0:document.all.OtraUbic.value;
                         detExp = detExp.concat(' - UBICACION_SINIESTRO : ' +otraUbi);
@@ -737,23 +715,15 @@
                         elementHF.disabled = true; 
                         elementHF.value = '31';
                     }
-                
-                
-
-                 
                 var tipo = clTipoCristalHC.options[clTipoCristalHC.selectedIndex].text;
-                console.log('REGISTRo tipo de vidrio JOA ' +tipo );
                 if ( tipo === 'Otro'){
                     var otrotip =(document.all.OtroTipoCristal.value ===null || document.all.OtroTipoCristal.value ==='')?0:document.all.OtroTipoCristal.value;
                     detExp = detExp.concat(' - TIPO_CRISTAL : ' +otrotip);
                 }else{
                     detExp = detExp.concat(' - TIPO_CRISTAL : ' +tipo);
                     }
-                    console.log('REGISTRo tipo de vidrio JOA_2 ' +detExp );
-                
                 var estado = clTipoFallaHC.options[clTipoFallaHC.selectedIndex].text;
                 detExp = detExp.concat(' - ESTADO_del_VIDRIO : ' +estado);
-                
                 var motiv = clMotivoSiniestroHC.options[clMotivoSiniestroHC.selectedIndex].text;
                 if ( motiv === 'Otro'){
                     var otro =(document.all.OtroMotivoSiniestro.value ===null || document.all.OtroMotivoSiniestro.value ==='')?0:document.all.OtroMotivoSiniestro.value;
@@ -761,50 +731,32 @@
                 }else{
                     detExp = detExp.concat(' - MOTIVO : ' +motiv);
                      }
-                  
                 if (document.getElementById('necesita').checked){
                     detExp = detExp.concat(" - NECESITA_PROVISORIO : SI *]\'");
                 }else{
                     detExp = detExp.concat(" - NECESITA_PROVISORIO : NO *]\'");
                      } 
-                
-            //  });  // FIN addEventListener
-            var elementCalle= document.getElementById("CambioCalle");
-            console.log('valor nuevo de la calle' +elementCalle);
-            //var StringMail = "'"+ '"'+salida +'"'+ "," + Expediente + "," + salida_1 + "," +'"'+salida_2 +'"'+ "," +'"'+ salida_4 +'"'+ "," +'"'+ salida_5+'"'+ "'" ;
-       
+            var elementCalle= document.getElementById("CambioCalle");       
             var datosCRI ={
                 clUsrApp : clUsrApp,
                 Expediente : Expediente,
                 detExp : detExp  }; //ORIGINAL JOA FUNCIONA
- 
-            //-----------------------------------------------------------------------------------------------------------    
+//-----------------------------------------------------------------------------------------------------------    
                 $.when(
 		$.ajax({
 			type: "POST",
 			url: "./InsertInfAddCRI.jsp",
                         async:false,
 			data: datosCRI,
-			dataType: 'json',
-			//success: function(responseData, status, xhr) {
-			//},
-                        
-			error: function(req, status, error) {
-				
+			dataType: 'json',                        
+			error: function(req, status, error) {				
 				if ( req.status === 413 ) {
-					alert("Largo de "+error+" inválido.");
-				}
+					alert("Largo de "+error+" inválido.");				}
 				if ( req.status === 403 ) {
-					alert("Código de "+error+" inválido.Debe verificar el dato ingresado.");
-				}
-				if ( req.status === 500 ) {
-					//alert("Error grabando InfoAdicional:  " + error);
-				}
+					alert("Código de "+error+" inválido.Debe verificar el dato ingresado.");				}
+				if ( req.status === 500 ) {	}
                             }
                         }));
-                        
-                        
-                  
                     }  //FIN IF 
                 });  // FIN addEventListener
 //------------------------------------------------------------------------------ 

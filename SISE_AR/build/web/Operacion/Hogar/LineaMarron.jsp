@@ -115,7 +115,7 @@
         <%=MyUtil.doMenuAct("../../servlet/Utilerias.EjecutaAccionAsist", "fnAccionesAlta();", "fnValGuardado();")%>
         <INPUT id='URLBACK' name='URLBACK' type='hidden' value='<%=request.getRequestURL().substring(0, request.getRequestURL().lastIndexOf("/") + 1)%><%="LineaMarron.jsp?"%>'>
         <INPUT id='clExpediente' name='clExpediente' type='hidden' value='<%=StrclExpediente%>'>
-        <% if ( StrclSubServicio.equals("471") ) { %>
+        <% if ( esAireAcondicionado ) { %>
             <%=MyUtil.ObjComboC("Tipo de falla", "clTipoFallaH", LM != null ? LM.getDsTipoFallaH() : "", true, true, 30, iRowPx, "", "st_getTipoFalla ".concat("0").concat(", ").concat(StrclSubServicio), "fnMostrarFrigorias();", "", 50, true, true)%>
             <div id="frigoriasContainer" style="visibility: hidden">
                 <%=MyUtil.ObjInput("Frigorias", "Frigorias", LM != null ? LM.getFrigorias() : "", true, true, 250, iRowPx, "", false, false, 25)%>                                             

@@ -493,22 +493,6 @@
                 if (document.all.NuestroUsuario.value !== '') {       fnBuscaClienteVIPPorClave(DNI,Placas);         }
                 }
 //------------------------------------------------------------------------------
-            function fnActualizaDatosNuestroUsrNrm(dsNU,Clave, pclCuenta, pNomCuenta, Msk, MskUsr, DatosNUsr, ClaveBeneficiario, pEmail, pTelefono2, pInfoBitacora){                    
-                if(document.all.Action.value==1){
-                    ////evita el bug de cambiar datos (clave, NU, cuenta, etc) usando la ventana de busqueda de nuestro usr 
-                    document.all.NuestroUsuario.value = dsNU;
-                    document.all.Clave.value = Clave;
-                    document.all.clCuenta.value = pclCuenta;
-                    document.all.Nombre.value = pNomCuenta;
-                    document.all.ClaveMsk.value = Msk;
-                    document.all.ClaveMskUsr.innerHTML = MskUsr;
-                    document.all.Email.value = pEmail;
-                    document.all.Telefono2.value = pTelefono2;                    
-                    document.all.DescripcionOcurrido.value= document.all.DescripcionOcurrido.value + DatosNUsr;
-                    document.all.clDerechoHab.value=ClaveBeneficiario;
-                    }
-                }
-//------------------------------------------------------------------------------
             function fnValidaClave(clave) {
                 if (document.all.Action.value == 1) {
                     var pstrCadena = "../Operacion/ValidaClave.jsp?strSQL=sp_ValidaClave ";
