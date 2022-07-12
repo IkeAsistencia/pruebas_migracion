@@ -220,8 +220,8 @@ public class EjecutaAccionAsist extends HttpServlet {
                             }
                             strBack = strBack + "=" + request.getParameter("clExpediente");
                             
-                            String subServ = request.getParameter("clSubservicio");
-                            if(subServ.equals ("494")){
+                            String subServ = (request.getParameter("clSubservicio") == null) ? "" : request.getParameter("clSubservicio");
+                            if(subServ.equals("494")){
                             System.out.println("clSubservicio  " +request.getParameter("clSubservicio")); //FUNCIONA
                             System.out.println("dsSubservicio  " +request.getParameter("dsSubservicio")); //FUNCIONA
                             System.out.println("subServicio  " +request.getParameter("subServicio"));    //FUNCIONA

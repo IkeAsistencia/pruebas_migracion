@@ -296,10 +296,14 @@
             
 //------------------------------------------------------------------------------
            $(document).ready(function() {
+               var esHdiCri = <%=esHDICri%>;
+               if (!esHdiCri){
                 $("#btnCambio").click(function() {    document.getElementById("DireccionA").disabled = false;      });
                 $("#btnAlta").click(function() {   document.getElementById("DireccionA").disabled = false;        });
                 $("#CalleNum").change(function() {     document.getElementById("LatLong").value = "";         });
                 $("#DescripcionOtro").css("resize", "none");
+                    
+                } 
 		fnOtraUbicacion();
                 });
 //------------------------------------------------------------------------------
@@ -388,7 +392,6 @@
 //------------------------------------------------------------------------------
             /*Funiciones para validar front end*/
             function fnValidaOption() {
-                var joaco = document.all.NecesitaProvisorio.value.toString() ;
                 if ( document.all.subServicio.value.toString() === '494' ) {
                     if ( document.all.NecesitaProvisorio.value !== '1' || document.all.NecesitaProvisorio.value !== '2' ) {
                         document.all.NecesitaProvisorio.value = '2' //Valor por defecto (NoNecesita) JOA
@@ -427,17 +430,17 @@
                 } else {
                     //document.all.divNoHDICri.style.visibility = 'visible';
                     //document.all.divSiHDICri.style.visibility = 'hidden';
-                    document.all.QuienSeComunica.value = ' ';
-                    document.all.clTipoContactante.value = 0;
+                    //document.all.QuienSeComunica.value = ' ';
+                    //document.all.clTipoContactante.value = 0;
                     //document.all.CalleH.value = ' '
                     //document.all.clUbFallaHCRI.value = 0;
-                    document.all.clTipoCristalH.value = 0;
+                    //document.all.clTipoCristalH.value = 0;
                     //document.all.clTipoFallaHCRI.value = 0;
-                    document.all.clMotivoSiniestroH.value = 0;
-                    document.all.OtroMotivoSiniestro.value = ' ';
-                    document.all.OtroTipoCristal.value = ' ';
-                    document.all.OtroTipoContactante.value = ' ';
-                    document.all.divOtraUbic.value = ' ';   //JOA
+                    //document.all.clMotivoSiniestroH.value = 0;
+                    //document.all.OtroMotivoSiniestro.value = ' ';
+                    //document.all.OtroTipoCristal.value = ' ';
+                    //document.all.OtroTipoContactante.value = ' ';
+                    //document.all.divOtraUbic.value = ' ';   //JOA
                 }
             }
 //------------------------------------------------------------------------------            
@@ -581,6 +584,7 @@
                 return jQuery.inArray(dsSubServicio, arraySubServicios) >= 0;
             }
             function fnOtraUbicacion() {
+                if (!fnEsPlantillaModificada()) return;
                 var combobox  = document.getElementById("clUbFallaHC");
                 var lugarOU = combobox.options[combobox.selectedIndex].text;
                 if (lugarOU.toString().toUpperCase() === "OTRO") {
@@ -613,6 +617,16 @@
                     msgVal = msgVal + ' El campo departamento debe tener como m·ximo 8 caracteres.';
                 }
                 return esDeptoValido;
+            }
+//------------------------------------------------------------------------------
+            function fnEsOtroLugarValido () {
+                var selectLugar = $("#clUbFallaHC").children(":selected").text();
+                if (selectLugar !== 'OTRO') return true;
+                var esLugarValido = $("#UbicacionOtro").val().length !== 0;
+                if ( !esLugarValido ) {
+                    msgVal = msgVal + ' El campo ubicaci√≥n de falla no debe estar vacio.';
+                }
+                return esLugarValido;
             }
 //------------------------------------------------------------------------------
             function fnGuardaSeguimiento() {
@@ -652,7 +666,7 @@
             function fnAccionesGuardado() {
                 fnValidaCheckbox();
                 if (fnEsPlantillaModificada()){
-                    if (!fnEsPisoValido() || !fnEsDepartamentoValido() || !fnEsDescripcionValida()) {
+                    if (!fnEsPisoValido() || !fnEsDepartamentoValido() || !fnEsDescripcionValida() || !fnEsOtroLugarValido()) {
                         document.all.btnGuarda.disabled= false;
                         document.all.btnCancela.disabled= false;
                         return;
@@ -662,10 +676,11 @@
             }
 //=====================FIN DE FUNCIONES DE WALTER===============================
         //poliza
+        if ( document.all.subServicio.value.toString() === '494' ) {
         var salida_1 = document.all.Poliza.value ;
         if (  salida_1  === 'null'  || salida_1 === '' ){
            salida_1 = '--';
-        }else{
+            } else {
         }        
         //nuestro usuario
         var salida_2 = document.all.NuestroUsuarioH.value ;
@@ -679,6 +694,8 @@
            salida_3 = '--';
         }else{
         }                                
+        }
+                                        
 //------------------------------------------------------------------------------                              
         // INFO ADICIONAL QUE SE GUARDA EN Expedientes y Seguimiento                     
         const botonGDR = document.querySelector("#btnGuarda");

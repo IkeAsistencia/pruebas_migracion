@@ -175,10 +175,13 @@
         <script type="text/javascript">
 //------------------------------------------------------------------------------
             function fnOnload(){
-                if(document.all.EsProgramado.value == "1"){
+                var clSubServicio = <%=StrclSubServicio%>;
+                if ( clSubServicio !== 471) {
+                    if( document.all.EsProgramado.value == "1"){
                     document.all.divFechaProgMom.style.visibility="visible";
                 }else{
                     document.all.divFechaProgMom.style.visibility="hidden";     }
+            }   
             }   
 //------------------------------------------------------------------------------
             $(document).ready(function() {
@@ -206,12 +209,15 @@
             }
 //------------------------------------------------------------------------------
             function fnValidaFecha(){
+                var clSubServicio = <%=StrclSubServicio%>;
+                if ( clSubServicio !== 471) {
                 if(document.all.EsProgramado.value == "1"){
                     document.all.divFechaProgMom.style.visibility="visible";
                 }else{
                     document.all.divFechaProgMom.style.visibility="hidden";
                     document.all.FechaProgMom.value = ""
                 }
+            }
             }
 //------------------------------------------------------------------------------
             function openMap(campo, latLong, calle, localidad, provincia,codMD, codEnt) {

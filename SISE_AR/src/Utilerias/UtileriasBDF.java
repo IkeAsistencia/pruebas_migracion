@@ -60,16 +60,17 @@ public class UtileriasBDF {
                 e.printStackTrace();
             }
 
-            pool = new ConnectionPool("local",
-                    200,
-                    1000,
-                    10000, // milliseconds        
+            pool = new ConnectionPool(
+                    "local",    //String Name
+                    200,       //int poolsize
+                    1000,         //int maxsisze
+                    10000,       //int milliseconds expirytime        
 
                     /* PROD */
-                    /*"jdbc:sqlserver://172.21.170.7:21577;DatabaseName=SISE_AR;useLOBs=false",
+                    "jdbc:sqlserver://172.21.170.7:21577;DatabaseName=SISE_AR;useLOBs=false",
                     "dessiaikeAR",
                     "d2ssi1ik3AR.2011"
-                    );*/
+                    );
                     
                     /* PROD KIO*/
                     /*"jdbc:sqlserver://172.17.17.131:1433;DatabaseName=SISE_AR;useLOBs=false",
@@ -87,9 +88,9 @@ public class UtileriasBDF {
                     "C@ch@lot3.2016_Arg3nt1n");*/
             
                     /* DEV */
-                    "jdbc:sqlserver://172.21.10.88:1533;DatabaseName=SISE_AR_DEV;useLOBs=false",
+                    /*"jdbc:sqlserver://172.21.10.88:1533;DatabaseName=SISE_AR_DEV;useLOBs=false",
                     "WSdessiaikeAR_dev",
-                    "1QDF5t6a6pO6");
+                    "1QDF5t6a6pO6");*/
                     
 
             pool.init(20);
