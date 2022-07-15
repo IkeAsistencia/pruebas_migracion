@@ -55,4 +55,6 @@ public class ServicioHogarTO {
     public int clsubservicio;
     public boolean vip;
     public String codigo_proveedor;
+    public String canal_chat;
+    public String cliente_chat_id;
 }
