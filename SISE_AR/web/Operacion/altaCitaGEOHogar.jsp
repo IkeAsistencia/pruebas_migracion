@@ -85,6 +85,10 @@
                     servHogar.hora_desde = sHoraD;
                     servHogar.hora_hasta = sHoraH;
                     servHogar.vip = rs.getBoolean("VIP");
+                    servHogar.cliente_chat_id = rs.getString("user_chat");
+                    String uuidCita = rs.getString("UUID");
+                    servHogar.canal_chat = "cita_"+uuidCita;
+                    
                     if ( bAutomatica  ) {     servHogar.codigo_proveedor = null;
                     } else {       servHogar.codigo_proveedor = sCLProveedor;          }
                     rs.close();
