@@ -62,6 +62,7 @@ public class EjecutaAccionAsist extends HttpServlet {
         ResultSet rsInfo = null;
         ResultSet rsExiste = null;
         ResultSet rsInsertada = null;
+        ResultSet rsEnvMail = null;
 
         try {
             rs = UtileriasBDF.rsSQLNP("select Tabla , coalesce(TablaBitacora,'') TablaBitacora from cPaginaWeb where clPaginaWeb = " + sessionH.getAttribute("clPaginaWebP"));
@@ -113,14 +114,11 @@ public class EjecutaAccionAsist extends HttpServlet {
                         }
                     }
                     StrSentence.append("(").append(StrFields).append(") values (").append(StrVals).append(")");
-                    System.out.println("StrSentence: " + StrSentence);
                 }
 
                 if (Integer.parseInt(request.getParameter("Action")) == 2) {
                     StrSentence.append("Update ").append(rs.getString("Tabla")).append(" set ");
-                    System.out.println("Updating Table: " + rs.getString("Tabla") );
                     while (rsInfo.next()) {
-                        System.out.println("EjecutaAccionAsist: Field" + rsInfo.getString("NameF") + "->" + rsInfo.getString("TypeData") );
                         if (request.getParameter(rsInfo.getString("NameF")) != null) {
                             // No es un campo identity, en un insert se debe omitir
                             if (rsInfo.getString("LlavePrimaria").equalsIgnoreCase("No") && rsInfo.getString("Identit").equalsIgnoreCase("No")) {
@@ -165,7 +163,6 @@ public class EjecutaAccionAsist extends HttpServlet {
                         return;
                     }
                     StrSentence.append(" ").append(StrFields).append(" ").append(StrWhere);
-                    System.out.println("StrSentence: " + StrSentence);
                 }
 
                 if (Integer.parseInt(request.getParameter("Action")) == 3) {
@@ -198,30 +195,32 @@ public class EjecutaAccionAsist extends HttpServlet {
                         return;
                     }
                     StrSentence.append(" ").append(StrWhere);
-                    System.out.println("StrSentence: " + StrSentence);
                 }
 
                 if (Integer.parseInt(request.getParameter("Action")) == 1) {
                     rsExiste = UtileriasBDF.rsSQLNP("st_TieneAsistenciaExp " + request.getParameter("clExpediente"));
                     if (rsExiste.next()) {
                         if (Integer.parseInt(rsExiste.getString("TieneAsistencia")) == 0) {
-                            System.out.println("StrSentence Alta: " + StrSentence);
                             UtileriasBDF.ejecutaSQLNP(StrSentence.toString());
                             rsInsertada = UtileriasBDF.rsSQLNP("Select clExpediente From " + rs.getString("Tabla") + " Where clExpediente=" + request.getParameter("clExpediente"));
                             if (rsInsertada.next()) {
                                 if (rsInsertada.getString("clExpediente").compareToIgnoreCase(request.getParameter("clExpediente").toString()) != 0) {
                                 } else {
                                     UtileriasBDF.ejecutaSQLNP("Update Expediente Set FechaRegAsist = getdate() , FechaApAsist = '" + sessionH.getAttribute("FechaAp") + "', TieneAsistencia = 1, clServicio = " + sessionH.getAttribute("clServicio").toString() + ", clSubservicio = " + sessionH.getAttribute("clSubServicio").toString() + " Where clExpediente = " + request.getParameter("clExpediente"));
-                                    System.out.println(" ********** ACTUALIZA TIENE ASISTENCIA DE 0 A 1 ********** ");
-                                    System.out.println("Update Expediente Set FechaRegAsist = getdate() , FechaApAsist = '" + sessionH.getAttribute("FechaAp") + "', TieneAsistencia = 1, clServicio = " + sessionH.getAttribute("clServicio").toString() + ", clSubservicio = " + sessionH.getAttribute("clSubServicio").toString() + " Where clExpediente = " + request.getParameter("clExpediente"));
                                 }
                                 rsInsertada.close();
                             }
                             strBack = strBack + "=" + request.getParameter("clExpediente");
+                            
+                            String subServ = (request.getParameter("clSubservicio") == null) ? "" : request.getParameter("clSubservicio");
+                            if(subServ.equals("494")){
+                                rsEnvMail = UtileriasBDF.rsSQLNP("st_EnvioMailHDICRI " + request.getParameter("clExpediente"));
+                            }
+                            
+                            
                         } else {
                             //Es alta pero ya tiene asistencia en expediente.
                             out.println("<script>alert('La asistencia no se puede guardar ya que está mal configurada, El último registro indica que el expediente tenía la asistencia: " + rsExiste.getString("dsSubServicio") + ", Por favor, consulte a sistemas.')</script>");
-                            System.out.println("El expediente ya tenía una asistencia " + rsExiste.getString("dsSubServicio"));
                         }
                         rsExiste.close();
                     }
@@ -396,7 +395,7 @@ public class EjecutaAccionAsist extends HttpServlet {
             }
          }
         catch (Exception e ){ 
-            System.out.println("EjecutaAccionAsist.Error:" + e.toString() );
+            e.printStackTrace();
         }
     }
     
