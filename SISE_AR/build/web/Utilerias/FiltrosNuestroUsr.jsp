@@ -1,11 +1,9 @@
-<%@page import="com.ike.ws.nrm.WSClientsNrm"%>
 <%@ page contentType="text/html; charset=iso-8859-1" language="java" import="java.sql.ResultSet,Utilerias.UtileriasBDF" errorPage="" %>
 
 <html> 
     <head>
         <title>Filtro Nuestro Usuario</title>
         <link href="../StyleClasses/Global.css" rel="stylesheet" type="text/css">
-        <link href="../StyleClasses/AlertaNRM.css" rel="stylesheet" type="text/css">
     </head>
     <body class="cssBody">
         <jsp:useBean id="MyUtil" scope="session" class="Utilerias.UtileriasObj"/>
@@ -132,34 +130,8 @@
                     //System.out.println("Pagina: FiltroNU " + strSql);
 		    System.out.println(strSql);
                     UtileriasBDF.rsTableNP(strSql.toString(), strSalida);
-                              
-                    
-                if(strclGrupoCuentaC!=null&&"89".equals(strclGrupoCuentaC)){
-                    System.out.println("Este es un NRM");
-
-                    //Se crea la instancia a la clase que procesa los criterios de busqueda
-                    WSClientsNrm clientsNrm = new WSClientsNrm();
-                    String result = "";
-                    if(strNU != ""){
-                        System.out.println("Busqueda por nombre: " + strNU);
-                        //si la varia strNU no viene vacia se busca por el nombre
-                        result = clientsNrm.getClientByName(strNU);
-                    }else if(strClave != ""){
-                        System.out.println("Busqueda por clave: " + strClave);
-                        //si la strClave strNU no viene vacia se busca por el vin o clave
-                        result = clientsNrm.getClientByVin(strClave);
-                    }else if(strCorreo != ""){
-                        System.out.println("Busqueda por correo: " + strCorreo);
-                        //si la variable strCorreo no viene vacia se busca por el correo electronico
-                        result = clientsNrm.getClientByEmail(strCorreo);
-                    }
-                    //Se imprime la lista construida con los usuarios que cumplen el criterio de busqueda
-                    %><%=result%><%
-            }else {
-           %>
-            <%=strSalida.toString()%>
-            <%
-                }
+                %><%=strSalida.toString()%><%
+               
                     strSalida.delete(0, strSalida.length());
                 }
 

@@ -226,7 +226,7 @@
         <%=MyUtil.ObjComboC("En una escala del 0 al 10 ¿Qué tan recomendable </BR>le parece nuestro servicio de asistencia?</BR>", "clCalificaServ", rs.getString("dsCalificaServ"), true, true, 530, 560, "", "st_getCalificaServ", "fnValidaNoRecomienda();", "", 20, true, true)%>
 
         <div id="MotivoNR" style="visibility: hidden">
-            <%=MyUtil.ObjComboC("Motivo No Recomendaría", "clMotivoNoRecomienda", rs.getString("dsMotivoNoRecomienda"), true, true, 320, iY, "", "st_getMotivoNoRec", "", "", 20, false, false)%>
+            <%=MyUtil.ObjComboC("Motivo No Recomendaría", "clMotivoNoRecomienda", rs.getString("dsMotivoNoRecomienda"), true, true, 320, iY, "", "st_getMotivoNoRec", "", "", 50, false, false)%>
         </div>
 
         <%  iY += 45;%>
@@ -294,7 +294,7 @@
         <%=MyUtil.ObjComboC("En una escala del 0 al 10 ¿Qué tan recomendable </BR> le parece nuestro servicio de asistencia?</BR>", "clCalificaServ",  rs.getString("dsCalificaServ"), true, true, 580, 600, "", "st_getCalificaServ", "fnValidaNoRecomienda();", "", 20, false, false)%>
         
         <div id="MotivoNR" style="visibility: hidden">
-            <%=MyUtil.ObjComboC("Motivo No Recomendaría", "clMotivoNoRecomienda", rs.getString("dsMotivoNoRecomienda"), true, true, 350, iY, "", "st_getMotivoNoRec", "", "", 20, false, false)%>
+            <%=MyUtil.ObjComboC("Motivo No Recomendaría","clMotivoNoRecomienda",rs.getString("dsMotivoNoRecomienda"),true,true,350,iY,"","st_getMotivoNoRec","","",50,false,false)%>
         </div>
         <%  iY += 45;%>
         <%=MyUtil.ObjTextArea("¿por qué?", "PorqueRecomendar", rs.getString("PorqueRecomendar"), "100", "3", true, true, 30, iY, "", false, false)%>

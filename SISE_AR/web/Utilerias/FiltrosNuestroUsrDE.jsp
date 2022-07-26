@@ -3,7 +3,6 @@
     <head>
         <title>Filtro Nuestro Usuario</title>
         <link href="../StyleClasses/Global.css" rel="stylesheet" type="text/css">
-        <link href="../StyleClasses/AlertaNRM.css" rel="stylesheet" type="text/css">
     </head>
     <body class="cssBody">
         <jsp:useBean id="MyUtil" scope="session" class="Utilerias.UtileriasObj"/>
