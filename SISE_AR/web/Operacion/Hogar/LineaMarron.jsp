@@ -155,7 +155,7 @@
             <%=MyUtil.ObjInput("Latitud y Longitud", "LatLong", LM != null ? LM.getLatLong(): "", true, true, 330, iRowPx, "", false, false, 34)%>
             <%  iRowPx = iRowPx + 40;   %>
             <%=MyUtil.ObjInput("Piso", "Piso", LM != null ? LM.getPiso() : "", true, true, 30, iRowPx, "", false, false, 3)%>
-            <%=MyUtil.ObjInput("Departamento", "Departamento", LM != null ? LM.getDepartamento(): "", true, true, 250, iRowPx, "", false, false, 8)%>
+            <%=MyUtil.ObjInput("Departamento", "Departamento", LM != null ? LM.getDepartamento(): "", true, true, 80, iRowPx, "", false, false, 8)%>
         <% } %>
         <%  iRowPx = iRowPx + 40;    %>
         <%=MyUtil.ObjTextArea("Referencias Visuales", "Referencias", LM != null ? LM.getReferencias() : "", "65", "5", true, true, 30, iRowPx, "", false, false)%>

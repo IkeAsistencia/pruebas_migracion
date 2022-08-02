@@ -55,6 +55,7 @@ public class InfoAdicionalKM0 {
 	private int montoCubierto = 0;
         private int clEstacionamiento = 0;
         private int kmAsistencia = 0;
+        private boolean CoberturaTotalPeaje = false;
 
 //------------------------------------------------------------------------------
     public int getKmAsistencia() { return kmAsistencia;    }
@@ -219,6 +220,9 @@ public class InfoAdicionalKM0 {
     public String getDsTipoGasolina() {        return dsTipoGasolina;    }
     public void setDsTipoGasolina(String dsTipoGasolina) {        this.dsTipoGasolina = dsTipoGasolina;    }
 //------------------------------------------------------------------------------
+    public boolean getCoberturaTotalPeaje() {        return CoberturaTotalPeaje;    }
+    public void setCoberturaTotalPeaje(boolean CoberturaTotalPeaje) {        this.CoberturaTotalPeaje = CoberturaTotalPeaje;    }
+//------------------------------------------------------------------------------
     @Override
     public String toString() {
         return "InfoAdicionalKM0{" + "clInfoAdicKMO=" + clInfoAdicKMO + ", clExpediente=" + 
@@ -246,7 +250,8 @@ public class InfoAdicionalKM0 {
                 distTierraFirme + ", compraBateria=" + compraBateria + ", servicioProgramado=" + 
                 servicioProgramado + ", fechaProgramado=" + fechaProgramado + ", horaDesdeProg=" + 
                 horaDesdeProg + ", horaHastaProg=" + horaHastaProg + ", peajesCubiertos=" + 
-                peajesCubiertos + ", montoCubierto=" + montoCubierto + '}';
+                peajesCubiertos + ", montoCubierto=" + montoCubierto + ", CoberturaTotalPeaje=" + 
+                CoberturaTotalPeaje + '}';
     }
 //------------------------------------------------------------------------------    
 }

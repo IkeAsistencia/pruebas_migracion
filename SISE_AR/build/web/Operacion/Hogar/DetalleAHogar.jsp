@@ -181,7 +181,7 @@
                 <% if (esSubServicioModificado) {%>
                 <%  iRowPx = iRowPx + 30;   %>
                 <%=MyUtil.ObjInput("Piso", "Piso", AH != null ? AH.getPiso() : "", true, true, 30, iRowPx, "", false, false, 3)%>
-                    <%=MyUtil.ObjInput("Departamento", "Departamento", AH != null ? AH.getDepartamento(): "", true, true, 330, iRowPx, "", false, false, 8)%>
+                    <%=MyUtil.ObjInput("Departamento", "Departamento", AH != null ? AH.getDepartamento(): "", true, true, 80, iRowPx, "", false, false, 8)%>
                     <% } %>
                 <%  iRowPx = iRowPx + 30;   %>
                 <%=MyUtil.ObjTextArea("Referencias Visuales", "Referencias", AH != null ? AH.getReferencias() : "", "75", "5", true, true, 30, iRowPx, "", false, false)%>

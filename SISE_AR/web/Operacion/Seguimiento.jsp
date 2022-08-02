@@ -69,8 +69,8 @@
                         <%=MyUtil.ObjComboC("Motivo", "clMotivo0", "", true, true, 230, 30, "", "st_MotivoxEstatusSeg 0, " + StrclCuenta, "fnValidaMotivo(this.value)", "", 50, false, false)%>
                     </div>
                     <div id="RecordatorioDIV" name="RecordatorioDIV" style="visibility:'hidden'" >
-                        <%=MyUtil.ObjInputFNAC("Fecha Recordatorio (AAAA-MM-DD)", "FechaReco", "", true, true, 430, 30, "", false, false, 15, 1, "fnValidaFechaActual(this);")%>                
-                        <%=MyUtil.ObjInput("Hora (HH:MM)", "HoraReco", "", true, true, 650, 30, "", false, false, 5,"fnHrs(this);")%>
+                        <%=MyUtil.ObjInputFNAC("Fecha Recordatorio (AAAA-MM-DD)", "FechaReco", "", true, true, 430, 30, "", true, true, 15, 1, "fnValidaFechaActual(this);")%>                
+                        <%=MyUtil.ObjInput("Hora (HH:MM)", "HoraReco", "", true, true, 650, 30, "", true, true, 5,"fnHrs(this);")%>
                     </div>
                     <%if( Strtotalprove>1){%>
                         <div id="ComboProveedorDiv" style="visibility:visible"></div>
@@ -88,7 +88,7 @@
                     <input id='TipoSeg0' name='TipoSeg0' type='hidden' value='0'>        
                     <%=MyUtil.DoBlock("Seguimiento al Servicio", 147, 90)%>
                     <div class='VTable' style='position:absolute; z-index:20; left:30px; top:220px;'>
-                        <input id="btnGuarda0" name="btnGuarda0" type='button' VALUE='Guardar...' onClick='this.disabled = true;fnNuevaCita();this.form.submit();' class='cBtn'/>
+                        <input id="btnGuarda0" name="btnGuarda0" type='button' VALUE='Guardar...' onClick='fnValidacionesDeServicio(this)' class='cBtn'/>
                     </div>
                 </form>
 
@@ -232,6 +232,32 @@
                         } 
                     }
                 }
+//------------------------------------------------------------------------------
+            function fnEsRecordatorio() {
+                var combobox  = document.getElementById("clEstatus0C");
+                var estatus = combobox.options[combobox.selectedIndex].text;
+                return estatus.toString().toUpperCase() === 'RECORDATORIO';
+            }
+//------------------------------------------------------------------------------
+            function fnEsFechaVacia() {
+                var fecha = document.getElementById('FechaReco').value;
+                return fecha === '';
+            }
+//------------------------------------------------------------------------------
+            function fnEsHoraVacia() {
+                var hora = document.getElementById('HoraReco').value;
+                return hora === '';
+            }
+//------------------------------------------------------------------------------
+            function fnValidacionesDeServicio(btn){
+                if (fnEsRecordatorio() && (fnEsFechaVacia() || fnEsHoraVacia())) {
+                    alert("Los campos fecha y hora no deben ser vacios.");
+                    return;
+                } 
+                btn.disabled = true;
+                fnNuevaCita();
+                btn.form.submit();
+            }
 //------------------------------------------------------------------------------
     </script>
 </html>
