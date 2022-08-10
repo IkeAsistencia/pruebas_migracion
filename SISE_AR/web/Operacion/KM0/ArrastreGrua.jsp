@@ -845,12 +845,14 @@
                     document.getElementById("DireccionB").disabled = false; 
                     document.all.MapaOrig.disabled = false; 
                     document.all.MapaDest.disabled = false;
+                    document.all.montoCubierto.value = <%=montoCubierto%>;
                 });
                 $("#btnAlta").click(function() {
                     document.getElementById("DireccionA").disabled = false; 
                     document.getElementById("DireccionB").disabled = false; 
                     document.all.MapaOrig.disabled = false; 
                     document.all.MapaDest.disabled = false;
+                    document.all.montoCubierto.value = <%=montoCubierto%>;
                 });
                 $("#CalleNum").change(function() {
                     document.getElementById("LatLong").value = "";
@@ -2000,8 +2002,8 @@
                     montoString = coberturaTotalPeaje === '1'? 'COBERTURA TOTAL' : montoCubierto;
                     detExpediente = detExpediente.concat(' TOPE PESOS : ' + montoString);
                 }
-                /*detExpediente = detExpediente.concat(' - DISTANCIA KM : ' + kmAsistencia);
-                detExpediente = detExpediente.concat(' *]');*/
+                /*detExpediente = detExpediente.concat(' - DISTANCIA KM : ' + kmAsistencia);*/
+                detExpediente = detExpediente.concat(' *]');
                 
                 /*Guardo datos*/
 		var datos ={	
