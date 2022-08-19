@@ -73,11 +73,11 @@
                         <%=MyUtil.ObjInput("Hora (HH:MM)", "HoraReco", "", true, true, 650, 30, "", true, true, 5,"fnHrs(this);")%>
                     </div>
                     
-                    
-                        <div id="ComboProveedorDiv" style="visibility:hidden">
+                    <% if(Strtotalprove > 1) {%>
                         <%=MyUtil.ObjComboC("Proveedor", "clProveedor0", "", true, true, 30, 70, "", "st_getSegProveedoresCita " + StrclExpediente, "", "", 30,false, false)%>   
-                        </div>
-
+                    <%} else {%>
+                        <input id='clProveedor0' name='clProveedor0' type='hidden' value='<%=StrclProveedorC%>'/>
+                    <% } %>
                     <%=MyUtil.ObjTextArea("Observaciones", "Observaciones0", "", "100", "7", true, true, 30, 110, "", false, false)%>
                     <input id='URLBACK0' name='URLBACK0' type='hidden' value='<%=request.getRequestURL().substring(0, request.getRequestURL().lastIndexOf("/") + 1)%>BitacoraExpediente.jsp?clExpediente=<%=StrclExpediente%>'></input>
                     <input id='clExpediente0' name='clExpediente0' type='hidden' value='<%=StrclExpediente%>'/>
@@ -123,9 +123,6 @@
         document.all.clEstatus1C.disabled = false;
         document.all.Observaciones1.readOnly = false;
         document.all.HoraReco.readOnly=false;
-        document.all.clProveedor0C.disabled = false;
-        var cantProvee =  <%=Strtotalprove%>;
-        document.all.ComboProveedorDiv.style.visibility = cantProvee>1? "visible":"hidden";
 //------------------------------------------------------------------------------
         function fnValidaEstatus(clEstatus) {           
             var clCuenta = <%=StrclCuenta %>;
