@@ -758,8 +758,7 @@
                 document.all.noLiberado.checked = document.all.vehiculoLiberado.value === '1'?false:true;
                 document.all.esProgramado.checked   = document.all.servicioProgramado.value === '1'?true:false;
                 document.all.noEsProgramado.checked = document.all.servicioProgramado.value === '1'?false:true;
-                document.all.cubiertos.checked = document.all.coberturaTotalPeaje.value ==='1'?true:false;
-                document.all.noCubiertos.checked = document.all.coberturaTotalPeaje.value ==='1'?false:true;
+                
                 
                 fnServicioProgramado(document.all.servicioProgramado.value);
 
@@ -821,12 +820,6 @@
                 } else {
                    document.all.divDatosCarga.style.visibility = 'hidden';
                 }
-                if ( $("#coberturaTotalPeaje").val() == 0) {
-                   document.all.divMontoCubierto.style.visibility = 'visible';
-                } else {
-                   document.all.divMontoCubierto.style.visibility = 'hidden';
-                }
-                
                 fnFallaVehiculo(document.all.clTipoFalla);
                
             }
@@ -835,11 +828,18 @@
             $(document).ready(function() {
 
                 
-                <!-- define que boton va habilitado o no al inicio -->
+                // define que boton va habilitado o no al inicio -->
                 document.all.btnAlta.disabled = <%=(AV != null?"true":"false")%>;
                 document.all.btnCambio.disabled = <%=(AV == null?"true":"false")%>;
                 document.all.MapaOrig.disabled = true; 
                 document.all.MapaDest.disabled = true;
+                $("#cubiertos").prop("checked", $("#coberturaTotalPeaje").val() === '1');
+                $("#noCubiertos").prop("checked", $("#coberturaTotalPeaje").val() !== '1');
+                if ( $("#coberturaTotalPeaje").val() == 0) {
+                   document.all.divMontoCubierto.style.visibility = 'visible';
+                } else {
+                   document.all.divMontoCubierto.style.visibility = 'hidden';
+                }
                 $("#btnCambio").click(function() {
                     document.getElementById("DireccionA").disabled = false; 
                     document.getElementById("DireccionB").disabled = false; 
@@ -989,6 +989,7 @@
                 document.all.tieneModificaciones.disabled = false;
                 document.all.esProgramado.disabled = false;
                 document.all.noEsProgramado.disabled = false;
+                
                 
             }
             
@@ -2098,6 +2099,8 @@
 	
             }            
 
+
+                
 
                 
         </script>
