@@ -116,7 +116,7 @@
                 //document.all.Supervision.value=0;
                 document.all.clServicioC.disabled=false;
                 document.all.clServicio.value=0;
-                fnLlenaSubServicios()
+                fnLlenaSubServicios();
             }
 
             function fnConcatena(){
