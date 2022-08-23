@@ -758,8 +758,7 @@
                 document.all.noLiberado.checked = document.all.vehiculoLiberado.value === '1'?false:true;
                 document.all.esProgramado.checked   = document.all.servicioProgramado.value === '1'?true:false;
                 document.all.noEsProgramado.checked = document.all.servicioProgramado.value === '1'?false:true;
-                document.all.cubiertos.checked = document.all.coberturaTotalPeaje.value ==='1'?true:false;
-                document.all.noCubiertos.checked = document.all.coberturaTotalPeaje.value ==='1'?false:true;
+                
                 
                 fnServicioProgramado(document.all.servicioProgramado.value);
 
@@ -990,6 +989,7 @@
                 document.all.tieneModificaciones.disabled = false;
                 document.all.esProgramado.disabled = false;
                 document.all.noEsProgramado.disabled = false;
+                
                 
             }
             
@@ -2099,6 +2099,8 @@
 	
             }            
 
+
+                
 
                 
         </script>
