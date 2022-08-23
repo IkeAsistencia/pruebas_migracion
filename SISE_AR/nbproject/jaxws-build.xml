@@ -59,5 +59,21 @@
         <delete dir="${build.generated.sources.dir}/jax-ws/ar/com/ike/geo/ws/tns"/>
         <delete dir="${build.generated.dir}/jax-wsCache/aacia2k4"/>
     </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-aacia2k4"/>
+    <target name="wsimport-client-capa_aacia2k4" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/capa_aacia2k4"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/capa_aacia2k4" destdir="${build.generated.dir}/jax-wsCache/capa_aacia2k4" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/capa_aacia2k4/wsdl/gps.ikeasistencia.com.ar_9000/soap/capa_aacia2k4.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://gps.ikeasistencia.com.ar:9000/soap/capa_aacia2k4?wsdl" xnocompile="true" xendorsed="true" package="ar.com.ike.geo.ws.capa">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/capa_aacia2k4/wsdl/gps.ikeasistencia.com.ar_9000/soap/capa_aacia2k4.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/capa_aacia2k4"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/capa_aacia2k4">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-capa_aacia2k4" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/ar/com/ike/geo/ws/capa"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/capa_aacia2k4"/>
+    </target>
+    <target name="wsimport-client-generate" depends="wsimport-client-aacia2k4, wsimport-client-capa_aacia2k4"/>
 </project>
