@@ -2,5 +2,5 @@
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
     <system systemId="http://172.17.10.235:8000/soap/aacia2k4?wsdl" uri="conf/xml-resources/web-service-references/aacia2k4/wsdl/172.17.10.235_8000/soap/aacia2k4.wsdl"/>
 <system systemId="http://gps.ikeasistencia.com.ar:8000/soap/aacia2k4?wsdl" uri="conf/xml-resources/web-service-references/aacia2k4/wsdl/gps.ikeasistencia.com.ar_8000/soap/aacia2k4.wsdl"/>
-    <system systemId="http://gps.ikeasistencia.com.ar:9000/soap/capa_aacia2k4?wsdl" uri="conf/xml-resources/web-service-references/capa_aacia2k4/wsdl/gps.ikeasistencia.com.ar_9000/soap/capa_aacia2k4.wsdl"/>
+    <system systemId="http://gps.ikeasistencia.com.ar:9000/soap/capa_aacia2k4?wsdl" uri="wsdl/gps.ikeasistencia.com.ar_9000/soap/capa_aacia2k4.wsdl"/>
 </catalog>

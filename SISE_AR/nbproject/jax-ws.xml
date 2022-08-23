@@ -47,6 +47,42 @@
         </wsimport-option>
       </wsimport-options>
     </client>
+    <client name="capa_aacia2k4">
+      <wsdl-url>http://gps.ikeasistencia.com.ar:9000/soap/capa_aacia2k4?wsdl</wsdl-url>
+      <local-wsdl-file>gps.ikeasistencia.com.ar_9000/soap/capa_aacia2k4.wsdl</local-wsdl-file>
+      <package-name forceReplace="true">ar.com.ike.geo.ws.capa</package-name>
+      <catalog-file>catalog.xml</catalog-file>
+      <wsimport-options>
+        <wsimport-option>
+          <wsimport-option-name>extension</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>verbose</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>fork</wsimport-option-name>
+          <wsimport-option-value>false</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>wsdlLocation</wsimport-option-name>
+          <wsimport-option-value>http://gps.ikeasistencia.com.ar:9000/soap/capa_aacia2k4?wsdl</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>xnocompile</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>xendorsed</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>package</wsimport-option-name>
+          <wsimport-option-value>ar.com.ike.geo.ws.capa</wsimport-option-value>
+        </wsimport-option>
+      </wsimport-options>
+    </client>
   </clients>
   <jsr109>false</jsr109>
 </jax-ws>
