@@ -6,8 +6,7 @@ package WSC;
 
 import java.sql.ResultSet;
 import Utilerias.UtileriasBDF;
-import ar.com.ike.geo.ws.tns.Application;
-import ar.com.ike.geo.ws.tns.Application_Service;
+import javax.xml.ws.BindingProvider;
 /**
  *
  * @author mramirez
@@ -24,15 +23,21 @@ public class EnviaExpediente extends com.ike.model.DAOBASE {  //09436 mzara
             ResultSet rsEx = UtileriasBDF.rsSQLNP("st_WSgetDatosExp " + clExpediente + "," + clUsrApp);
             if (rsEx.next()) {
                 System.out.println("WS 3");
-                Application_Service service = new ar.com.ike.geo.ws.tns.Application_Service();
-                ar.com.ike.geo.ws.tns.Application port = service.getApplication();
+// -- PROD
+//                ar.com.ike.geo.ws.tns.Application_Service service = new ar.com.ike.geo.ws.tns.Application_Service();
+//                ar.com.ike.geo.ws.tns.Application port = service.getApplication();
+
+// -- DEV
+                ar.com.ike.geo.ws.capa.Application_Service service = new ar.com.ike.geo.ws.capa.Application_Service();
+                ar.com.ike.geo.ws.capa.Application port = service.getApplication();
+                
                 // TODO initialize WS operation arguments here
                 java.lang.String nombreOrigen = rsEx.getString("NombreOrigen");
                 java.lang.String codigoDeAutorizacion = rsEx.getString("CodigoAutorizacion");
                 java.lang.String telefono = rsEx.getString("Telefono");
                 java.lang.String denunciante = rsEx.getString("QuienReporta");
-                //java.lang.String cobertura = rsEx.getString("Cobertura");
-                java.lang.String cobertura = getTipoLogica(rsEx.getInt("clGrupoCuenta"));
+                java.lang.String cobertura = rsEx.getString("Cobertura");
+//                java.lang.String cobertura = getTipoLogica(rsEx.getInt("clGrupoCuenta"));
                 java.lang.String tipoSrvInicial = rsEx.getString("ServicioSubServicio");
                 java.lang.String desperfecto = rsEx.getString("Desperfecto");
                 java.lang.String ubicacion = rsEx.getString("Ubicacion");
@@ -47,7 +52,31 @@ public class EnviaExpediente extends com.ike.model.DAOBASE {  //09436 mzara
                 java.lang.String horaInicio = rsEx.getString("HoraInicio");
                 java.lang.String operador = rsEx.getString("Operador");
                 java.lang.String observaciones = rsEx.getString("Observaciones");
-                // TODO process result here
+                
+                java.lang.String datos = "";
+                datos = datos + "nombreOrigen = " + nombreOrigen + "\n";
+                datos = datos + "codigoDeAutorizacion = " + codigoDeAutorizacion + "\n";
+                datos = datos + "telefono = " + telefono + "\n";
+                datos = datos + "denunciante = " + denunciante + "\n";
+                datos = datos + "cobertura = " + cobertura + "\n";
+                datos = datos + "tipoSrvInicial = " + tipoSrvInicial + "\n";
+                datos = datos + "desperfecto = " + desperfecto + "\n";
+                datos = datos + "ubicacion = " + ubicacion + "\n";
+                datos = datos + "localidad = " + localidad + "\n";
+                datos = datos + "destino = " + destino + "\n";
+                datos = datos + "origengeo = " + origengeo + "\n";
+                datos = datos + "destinogeo = " + destinogeo + "\n";
+                datos = datos + "patente = " + patente + "\n";
+                datos = datos + "titular = " + titular + "\n";
+                datos = datos + "modelo = " + modelo + "\n";
+                datos = datos + "color = " + color + "\n";
+                datos = datos + "horaInicio = " + horaInicio + "\n";
+                datos = datos + "operador = " + operador + "\n";
+                datos = datos + "observaciones = " + observaciones + "\n";
+                System.out.println(datos);
+                
+
+                
                 java.lang.String result = port.agregarServicio(nombreOrigen, codigoDeAutorizacion, telefono, denunciante, cobertura, tipoSrvInicial, desperfecto, ubicacion, localidad, destino, origengeo, destinogeo, patente, titular, modelo, color, horaInicio, operador, observaciones);
                 System.out.println("Result = " + result);
 
