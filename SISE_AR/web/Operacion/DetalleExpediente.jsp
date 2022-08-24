@@ -250,8 +250,8 @@
         <%=MyUtil.ObjComboMem("Pais", "clPais", exp != null ? exp.getDsPais() : "", exp != null ? exp.getClPais() : "", cbPais.GeneraHTML(20, exp != null ? exp.getDsPais() : ""), true, true, 25, 385, "0", "fnLlenaEntidadAjaxFn(this.value);", "", 20, false, false)%>
         <%=MyUtil.ObjInput("Ciudad", "CiudadExt", exp != null ? exp.getCiudadExt() : "", true, true, 250, 385, "", false, false, 50)%>
         <%=MyUtil.ObjComboMemDiv("Provincia", "CodEnt", dsEntFed, CodEnt, cbEntidad.GeneraHTML(20, dsEntFed, StrclPais), true, true, 25, 425, "", "fnLLenaComboMDAjax(this.value);", "", 20, true, true, "CodEntDiv")%>
-        <%=MyUtil.ObjComboMemDiv("Localidad", "CodMD", dsMunDel, StrCodMD, cbEntidad.GeneraHTMLMD(30, CodEnt, dsMunDel), true, true, 250, 425, "", "", "", 20, true, true, "LocalidadDiv")%>
-        <%=MyUtil.DoBlock("Ubicación", 100, 0)%>
+        <%=MyUtil.ObjComboMemDiv("Localidad", "CodMD", dsMunDel, StrCodMD, cbEntidad.GeneraHTMLMD(30, CodEnt, dsMunDel), true, true, 250, 425, "", "", "", 20, false, false, "LocalidadDiv")%>
+        <%=MyUtil.DoBlock("Ubicacion", 100, 0)%>
 
         <%=MyUtil.ObjChkBox("Cita", "CitaVTR", exp != null ? exp.getCita() : "", false, false, 580, 385, "0", "")%>
         <%=MyUtil.ObjInput("Fecha Cita<br>aaaa/mm/dd hh:mm", "FechaCitaVTR", exp != null ? exp.getFechaCita() : "", false, false, 680, 385, "", false, false, 25)%>
