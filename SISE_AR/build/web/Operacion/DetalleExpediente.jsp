@@ -249,7 +249,7 @@
 
         <%=MyUtil.ObjComboMem("Pais", "clPais", exp != null ? exp.getDsPais() : "", exp != null ? exp.getClPais() : "", cbPais.GeneraHTML(20, exp != null ? exp.getDsPais() : ""), true, true, 25, 385, "0", "fnLlenaEntidadAjaxFn(this.value);", "", 20, false, false)%>
         <%=MyUtil.ObjInput("Ciudad", "CiudadExt", exp != null ? exp.getCiudadExt() : "", true, true, 250, 385, "", false, false, 50)%>
-        <%=MyUtil.ObjComboMemDiv("Provincia", "CodEnt", dsEntFed, CodEnt, cbEntidad.GeneraHTML(20, dsEntFed, StrclPais), true, true, 25, 425, "", "fnLLenaComboMDAjax(this.value);", "", 20, true, true, "CodEntDiv")%>
+        <%=MyUtil.ObjComboMemDiv("Provincia", "CodEnt", dsEntFed, CodEnt, cbEntidad.GeneraHTML(20, dsEntFed, StrclPais), true, true, 25, 425, "", "fnLLenaComboMDAjax(this.value);", "", 20, false, false, "CodEntDiv")%>
         <%=MyUtil.ObjComboMemDiv("Localidad", "CodMD", dsMunDel, StrCodMD, cbEntidad.GeneraHTMLMD(30, CodEnt, dsMunDel), true, true, 250, 425, "", "", "", 20, false, false, "LocalidadDiv")%>
         <%=MyUtil.DoBlock("Ubicacion", 100, 0)%>
 
@@ -389,8 +389,8 @@
             function failureFunc() {  }
 //------------------------------------------------------------------------------           
             function fnValidaPaisEF() {
-                if (document.all.clPais.value == '' && document.all.CodEnt.value == '') {
-                    msgVal = "Debe informar país o Provincia";
+                if (document.all.clPais.value == '') {
+                    msgVal = "Debe informar paÃ­s";
                     document.all.btnGuarda.disabled = false;
                     document.all.btnCancela.disabled = false;
                     }
