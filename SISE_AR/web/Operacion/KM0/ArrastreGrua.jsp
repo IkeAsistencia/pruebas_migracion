@@ -102,6 +102,9 @@
                 String peajesCubiertos   = "";
                 Boolean coberturaTotalPeaje = false;
                 String montoCubierto     = "";
+                String peajesCubiertosActualizado  = "";
+                Boolean coberturaTotalPeajeActualizado = false;
+                String montoCubiertoActualizado     = "";
                 String clEstacionamiento = "";
                 String kmAsistencia      = "";
                 
@@ -217,9 +220,9 @@
         horaDesdeProg       = (infoAdicAV != null?String.valueOf(infoAdicAV.getHoraDesdeProg()) :"");
         horaHastaProg       = (infoAdicAV != null?String.valueOf(infoAdicAV.getHoraHastaProg()) :"");
         clEstacionamiento   = (infoAdicAV != null?String.valueOf(infoAdicAV.getClEstacionamiento()) :"");
-  //    peajesCubiertos     = (infoAdicAV != null?String.valueOf(infoAdicAV.getPeajesCubiertos() ) :"");
-  //    CoberturaTotalPeaje = (infoAdicAV != null?String.valueOf(infoAdicAV.getCoberturaTotalPeaje() ) :"");
-  //    montoCubierto       = (infoAdicAV != null?String.valueOf(infoAdicAV.getMontoCubierto() ) :"");
+        peajesCubiertos     = (infoAdicAV != null?String.valueOf(infoAdicAV.getPeajesCubiertos() ) :"");
+        coberturaTotalPeaje = (infoAdicAV != null?infoAdicAV.getCoberturaTotalPeaje() : false);
+        montoCubierto       = (infoAdicAV != null?String.valueOf(infoAdicAV.getMontoCubierto() ) :"");
         kmAsistencia        = (infoAdicAV != null?String.valueOf(infoAdicAV.getKmAsistencia() ) :"");
 
         StrSql.append(" st_getDatosAfiliadoGral '").append(StrClave).append("','").append(StrclCuenta).append("'");
@@ -243,9 +246,9 @@
             StrSql.delete(0, StrSql.length());
 
             if (rsDatosPeajeCubiertos.next()) {
-                coberturaTotalPeaje = rsDatosPeajeCubiertos.getBoolean("CoberturaTotalPeaje");
-                montoCubierto = rsDatosPeajeCubiertos.getString("MontoCubiertoPeaje");
-                peajesCubiertos = coberturaTotalPeaje || Integer.parseInt(montoCubierto) > 0 ? "1" : "0" ;
+                coberturaTotalPeajeActualizado = rsDatosPeajeCubiertos.getBoolean("CoberturaTotalPeaje");
+                montoCubiertoActualizado = rsDatosPeajeCubiertos.getString("MontoCubiertoPeaje");
+                peajesCubiertosActualizado = coberturaTotalPeajeActualizado || Integer.parseInt(montoCubiertoActualizado) > 0 ? "1" : "0" ;
             }
 
             session.setAttribute("clPaginaWebP", StrclPaginaWeb);
@@ -523,21 +526,23 @@
                    <%
                   iRowPx = iRowPx + 48;
                   %> 
+        
         <div id="divPeajesCubiertos"  class='VTable' style='position:absolute; z-index:100; left:30px; top:<%= iRowPx%>px; ' >
-            <p style="display: inline; text-align: left; width:auto; ">¿Tiene cobertura total en peajes?&nbsp;&nbsp;</p>
-            <input class='VTable' id="cubiertos"   type="radio"  name="chkPeajeCub" value="1" disabled >SI
-            <input class='VTable' id="noCubiertos" type="radio"  name="chkPeajeCub" value="0" disabled >NO
+            <p style="display: inline; text-align: left; width:auto; ">Â¿Tiene cobertura de peajes?&nbsp;&nbsp;</p>
+            <p id="cubiertos" style="display:none">SI
+            <p id="noCubiertos" style="display:none">NO
             <input type="hidden" name="peajesCubiertos" id="peajesCubiertos" value="<%=peajesCubiertos%>" >
             <input type="hidden" name="coberturaTotalPeaje" id="coberturaTotalPeaje" value="<%=coberturaTotalPeaje? 1 : 0%>" >
         </div> 
                   
         <div id="divMontoCubierto" style="visibility: 'hidden'">
-            <%=MyUtil.ObjInput("Monto cubierto", "montoCubierto", montoCubierto, false, false, 330, iRowPx, "", true, false, 3,"")%>
+            <%=MyUtil.ObjInput("Monto cubierto", "muestraMontoCubierto", montoCubierto, false, false, 330, iRowPx, "", true, false, 3,"")%>
         </div>
          <%
         iRowPx = iRowPx + 48;
         %> 
 
+        <input type="hidden" name="montoCubierto" id="montoCubierto" value="<%=montoCubierto%>">
         
         <%=MyUtil.DoBlock("Detalle de Arrastre de Grua  ", 80, 40)%>
 
@@ -676,8 +681,6 @@
             document.all.tieneModificaciones.disabled = true;
             document.all.esProgramado.disabled = true;
             document.all.noEsProgramado.disabled = true;
-            document.all.cubiertos.disabled = true;
-            document.all.noCubiertos.disabled=true;
 
             document.all.divRuedasBloqueadas.style.visibility = 'hidden';
             document.all.divGaraje.style.visibility = 'hidden';
@@ -833,26 +836,27 @@
                 document.all.btnCambio.disabled = <%=(AV == null?"true":"false")%>;
                 document.all.MapaOrig.disabled = true; 
                 document.all.MapaDest.disabled = true;
-                $("#cubiertos").prop("checked", $("#coberturaTotalPeaje").val() === '1');
-                $("#noCubiertos").prop("checked", $("#coberturaTotalPeaje").val() !== '1');
-                if ( $("#coberturaTotalPeaje").val() == 0) {
-                   document.all.divMontoCubierto.style.visibility = 'visible';
-                } else {
-                   document.all.divMontoCubierto.style.visibility = 'hidden';
-                }
+                fnCoberturaPeaje();
+                
                 $("#btnCambio").click(function() {
                     document.getElementById("DireccionA").disabled = false; 
                     document.getElementById("DireccionB").disabled = false; 
                     document.all.MapaOrig.disabled = false; 
                     document.all.MapaDest.disabled = false;
-                    document.all.montoCubierto.value = <%=montoCubierto%>;
+                    document.all.montoCubierto.value = <%=montoCubiertoActualizado%>;
+                    document.all.coberturaTotalPeaje.value = <%= (coberturaTotalPeajeActualizado? "1" : "0")%>;
+                    document.all.peajesCubiertos.value = <%=peajesCubiertosActualizado%>;
+                    fnCoberturaPeaje();
                 });
                 $("#btnAlta").click(function() {
                     document.getElementById("DireccionA").disabled = false; 
                     document.getElementById("DireccionB").disabled = false; 
                     document.all.MapaOrig.disabled = false; 
                     document.all.MapaDest.disabled = false;
-                    document.all.montoCubierto.value = <%=montoCubierto%>;
+                    document.all.montoCubierto.value = <%=montoCubiertoActualizado%>;
+                    document.all.coberturaTotalPeaje.value = <%= (coberturaTotalPeajeActualizado? "1" : "0")%>;
+                    document.all.peajesCubiertos.value = <%=peajesCubiertosActualizado%>;
+                    fnCoberturaPeaje();
                 });
                 $("#CalleNum").change(function() {
                     document.getElementById("LatLong").value = "";
@@ -898,6 +902,22 @@
                                     });
 				});
                     // ------------------------------------------------------------------
+                    
+             function fnCoberturaPeaje() {
+                 if ($("#peajesCubiertos").val() === '1') {
+                    $("#cubiertos").css('display', 'inline');
+                    $("#noCubiertos").css('display', 'none');
+                    $("#divMontoCubierto").css('visibility', 'visible');
+                    var valor = $('#coberturaTotalPeaje').val() === '1' ? 'TOTAL' : $('#montoCubierto').val().toString();
+                    $('#muestraMontoCubierto').val(valor);
+                 }  
+                 else {
+                    $("#cubiertos").css('display', 'none');
+                    $("#noCubiertos").css('display', 'inline');
+                    $("#divMontoCubierto").css('visibility', 'hidden');
+                 }
+             }
+           
             /*
              * Cierra el diálogo de 
              * vehículo con carga*/
@@ -1177,18 +1197,7 @@
                 }
             }     
             
-            /*
-             * Tiene cobertura de peajes
-             */
-//            function fnPeajesCubiertos(peajesCubiertos) {
-//                if ( peajesCubiertos === '1' ) {
-//                    document.all.divMontoCubierto.style.visibility = 'visible';
-//                } else {
-//                    document.all.divMontoCubierto.style.visibility = 'hidden';
-//                    document.all.montoCubierto.value = ' ';
-//                }
-//      
-//            }
+            
             /**Radio button rueda bloqueada/no bloqueada*/
             function fnValorRadioBloqueada(bloqueada) {
                 if ( bloqueada === '1' ) {
@@ -1624,8 +1633,8 @@
                         msgVal = msgVal + " El monto cubierto debe ser un número";
                     } else {
                         var valorMonto = parseInt(montoCubierto.toString());
-                        if ( valorMonto <0 && valorMonto >999 ) {
-                            msgVal = msgVal + " El monto cubierto debe estar entre 0 y 999";
+                        if ( valorMonto < 0 ) {
+                            msgVal = msgVal + " El monto cubierto debe ser mayor a 0";
                         }
                     }
                 } else {
