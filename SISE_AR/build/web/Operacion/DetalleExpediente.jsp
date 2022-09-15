@@ -394,11 +394,6 @@
                     document.all.btnGuarda.disabled = false;
                     document.all.btnCancela.disabled = false;
                     }
-//                if (document.all.CodEnt.value != '' && document.all.CodMD.value == '') {
-//                    msgVal = "Si informa Provincia debe informar Localidad";
-//                    document.all.btnGuarda.disabled = false;
-//                    document.all.btnCancela.disabled = false;
-//                    }
                     }
 //------------------------------------------------------------------------------
             function fnSubmitOK(pclUsr, pMotivo) {
@@ -717,7 +712,7 @@
 //------------------------------------------------------------------------------                
             function fnCargaDetalle() {
                 var clCuenta = $('#clCuenta').val();
-                var nombre = $('#NuestroUsuario').val();
+                var nombre = $('#NuestroUsuario').val().trim().replace(/  +/g,' ');
                 var datos = {nombre: nombre,
                              clCuenta: clCuenta
                             };
