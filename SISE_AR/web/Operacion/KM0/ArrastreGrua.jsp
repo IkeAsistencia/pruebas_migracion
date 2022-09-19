@@ -101,10 +101,10 @@
                 String horaHastaProg     = "";
                 String peajesCubiertos   = "";
                 Boolean coberturaTotalPeaje = false;
-                String montoCubierto     = "";
+                String montoCubierto     = "0";
                 String peajesCubiertosActualizado  = "";
                 Boolean coberturaTotalPeajeActualizado = false;
-                String montoCubiertoActualizado     = "";
+                String montoCubiertoActualizado     = "0";
                 String clEstacionamiento = "";
                 String kmAsistencia      = "";
                 
@@ -222,7 +222,7 @@
         clEstacionamiento   = (infoAdicAV != null?String.valueOf(infoAdicAV.getClEstacionamiento()) :"");
         peajesCubiertos     = (infoAdicAV != null?String.valueOf(infoAdicAV.getPeajesCubiertos() ) :"");
         coberturaTotalPeaje = (infoAdicAV != null?infoAdicAV.getCoberturaTotalPeaje() : false);
-        montoCubierto       = (infoAdicAV != null?String.valueOf(infoAdicAV.getMontoCubierto() ) :"");
+        montoCubierto       = (infoAdicAV != null?String.valueOf(infoAdicAV.getMontoCubierto() ) :"0");
         kmAsistencia        = (infoAdicAV != null?String.valueOf(infoAdicAV.getKmAsistencia() ) :"");
 
         StrSql.append(" st_getDatosAfiliadoGral '").append(StrClave).append("','").append(StrclCuenta).append("'");
@@ -536,7 +536,7 @@
         </div> 
                   
         <div id="divMontoCubierto" style="visibility: 'hidden'">
-            <%=MyUtil.ObjInput("Monto cubierto", "muestraMontoCubierto", montoCubierto, false, false, 330, iRowPx, "", true, false, 3,"")%>
+            <%=MyUtil.ObjInput("Monto cubierto", "muestraMontoCubierto", montoCubierto, false, false, 330, iRowPx, "", false, false, 3,"")%>
         </div>
          <%
         iRowPx = iRowPx + 48;
@@ -582,7 +582,7 @@
         <%=MyUtil.DoBlock("Ubicación del Evento", 80, 40)%>
         
         <%
-        iRowPx = iRowPx + 80;
+        iRowPx = iRowPx + 170;
         %>
         <%=MyUtil.ObjComboMem("Pais Destino", "clPaisDest", AV != null ? AV.getDsPaisD() : "ARGENTINA", AV != null ? AV.getClPaisD() : "10", cbPais.GeneraHTML(20, AV != null ? AV.getDsPaisD() : "ARGENTINA"), false, false, 30, iRowPx, StrclPais, "fnLlenaEntidadAjaxFnDest(this.value);", "", 20, false, false)%>
         <%
@@ -696,7 +696,7 @@
             document.all.divTipoFalla.style.visibility = 'hidden';
             document.all.divVehiculoLiberadoAccidente.style.visibility = 'hidden';    
             document.all.divEstacionamiento.style.visibility = 'hidden';
-            //document.all.divMontoCubierto.style.visibility = 'hidden';
+           // document.all.divMontoCubierto.style.visibility = 'hidden';
             
             /*Cargo los datos*/
             var cambio = <%=StrclInfoAdicKMO%>;
