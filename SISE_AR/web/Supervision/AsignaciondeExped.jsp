@@ -77,9 +77,9 @@
                         while (rs.next()) {
                 %>
                 <tr>
-                    <td><INPUT id='Usuarios' name='Usuarios' type='checkbox'></td>
-                    <td><INPUT disabled='true' id='Nombre' name='Nombre' type='text' value='<%=rs.getString("Nombre")%>'></td>
-                    <td><INPUT disabled='true' id='clUsrApp' name='clUsrApp' type='hidden' value='<%=rs.getString("clUsrApp")%>'></td>
+                    <td><INPUT id='Usuarios<%=iCont%>' name='Usuarios<%=iCont%>' type='checkbox'></td>
+                    <td><INPUT disabled='true' id='Nombre<%=iCont%>' name='Nombre<%=iCont%>' type='text' value='<%=rs.getString("Nombre")%>'></td>
+                    <td><INPUT disabled='true' id='clUsrApp<%=iCont%>' name='clUsrApp<%=iCont%>' type='hidden' value='<%=rs.getString("clUsrApp")%>'></td>
                 </tr>
 
                 <%
@@ -116,36 +116,19 @@
                 //document.all.Supervision.value=0;
                 document.all.clServicioC.disabled=false;
                 document.all.clServicio.value=0;
-                fnLlenaSubServicios()
+                fnLlenaSubServicios();
             }
 
             function fnConcatena(){
-                i=0;
-                document.all.UsuariosSeleccionados.value='';
-                if (document.all.Total.value>1){
-                    while (i<document.all.Total.value){
-                        //document.all.Usuarios(i).checked;
-                        if (document.all.Usuarios(i).checked){
-                            if (document.all.UsuariosSeleccionados.value==''){
-                                document.all.UsuariosSeleccionados.value = document.all.clUsrApp(i).value;
-                            } else {
-                                document.all.UsuariosSeleccionados.value = document.all.UsuariosSeleccionados.value + ',' + document.all.clUsrApp(i).value;
+                var total = document.getElementById('Total').value;
+                var selectedList = document.getElementById('UsuariosSeleccionados');
+                selectedList.value = '0';
+                for (var i = 0; i < total; i++) {
+                    if (document.getElementById('Usuarios'+i).checked){
+                        selectedList.value = selectedList.value + ',' + document.getElementById('clUsrApp'+i).value;
                             }
                         }
-                        i++;
                     }
-                } else {
-                    if (document.all.Usuarios.checked){
-
-                        if (document.all.UsuariosSeleccionados.value==''){
-                            document.all.UsuariosSeleccionados.value = document.all.clUsrApp.value;
-                        }
-                        else{
-                            document.all.UsuariosSeleccionados.value = document.all.UsuariosSeleccionados.value + ',' + document.all.clUsrApp.value;
-                        }
-                    }
-                }
-            }
 
             function fnBuscaCuenta(){
                 if (document.all.Nombre.value!=''){

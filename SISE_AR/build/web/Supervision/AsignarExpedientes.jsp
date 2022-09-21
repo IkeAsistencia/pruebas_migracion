@@ -119,7 +119,7 @@
         <% StringBuffer strSalida = new StringBuffer();
                             UtileriasBDF.rsTableNP(StrSql.toString(), strSalida);
                             System.out.println(StrSql);
-                            if (strSalida.length() > 508) {
+                            if (strSalida.length() > 170) {
         %>
         <script type="text/javascript">parent.Selecccion.document.all.Asig.disabled=false;</script>
         <%} else {%>
