@@ -528,7 +528,7 @@
                   %> 
         
         <div id="divPeajesCubiertos"  class='VTable' style='position:absolute; z-index:100; left:30px; top:<%= iRowPx%>px; ' >
-            <p style="display: inline; text-align: left; width:auto; ">Â¿Tiene cobertura de peajes?&nbsp;&nbsp;</p>
+            <p style="display: inline; text-align: left; width:auto; ">¿Tiene cobertura de peajes?&nbsp;&nbsp;</p>
             <p id="cubiertos" style="display:none">SI
             <p id="noCubiertos" style="display:none">NO
             <input type="hidden" name="peajesCubiertos" id="peajesCubiertos" value="<%=peajesCubiertos%>" >
