@@ -21,7 +21,7 @@
             rec.sAProgramar = (rs.getBoolean("aprogramar")?"S":"N");
             rec.sConExcedente = (rs.getBoolean("ConExcedente")?"S":"N");
             rec.sConexion = (rs.getInt("clTipoServicio")==2?"S":"N");
-            //rec.Estatus = rs.getInt("estatus");
+            rec.garantia = rs.getInt("Garantia");
             recs.add(rec);
         }
         rs.close();

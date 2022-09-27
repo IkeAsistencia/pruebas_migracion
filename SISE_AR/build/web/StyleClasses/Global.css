@@ -703,6 +703,10 @@ div.loading-visible{
     border-top: 1px dotted #eee;
 }
 
+.conGarantia {
+    border: 2px solid blue;
+}
+
 /*
 .cssVerdeFuerte{
         font-family: Verdana, Arial, Helvetica, sans-serif;

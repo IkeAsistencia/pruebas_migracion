@@ -16,6 +16,9 @@
             String StrclTipo = "0";
             String StrActualizar = "0";
             StringBuffer StrSql = new StringBuffer();
+            StringBuffer StrSql2 = new StringBuffer();
+            String StrFechaAsignacion = "";
+            int minutosGarantia = 0;
             if (session.getAttribute("clUsrApp") != null) {
                 StrclUsrApp = session.getAttribute("clUsrApp").toString();
             }
@@ -45,11 +48,25 @@
             if (request.getParameter("StrSql") != null) {
                 StrSql.append(request.getParameter("StrSql").toString());
             }
+
+            
+
             String modo = (request.getParameter("MODO")!=null?request.getParameter("MODO"):"");
             String sTEC = (request.getParameter("Tiempo")!=null?request.getParameter("Tiempo"):"");
             System.out.println("StrActualizar:" + StrActualizar);
             System.out.println("StrSql:" + StrSql);
             ResultSet rs = null;
+
+            StrSql2.append("st_getFechaAsignacionYGarantia " + StrclExpediente + ", " + StrclProveedor);
+            ResultSet rs2 = null;
+            rs2 = UtileriasBDF.rsSQLNP(StrSql2.toString());
+            if (rs2.next()) {
+                StrFechaAsignacion = rs2.getString("FechaAsignacion");
+                minutosGarantia = rs2.getInt("minutosGarantia");
+            }
+            rs2.close();
+            StrSql2.delete(0, StrSql2.length());
+
 
             if (StrActualizar.equals("1") || StrActualizar.equals("2") || StrActualizar.equals("3") || StrActualizar.equals("4")) {
                 rs = UtileriasBDF.rsSQLNP( StrSql.toString());
@@ -89,8 +106,9 @@
             <input id='clProveedor' name='clProveedor' type='hidden' value='<%=StrclProveedor%>'>
             <input id='StrSql' name='StrSql' type='hidden' value='<%=StrSql.toString()%>'>
             <input id='MODO' name='MODO' type='hidden' value=''>
+            <input id='minutosGarantia' name='minutosGarantia' type='hidden' value='<%=minutosGarantia%>'>
+            <input id='fechaAsignacion' name='fechaAsignacion' type='hidden' value='<%=StrFechaAsignacion%>'>
             
-
             <% if (StrclTipo.equals("1")) {%>
             <input id='FechaAnt' name='FechaAnt' type='hidden' value='<%=rs.getString("FechaLlegada")%>'>
             <table>
@@ -161,7 +179,21 @@
                 }
                 //alert('query: '+StrSql);
                 document.all.StrSql.value = StrSql;
+                var minutosGarantia = document.all.minutosGarantia.value;
+                if (minutosGarantia === "0" || Tipo != 1){
                 document.all.form.submit();
+                } else {
+                    var fechaInicial = new Date(document.all.fechaAsignacion.value);
+                    var fechaNueva = new Date(document.all.FechaNueva.value);
+                    var fechaYGarantia = new Date(fechaInicial.setMinutes(minutosGarantia));
+                    if (fechaYGarantia < fechaNueva){
+                        if (confirm("¿Confirma que la garantía no se cumplio?")){
+                            document.all.form.submit();
+            }
+                    } else {
+                        document.all.form.submit();
+                    }
+                }
             }
 
             function fnCancelar() {

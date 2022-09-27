@@ -32,7 +32,10 @@
             String StrclExpediente = "0";
             String StrclPaginaWeb = "186";
             String StrclInfoAdicKMO = "0";
-            String StrclSubServicio = session.getAttribute("clSubServicio").toString();
+            String StrclServicio = "";
+            String StrclSubServicio = "";
+            String StrclTipoServicio = "";
+            
             
             //  DATOS DE LA UBICACION ORIGEN, VIENEN DEL EXPEDIENTE EN SESION
             String StrclPais = "";
@@ -120,6 +123,12 @@
             if (session.getAttribute("dsPais") != null) {
                 StrdsPais = session.getAttribute("dsPais").toString();
             }
+            if (session.getAttribute("clServicio") != null) {
+                StrclServicio = session.getAttribute("clServicio").toString(); 
+            }
+            if (session.getAttribute("clSubServicio") != null) {
+                StrclSubServicio = session.getAttribute("clSubServicio").toString();
+            }
 
             ResultSet cdr = UtileriasBDF.rsSQLNP( "sp_DetalleExpediente " + StrclExpediente );
             if (cdr.next()) {
@@ -127,6 +136,7 @@
                 StrdsEntFed = cdr.getString("dsEntFed");
                 StrCodMD    = cdr.getString("CodMD");
                 StrdsMunDel = cdr.getString("dsMunDel");
+                StrclTipoServicio = cdr.getString("clTipoServicio");
                 
                 //Se obtienen desde la base y no desde session. verificar:
                 StrclCuenta = cdr.getString("clCuenta");
@@ -294,7 +304,7 @@
                 strMenu.append(" type=\"button\" id=\"btnElimina\" value=\"Eliminar\" onClick=\"this.disabled=true;document.all.Action.value=3;document.all.btnGuarda.disabled=false;document.all.btnCancela.disabled=false;document.all.btnAlta.disabled=true;document.all.btnCambio.disabled=true;\" ></input>");
                 strMenu.append("  <input disabled=true type=\"button\" id=\"btnGuarda\" value=\"Guardar\" onClick=\"");
                 strMenu.append("this.disabled=true;document.all.btnCancela.disabled=true;document.all.btnAlta.disabled=true;document.all.btnCambio.disabled=true;document.all.btnElimina.disabled=true;");
-                strMenu.append("fnGuardarInfoAdicional();");
+                strMenu.append("fnGuardar();");
 
                 strMenu.append("if(msgVal !==\'\'){");
                 strMenu.append("alert(\'Falta informar: \' + msgVal)}\" ></input>");
@@ -1422,7 +1432,53 @@
                         /**
              * Test guardar información
             */
+           function setGarantia() {
+                var clExpediente  = <%=StrclExpediente%>;
+                var clInfoAdicKM0 = document.all.clInfoAdicKMO.value;
+                var clCuenta = <%=StrclCuenta%>;
+                var clServicio = <%=StrclServicio%>;
+                var clSubServicio = <%=StrclSubServicio%>;
+                var clTipoServicio = <%=StrclTipoServicio%>;
+                var codEntOrigen = document.all.CodEntOrigen.value==null? '' : document.all.CodEntOrigen.value;
+                var codMDOrigen = document.all.CodMDOrigen.value==null? '' : document.all.CodMDOrigen.value;
+                var codEntDestino = document.all.CodEntDest.value==null? '' : document.all.CodEntDest.value;
+                var codMDDestino = document.all.CodMDDest.value==null? '' : document.all.CodMDDest.value;
+                var tieneCarga = document.all.tieneCarga.value==null?'':document.all.tieneCarga.value;
+                var tieneModif = document.all.tieneModif.value==null?'':document.all.tieneModif.value;               
+                var clCantPersona =(document.all.clCantPersonaC.value==null)?0:document.all.clCantPersonaC.value;
+                var clUbicacionAuto = (document.all.clUbicacionAutoC.value ==null || document.all.clUbicacionAutoC.value =='')?0:document.all.clUbicacionAutoC.value;
+                var datos = {
+                    clExpediente: clExpediente,
+                    clInfoAdicKM0: clInfoAdicKM0,
+                    clCuenta: clCuenta,
+                    clServicio: clServicio,
+                    clSubServicio: clSubServicio,
+                    clTipoServicio: clTipoServicio,
+                    codEntOrigen: codEntOrigen,
+                    codMDOrigen: codMDOrigen,
+                    codEntDestino: codEntDestino,
+                    codMDDestino: codMDDestino,
+                    tieneCarga: tieneCarga,
+                    tieneModif: tieneModif,
+                    clCantPersona: clCantPersona,
+                    clUbicacionAuto: clUbicacionAuto
+                };
+                
+                $.when(
+                    $.ajax({
+                        type: "POST",
+                        url: "./ValidaGarantia.jsp",
+                        async: false,
+                        data: datos,
+                        dataType: 'Json',
+                        success: function(responseData, status, xhr) {},
+                        error: function(req, status, error) {},
+                    })).then(successFunc(), failureFunc());
+
+           }
+           
            function successFunc() {
+               
                 fnOpenWindow();
                 document.all.forma.submit();
            }
@@ -1515,15 +1571,14 @@
                 }
             }       
 
+           
+
             /**Insertar datos adicionales
              * antes de guardar la asistencia
              * para luego pasarle el
              * id de InfoAdicionalKM0 a
              * la tabla de AsistenciaKM0*/
             function fnGuardarInfoAdicional() { 
-                
-                
-
                 
                 var clInfoAdicKMO = <%=StrclInfoAdicKMO%>;
 		var clExpediente  = <%=StrclExpediente%>;
@@ -1580,6 +1635,7 @@
                 var montoCubierto = document.all.montoCubierto.value==null?'':document.all.montoCubierto.value;
                 //var kmAsistencia  = document.all.kmAsistencia.value==null?'':document.all.kmAsistencia.value;
                 var kmAsistencia  = 0;
+                
                 /*Valido los campos en general*/
                  fnValida();
                 /*Valido reglas*/
@@ -2104,10 +2160,15 @@
 					alert("Error grabando InfoAdicional:  " + error);
 				}
 			}
-		})).then( successFunc(), failureFunc() );
+		})).then( setGarantia(), failureFunc() );
 	
             }            
 
+            function fnGuardar() {
+
+                fnGuardarInfoAdicional();
+            }
+                
 
                 
 

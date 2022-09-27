@@ -29,6 +29,9 @@
             String StrclPaginaWeb = "198";
             String StrSubServ = "";
             String StrclInfoAdicKMO = "0";
+            String StrclServicio = "";
+            String StrclSubServicio = "";
+            String StrclTipoServicio = "";
             
             //  DATOS DE LA UBICACION ORIGEN, VIENEN DEL EXPEDIENTE EN SESION
             String StrclPais = "";
@@ -99,6 +102,12 @@
             if (session.getAttribute("dsPais") != null) {
                 StrdsPais = session.getAttribute("dsPais").toString();
             }
+            if (session.getAttribute("clServicio") != null) {
+                StrclServicio = session.getAttribute("clServicio").toString(); 
+            }
+            if (session.getAttribute("clSubServicio") != null) {
+                StrclSubServicio = session.getAttribute("clSubServicio").toString();
+            }
             ResultSet cdr = UtileriasBDF.rsSQLNP( "sp_DetalleExpediente " + StrclExpediente );
             if (cdr.next()) {
                 StrCodEnt   = cdr.getString("CodEnt");
@@ -111,6 +120,7 @@
                 //Se usa como String aunque sea un INT
                 StrSubServ = cdr.getString("clSubServicio");
                 StrdsSubServicio = cdr.getString("dsSubServicio");
+                StrclTipoServicio = cdr.getString("clTipoServicio");
                 cdr.close();
                 cdr = null;
             }
@@ -709,7 +719,7 @@
                 $(document.getElementById('clLugarEventoC')).val('2');
                     });
         
-                <!-- define que boton va habilitado o no al inicio -->
+                //<!-- define que boton va habilitado o no al inicio -->
                 document.getElementById('btnAlta').disabled = <%=(AV != null?"true":"false")%>;
                 document.getElementById('btnCambio').disabled = <%=(AV == null?"true":"false")%>;
                 document.getElementById('btnElimina').disabled = <%=(AV == null?"true":"false")%>;
@@ -1316,6 +1326,52 @@
                 }
             } 
             
+            /* Setea Garantia */
+            function setGarantia() {
+                var clExpediente  = <%=StrclExpediente%>;
+                var clInfoAdicKM0 = document.all.clInfoAdicKMO.value;
+                var clCuenta = <%=StrclCuenta%>;
+                var clServicio = <%=StrclServicio%>;
+                var clSubServicio = <%=StrclSubServicio%>;
+                var clTipoServicio = <%=StrclTipoServicio%>;
+                var codEntOrigen = document.all.CodEntOrigen.value==null? '' : document.all.CodEntOrigen.value;
+                var codMDOrigen = document.all.CodMDOrigen.value==null? '' : document.all.CodMDOrigen.value;
+                var codEntDestino = codEntOrigen;
+                var codMDDestino = codMDOrigen;
+                var tieneCarga = 0;
+                var tieneModif = 0;               
+                var clCantPersona = 0;
+                var clUbicacionAuto = (document.all.clUbicacionAutoUMLC.value ==null || document.all.clUbicacionAutoUMLC.value =='')?0:document.all.clUbicacionAutoUMLC.value;
+                var datos = {
+                    clExpediente: clExpediente,
+                    clInfoAdicKM0: clInfoAdicKM0,
+                    clCuenta: clCuenta,
+                    clServicio: clServicio,
+                    clSubServicio: clSubServicio,
+                    clTipoServicio: clTipoServicio,
+                    codEntOrigen: codEntOrigen,
+                    codMDOrigen: codMDOrigen,
+                    codEntDestino: codEntDestino,
+                    codMDDestino: codMDDestino,
+                    tieneCarga: tieneCarga,
+                    tieneModif: tieneModif,
+                    clCantPersona: clCantPersona,
+                    clUbicacionAuto: clUbicacionAuto
+                };
+                
+                $.when(
+                    $.ajax({
+                        type: "POST",
+                        url: "./ValidaGarantia.jsp",
+                        async: false,
+                        data: datos,
+                        dataType: 'Json',
+                        success: function(responseData, status, xhr) {},
+                        error: function(req, status, error) {},
+                    })).then(successFunc(), failureFunc());
+
+           }
+            
             /**
              * Test guardar información
             */
@@ -1912,7 +1968,6 @@
                         if ( elementTG.value.toString() === '0' || elementTG.value.toString() === '') {
                              msgVal = msgVal + "Debe seleccionar tipo de gasolina";
                         }
-                        
                         if ( elementCL.value.toString() === '0' || elementCL.value.toString() === '') {
                              msgVal = msgVal + "Debe seleccionar cantidad de litros";
                         }
@@ -2122,7 +2177,7 @@
 					alert("Error grabando InfoAdicional: " + error);
 				}
 			}
-		})).then( successFunc(), failureFunc() );
+		})).then( setGarantia(), failureFunc() );
 	
             }            
 

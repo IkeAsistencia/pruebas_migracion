@@ -50,4 +50,6 @@ public class ExpedienteTO {
     public String LatLong;
     public String CodEntOrigen;
     public String CodMDOrigen;
+    
+    public int garantia;
 }

@@ -70,7 +70,12 @@
                 var i = 1;
                 $.each(responseData,function(key,expediente){
                     //console.log(expediente.clExpediente);
-                    var markup = "<tr class='Contenido" + i +"' onMouseOut='this.className = \"Contenido"+ i +"\"' onMouseOver='this.className = \"ratonEncima\"'>"
+                    var markup = "";
+                    if (expediente.garantia > 0){
+                        markup = "<tr class='Contenido" + i +" conGarantia' onMouseOut='this.className = \"Contenido"+ i +" conGarantia\"' onMouseOver='this.className = \"ratonEncima conGarantia\"'>"
+                    } else {
+                        markup = "<tr class='Contenido" + i +"' onMouseOut='this.className = \"Contenido"+ i +"\"' onMouseOver='this.className = \"ratonEncima\"'>"
+                    }
                     var divTomar = "none";
                     var divAcciones = "none";
                     var divTomado = "none";
@@ -116,7 +121,8 @@
                     //else {
                     //    markup += "<td width=\"120px\"><div id=\"ASIGNADORAUTO\" ><b>En Asig. Automatico</b></div></td>";
                     //}
-                    markup += "<td nowrap>" + (expediente.sAProgramar=='S'?'<img src=\"../../Imagenes/asignacion/calendar.png\" width=\"28px\" height=\"28px\" alt=\"A Programar\">':'<img src=\"../../Imagenes/asignacion/Transparent.png\" width=\"28px\" height=\"28px\">') 
+                    markup += "<td nowrap>" + (expediente.garantia > 0?'<p>BLACK - ' + expediente.garantia + 'm</p>':'<img src=\"../../Imagenes/asignacion/Transparent.png\" width=\"28px\" height=\"28px\">')
+                                            + (expediente.sAProgramar=='S'?'<img src=\"../../Imagenes/asignacion/calendar.png\" width=\"28px\" height=\"28px\" alt=\"A Programar\">':'<img src=\"../../Imagenes/asignacion/Transparent.png\" width=\"28px\" height=\"28px\">') 
                                             + (expediente.sConExcedente=='S'?'<img src=\"../../Imagenes/asignacion/money.png\" width=\"28px\" height=\"28px\" alt=\"Con Excedente\">':'<img src=\"../../Imagenes/asignacion/Transparent.png\" width=\"28px\" height=\"28px\">') 
                                             + (expediente.sConexion=='S'?'<img src=\"../../Imagenes/asignacion/conexion.png\" width=\"28px\" height=\"28px\" alt=\"Conexion\">':'<img src=\"../../Imagenes/asignacion/Transparent.png\" width=\"28px\" height=\"28px\">') + "</td>"
                     markup += "</tr>";
