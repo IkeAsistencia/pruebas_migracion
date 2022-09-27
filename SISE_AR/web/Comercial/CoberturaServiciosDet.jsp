@@ -8,6 +8,7 @@
         <jsp:useBean id="MyUtil" scope="session" class="Utilerias.UtileriasObj" />
         <script src='../Utilerias/Util.js' ></script>
         <script src='../Utilerias/UtilServicio.js' ></script>
+        <script type="text/javascript" src="../Geolocalizacion/js/jquery.js"></script>
         <!-- BIBLIOTECAS AJAX -->
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>            
         <script type="text/javascript" src='../Utilerias/UtilAjax.js'></script>
@@ -105,62 +106,90 @@
             StrSql.delete(0, StrSql.length());
             StrSql.append("select clServicio from cSubServicio where clSubServicio = ").append(StrclSubServicio);
             ResultSet rs3 = UtileriasBDF.rsSQLNP(StrSql.toString());
-            rs3.next();
-            StrclServicio = rs3.getString("clServicio");
+            if (rs3.next()) { StrclServicio = rs3.getString("clServicio"); }
             StrSql.delete(0, StrSql.length());
             rs3.close();
             rs3 = null;
             session.setAttribute("clPaginaWebP", StrclPaginaWeb);
             // se checan permisos de alta,baja,cambio,consulta de esta pagina
             MyUtil.InicializaParametrosC(Integer.parseInt(StrclPaginaWeb), Integer.parseInt(StrclUsrApp)); %>
-            <%=MyUtil.doMenuAct("../servlet/Utilerias.EjecutaAccion", "")%>
+            <%=MyUtil.doMenuAct("../servlet/Utilerias.EjecutaAccion", "", "fnValidaciones();")%>
             <input id='URLBACK' name='URLBACK' type='hidden' value='<%=request.getRequestURL().substring(0, request.getRequestURL().lastIndexOf("/") + 1)%><%="CoberturaServiciosDet.jsp?"%>'/>
             <input id='clCobertura' name='clCobertura' type='hidden' value='<%=StrclCobertura%>'/>
             <input id='clPaginaWeb' name='clPaginaWeb' type='hidden' value='47'/>
+            <% int iRowPx = 80;%>
             <% if (rs.next()) {%>
-                <%=MyUtil.ObjInput("Cuenta", "Cuenta", rs2.getString("Nombre"), false, false, 30, 80, rs2.getString("Nombre"), false, false, 73)%>
-                <%=MyUtil.ObjComboC("Servicio", "clServicio", rs.getString("dsServicio"), true, false, 30, 120, "", "Select clServicio,dsServicio From cServicio Order by dsServicio", "fnLlenaSubServiciosCob()", "", 60, true, false)%>
-                <%=MyUtil.ObjComboC("SubServicio", "clSubServicio", rs.getString("dsSubServicio"), true, false, 30, 160, "", "Select clSubServicio, dsSubServicio From cSubServicio Where clServicio=" + rs.getString("clServicio") + " Order by dsSubServicio", "fnCargaSubAsociado();", "", 160, true, false)%>
-                <%=MyUtil.ObjComboC("SubServicio asociado", "clSubServicioAsociado", rs.getString("dsSubServicioAsociado"), true, true, 300, 160, "", "Select clSubServicio as 'clSubServicioAsociado', dsSubServicio as 'dsSubServicioAsociado' From cSubServicio Where clServicio=" + rs.getString("clServicio") +" Order by dsSubServicio", "", "", 70, false, false)%>
-                <%=MyUtil.ObjInput("LÌmite Monto", "LimiteMonto", rs.getString("LimiteMonto"), true, true, 30, 200, "", false, false, 10, "EsNumerico(document.all.LimiteMonto)")%>
-                <%=MyUtil.ObjInput("LÌmite Eventos", "LimiteEventos", rs.getString("LimiteEventos"), true, true, 170, 200, "", false, false, 10, "fnRango(document.all.LimiteEventos,0,255)")%>
-                <%=MyUtil.ObjInput("LÌmite Mensual", "LimiteEventosMensual", rs.getString("LimiteEventosMensual"), true, true, 300, 200, "", false, false, 10, "fnRango(document.all.LimiteEventosMensual,0,5)")%>
-                <%=MyUtil.ObjChkBox("SubServicio Opcional","SubServicioOpcional", rs.getString("SubServicioOpcional"),true,true,410,200,"0","SI","NO","")%>
+                <%=MyUtil.ObjInput("Cuenta", "Cuenta", rs2.getString("Nombre"), false, false, 30, iRowPx, rs2.getString("Nombre"), false, false, 73)%>
+                <% iRowPx = iRowPx + 40; /*120px*/%>
+                <%=MyUtil.ObjComboC("Servicio", "clServicio", rs.getString("dsServicio"), true, false, 30, iRowPx, "", "Select clServicio,dsServicio From cServicio Order by dsServicio", "fnLlenaSubServiciosCob()", "", 60, true, false)%>
+                <% iRowPx = iRowPx + 40; /*160*/%>
+                <%=MyUtil.ObjComboC("SubServicio", "clSubServicio", rs.getString("dsSubServicio"), true, false, 30, iRowPx, "", "Select clSubServicio, dsSubServicio From cSubServicio Where clServicio=" + rs.getString("clServicio") + " Order by dsSubServicio", "fnCargaSubAsociado();", "", 160, true, false)%>
+                <%=MyUtil.ObjComboC("SubServicio asociado", "clSubServicioAsociado", rs.getString("dsSubServicioAsociado"), true, true, 300, iRowPx, "", "Select clSubServicio as 'clSubServicioAsociado', dsSubServicio as 'dsSubServicioAsociado' From cSubServicio Where clServicio=" + rs.getString("clServicio") +" Order by dsSubServicio", "", "", 70, false, false)%>
+                <% iRowPx = iRowPx + 40; /*200*/%>
+                <%=MyUtil.ObjInput("L√≠mite Monto", "LimiteMonto", rs.getString("LimiteMonto"), true, true, 30, iRowPx, "", false, false, 10, "EsNumerico(document.all.LimiteMonto)")%>
+                <%=MyUtil.ObjInput("L√≠mite Eventos", "LimiteEventos", rs.getString("LimiteEventos"), true, true, 170, iRowPx, "", false, false, 10, "fnRango(document.all.LimiteEventos,0,255)")%>
+                <%=MyUtil.ObjInput("L√≠mite Mensual", "LimiteEventosMensual", rs.getString("LimiteEventosMensual"), true, true, 300, iRowPx, "", false, false, 10, "fnRango(document.all.LimiteEventosMensual,0,5)")%>
+                <%=MyUtil.ObjChkBox("SubServicio Opcional","SubServicioOpcional", rs.getString("SubServicioOpcional"),true,true,410,iRowPx,"0","SI","NO","")%>
+                <% iRowPx = iRowPx + 40; /*240*/%>
                 <% if (StrclServicio.equals("3") ) { %>    
                     <div id="divHogar" name="divHogar"  style="visibility: 'hidden'">
-                        <%=MyUtil.ObjInput("Cobertura anual", "LimiteMontoAnual", rs.getString("LimiteMontoAnual"), true, true, 30, 240, "", false, false, 10, "EsNumerico(document.all.LimiteMontoAnual)")%>
-                        <%=MyUtil.ObjInput("LÌmite Eventos anual", "LimiteEventosAnual", rs.getString("LimiteEventosAnual"), true, true, 170, 240, "", false, false, 10, "fnRango(document.all.LimiteEventosAnual,0,3)")%>
+                        <%=MyUtil.ObjInput("Cobertura anual", "LimiteMontoAnual", rs.getString("LimiteMontoAnual"), true, true, 30, iRowPx, "", false, false, 10, "EsNumerico(document.all.LimiteMontoAnual)")%>
+                        <%=MyUtil.ObjInput("LÌmite Eventos anual", "LimiteEventosAnual", rs.getString("LimiteEventosAnual"), true, true, 170, iRowPx, "", false, false, 10, "fnRango(document.all.LimiteEventosAnual,0,3)")%>
                     </div>
                 <% } else { %>
                     <div id="div1000KM"  name="div1000KM" style="visibility: 'hidden'">
-                        <%=MyUtil.ObjInput("LÌmite KM anual", "LimiteMontoAnual", rs.getString("LimiteMontoAnual"), true, true, 30, 240, "", false, false, 10, "EsNumerico(document.all.LimiteMontoAnual)")%>
-                        <%=MyUtil.ObjInput("LÌmite Eventos anual", "LimiteEventosAnual", rs.getString("LimiteEventosAnual"), true, true, 170, 240, "", false, false, 10, "fnRango(document.all.LimiteEventosAnual,0,3)")%>
+                        <%=MyUtil.ObjInput("LÌmite KM anual", "LimiteMontoAnual", rs.getString("LimiteMontoAnual"), true, true, 30, iRowPx, "", false, false, 10, "EsNumerico(document.all.LimiteMontoAnual)")%>
+                        <%=MyUtil.ObjInput("LÌmite Eventos anual", "LimiteEventosAnual", rs.getString("LimiteEventosAnual"), true, true, 170, iRowPx, "", false, false, 10, "fnRango(document.all.LimiteEventosAnual,0,3)")%>
+                        <% if (StrclSubServicio.equals("211")) {%> 
+                            <% iRowPx = iRowPx + 40; /*280*/%>
+                            <%=MyUtil.ObjChkBox("Cobertura total de peaje", "CoberturaTotalPeaje", rs.getString("CoberturaTotalPeaje"), true, true, 30, iRowPx, "0", "fnHabilitaMontoPeaje()")%>
+                            <div id ="divMontoPeaje">
+                                <%=MyUtil.ObjInput("Monto cubierto de peaje", "MontoCubiertoPeaje", rs.getString("MontoCubiertoPeaje"), true, true, 300, iRowPx, "", false, false, 10, "")%>
+                    </div>
+                        <%}%>
                     </div>
                 <% } %>
-                <%=MyUtil.ObjTextArea("Puntos Importantes", "PtosImportantes", rs.getString("PtosImportantes"), "55", "4", true, true, 30, 280, "", false, false)%>
-                <%=MyUtil.ObjTextArea("Exclusiones", "Exclusiones", rs.getString("Exclusiones"), "55", "7", true, true, 30, 430, "", false, false)%>
+                <% iRowPx = iRowPx + 40; %>
+                <%=MyUtil.ObjTextArea("Puntos Importantes", "PtosImportantes", rs.getString("PtosImportantes"), "55", "4", true, true, 30, iRowPx, "", false, false)%>
+                <% iRowPx = iRowPx + 160; %>
+                <%=MyUtil.ObjTextArea("Exclusiones", "Exclusiones", rs.getString("Exclusiones"), "55", "7", true, true, 30, iRowPx, "", false, false)%>
             <% } else {%>
                 <%=MyUtil.ObjInput("Cuenta", "Cuenta", rs2.getString("Nombre"), false, false, 30, 80, rs2.getString("Nombre"), false, false, 73)%>
-                <%=MyUtil.ObjComboC("Servicio", "clServicio", "", true, false, 30, 120, "", "Select clServicio,dsServicio From cServicio Order by dsServicio", "fnLlenaSubServiciosCob()", "", 60, true, false)%>
-                <%=MyUtil.ObjComboC("SubServicio", "clSubServicio", "", true, false, 30, 160, "", "Select clSubServicio, dsSubServicio From cSubServicio Order by dsSubServicio", "fnCargaSubAsociado();", "", 160, true, false)%>
-                <%=MyUtil.ObjComboC("SubServicio asociado", "clSubServicioAsociado", "", true, true, 200, 160, "", "Select clSubServicio as 'clSubServicioAsociado', dsSubServicio dsSubServicio as 'dsSubServicioAsociado' From cSubServicio Order by dsSubServicio", "", "", 70, false, false)%>
-                <%=MyUtil.ObjInput("LÌmite Monto", "LimiteMonto", "", true, true, 30, 200, "", false, false, 10, "EsNumerico(document.all.LimiteMonto)")%>
-                <%=MyUtil.ObjInput("LÌmite Eventos", "LimiteEventos", "", true, true, 170, 200, "", false, false, 10, "fnRango(document.all.LimiteEventos,0,255)")%>
-                <%=MyUtil.ObjInput("LÌmite Mensual", "LimiteEventosMensual", "", true, true, 300, 200, "", false, false, 10, "fnRango(document.all.LimiteEventosMensual,0,5)")%>
-                <%=MyUtil.ObjChkBox("SubServicio Opcional","SubServicioOpcional", "",true,true,410,200,"0","SI","NO","")%>
+                <% iRowPx = iRowPx + 40; /*120*/%>
+                <%=MyUtil.ObjComboC("Servicio", "clServicio", "", true, false, 30, iRowPx, "", "Select clServicio,dsServicio From cServicio Order by dsServicio", "fnLlenaSubServiciosCob()", "", 60, true, false)%>
+                <% iRowPx = iRowPx + 40; /*160*/%>
+                <%=MyUtil.ObjComboC("SubServicio", "clSubServicio", "", true, false, 30, iRowPx, "", "Select clSubServicio, dsSubServicio From cSubServicio Order by dsSubServicio", "fnCargaSubAsociado();", "", 160, true, false)%>
+                <%=MyUtil.ObjComboC("SubServicio asociado", "clSubServicioAsociado", "", true, true, 200, iRowPx, "", "Select clSubServicio as 'clSubServicioAsociado', dsSubServicio dsSubServicio as 'dsSubServicioAsociado' From cSubServicio Order by dsSubServicio", "", "", 70, false, false)%>
+                <% iRowPx = iRowPx + 40; /*200*/%>
+                <%=MyUtil.ObjInput("LÌmite Monto", "LimiteMonto", "", true, true, 30, iRowPx, "", false, false, 10, "EsNumerico(document.all.LimiteMonto)")%>
+                <%=MyUtil.ObjInput("LÌmite Eventos", "LimiteEventos", "", true, true, 170, iRowPx, "", false, false, 10, "fnRango(document.all.LimiteEventos,0,255)")%>
+                <%=MyUtil.ObjInput("LÌmite Mensual", "LimiteEventosMensual", "", true, true, 300, iRowPx, "", false, false, 10, "fnRango(document.all.LimiteEventosMensual,0,5)")%>
+                <%=MyUtil.ObjChkBox("SubServicio Opcional","SubServicioOpcional", "",true,true,410,iRowPx,"0","SI","NO","")%>
+                <% iRowPx = iRowPx + 40; /*240*/%>
                 <% if (StrclServicio.equals("3") ) { %>
                     <div id="divHogar" name="divHogar"  style="visibility: 'hidden'">
-                        <%=MyUtil.ObjInput("Cobertura anual", "LimiteMontoAnual", "", true, true, 30, 240, "", false, false, 10, "EsNumerico(document.all.LimiteMontoAnual)")%>
-                        <%=MyUtil.ObjInput("LÌmite Eventos anual", "LimiteEventosAnual", "", true, true, 170, 240, "", false, false, 10, "fnRango(document.all.LimiteEventosAnual,0,3)")%>
+                        <%=MyUtil.ObjInput("Cobertura anual", "LimiteMontoAnual", "", true, true, 30, iRowPx, "", false, false, 10, "EsNumerico(document.all.LimiteMontoAnual)")%>
+                        <%=MyUtil.ObjInput("LÌmite Eventos anual", "LimiteEventosAnual", "", true, true, 170, iRowPx, "", false, false, 10, "fnRango(document.all.LimiteEventosAnual,0,3)")%>
                     </div>
                 <% } else {%>
                     <div id="div1000KM" name="div1000KM"  style="visibility: 'hidden'">
-                        <%=MyUtil.ObjInput("LÌmite KM anual", "LimiteMontoAnual", "", true, true, 30, 240, "", false, false, 10, "EsNumerico(document.all.LimiteMontoAnual)")%>
-                        <%=MyUtil.ObjInput("LÌmite Eventos anual", "LimiteEventosAnual", "", true, true, 170, 240, "", false, false, 10, "fnRango(document.all.LimiteEventosAnual,0,3)")%>
+                        <%=MyUtil.ObjInput("LÌmite KM anual", "LimiteMontoAnual", "", true, true, 30, iRowPx, "", false, false, 10, "EsNumerico(document.all.LimiteMontoAnual)")%>
+                        <%=MyUtil.ObjInput("LÌmite Eventos anual", "LimiteEventosAnual", "", true, true, 170, iRowPx, "", false, false, 10, "fnRango(document.all.LimiteEventosAnual,0,3)")%>
+                        <%/* subservico de movida = 211 */%>
+                        <% if (StrclSubServicio.equals("211")) {%> 
+                            <% iRowPx = iRowPx + 40; /*280*/%>
+                            <%=MyUtil.ObjChkBox("Cobertura total de peaje", "CoberturaTotalPeaje", "", true, true, 300, iRowPx, "0", "fnHabilitaMontoPeaje()")%>
+                            <div id ="divMontoPeaje">
+                                <%=MyUtil.ObjInput("Monto cubierto de peaje", "MontoCubiertoPeaje", "", true, true, 500, iRowPx, "", false, false, 10, "")%>
+                    </div>
+                            <%=MyUtil.ObjInput("Monto cubierto de peaje", "MontoCubiertoPeaje", "", true, true, 500, iRowPx, "", false, false, 10, "")%>
+                        <%}%>
                     </div>
                 <% } %>
-                <%=MyUtil.ObjTextArea("Puntos Importantes", "PtosImportantes", "", "55", "4", true, true, 30, 280, "", false, false)%>
-                <%=MyUtil.ObjTextArea("Exclusiones", "Exclusiones", "", "55", "7", true, true, 30, 430, "", false, false)%>
+                <% iRowPx = iRowPx + 40;%>
+                <%=MyUtil.ObjTextArea("Puntos Importantes", "PtosImportantes", "", "55", "4", true, true, 30, iRowPx, "", false, false)%>
+                <% iRowPx = iRowPx + 160;%>
+                <%=MyUtil.ObjTextArea("Exclusiones", "Exclusiones", "", "55", "7", true, true, 30, iRowPx, "", false, false)%>
             <% }%>
             <%=MyUtil.DoBlock("SUBSERVICIO CUBIERTO", 10, 120)%>
             <%=MyUtil.GeneraScripts()%>
@@ -179,6 +208,10 @@
         %>
         <script>
 //------------------------------------------------------------------------------
+            $(document).ready(function() {
+                fnHabilitaMontoPeaje();                
+            });
+//------------------------------------------------------------------------------
             document.all.LimiteEventos.maxLength = 3;
             document.all.LimiteEventosMensual.maxLength =2;            
             var subservicioSeleccionado = <%=request.getParameter("clSubServicio")%>;
@@ -187,11 +220,6 @@
                 document.all.div1000KM.style.visibility = 'hidden';
             } else {  
                 document.all.div1000KM.style.visibility = 'visible';
-            }
-            if ( clServicio !== 3 ) {
-                document.all.divHogar.style.visibility = 'hidden';
-            } else {
-                document.all.divHogar.style.visibility = 'visible';
             }
 //------------------------------------------------------------------------------
             /*FunciÛn para obtener el servicio
@@ -223,6 +251,36 @@
 		})).then( successFunc(), failureFunc() );
             }            
 //------------------------------------------------------------------------------
+            function fnHabilitaMontoPeaje() {
+                var checked = $("#CoberturaTotalPeajeC").prop("checked");
+                if (checked) {
+                    $('#MontoCubiertoPeaje').prop("disabled", true);
+                    $('#divMontoPeaje').css("visibility", "hidden");
+                }
+                else {
+                    $('#divMontoPeaje').css("visibility", "visible");
+                    $('#MontoCubiertoPeaje').prop("disabled", false);
+                }
+            }
+//------------------------------------------------------------------------------
+            function fnEsCoberturaPeajeValida() {
+                var cobp = $("#MontoCubiertoPeaje").val();
+                var esValido = !isNaN(cobp) && cobp >= 0;
+                if (!esValido) {
+                    msgVal = msgVal + ' El monto de cobertura de peaje debe ser un n√∫mero mayor o igual a 0.';
+                }    
+                return esValido;
+            }
+//------------------------------------------------------------------------------            
+            function fnValidaciones() {
+                var clSubserv = <%=StrclSubServicio%>;
+                if (clSubserv === "211" && !fnEsCoberturaPeajeValida()) {
+                    document.all.btnGuarda.disabled= false;
+                    document.all.btnCancela.disabled= false;
+                    return;
+                }
+            }
+//------------------------------------------------------------------------------            
         </script>
     </body>
 </html>

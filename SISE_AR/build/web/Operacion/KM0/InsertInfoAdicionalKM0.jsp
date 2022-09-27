@@ -51,6 +51,7 @@
    String clEstacionamiento = request.getParameter("clEstacionamiento");
    String cambiosOrigenDest = request.getParameter("cambiosOrigenDest");
    String kmAsistencia      = request.getParameter("kmAsistencia");
+   String coberturaTotalPeaje = request.getParameter("coberturaTotalPeaje");
    final String COMA = ",";
    int id = 0;  
     try {
@@ -127,7 +128,10 @@
                        .append(cambiosOrigenDest)
                        .append("'")
                        .append(COMA)
-                       .append(kmAsistencia);
+                       .append(kmAsistencia)
+                       .append(COMA)
+                       .append(coberturaTotalPeaje);
+                       
         ResultSet rs = UtileriasBDF.rsSQLNP(sqlInsertUpdateInfoAdicKM0.toString() );
         if ( rs.next() ) {            
             id = (rs.getObject("CLAVE")!=null?rs.getInt("CLAVE"):0);

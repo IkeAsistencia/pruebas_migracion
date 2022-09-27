@@ -1493,6 +1493,7 @@
                 var clEstacionamiento = 0; 
                 var cambiosOrigenDest= "";
                 var kmAsistencia = 0;
+                var coberturaTotalPeaje = "0";
         
                 /**Seteo de variables*/
                 var clInfoAdicKMO = <%=StrclInfoAdicKMO%>;
@@ -2086,7 +2087,8 @@
                 montoCubierto : montoCubierto,
                 clEstacionamiento: clEstacionamiento,
                 cambiosOrigenDest: cambiosOrigenDest,
-                kmAsistencia : kmAsistencia
+                kmAsistencia : kmAsistencia,
+                coberturaTotalPeaje: coberturaTotalPeaje
             };
             $.when(
 		$.ajax({

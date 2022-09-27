@@ -145,6 +145,7 @@ public class DAOAsistenciaVial extends com.ike.model.DAOBASE {
             infoAdic.setMontoCubierto(rs.getInt("montoCubierto") );
             infoAdic.setClEstacionamiento(rs.getInt("clEstacionamiento") );
             infoAdic.setKmAsistencia(rs.getInt("kmAsistencia") );
+            infoAdic.setCoberturaTotalPeaje(rs.getBoolean("CoberturaTotalPeaje") );
             return infoAdic;
         }
     }

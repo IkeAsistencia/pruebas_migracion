@@ -120,7 +120,13 @@
             StrSql.append(" st_getDatosAfiliadoGral '").append(StrClave).append("','").append(StrclCuenta).append("'");
             ResultSet rsDatosAfil = UtileriasBDF.rsSQLNP(StrSql.toString());
             if (rsDatosAfil.next()) {
-                StrCalleNum = rsDatosAfil.getString("calleNum");           }
+                StrCalleNum = rsDatosAfil.getString("calleNum");     
+             //System.out.println("jomu dato StrCalleNum    "+StrCalleNum);
+
+            }else{
+            System.out.println("No hay datos de Domicilio en Base");
+                }
+
             /*Lectura de datos para la opcion de     alta hdi cri     */
             String strCobertura = "";
             String strCoberturaFinanciera= "";
@@ -174,7 +180,7 @@
                 <% if (esSubServicioModificado) {%>
                 <%  iRowPx = iRowPx + 30;   %>
                 <%=MyUtil.ObjInput("Piso", "Piso", AH != null ? AH.getPiso() : "", true, true, 30, iRowPx, "", false, false, 3)%>
-                    <%=MyUtil.ObjInput("Departamento", "Departamento", AH != null ? AH.getDepartamento(): "", true, true, 330, iRowPx, "", false, false, 8)%>
+                    <%=MyUtil.ObjInput("Departamento", "Departamento", AH != null ? AH.getDepartamento(): "", true, true, 80, iRowPx, "", false, false, 8)%>
                     <% } %>
                 <%  iRowPx = iRowPx + 30;   %>
                 <%=MyUtil.ObjTextArea("Referencias Visuales", "Referencias", AH != null ? AH.getReferencias() : "", "75", "5", true, true, 30, iRowPx, "", false, false)%>
@@ -327,10 +333,10 @@
                     if ( UbiSin=== '22' || UbiSin=== '25' || UbiSin=== '26' || UbiSin=== '27'  ){
                         document.all.divOtroTipoLugar.style.visibility = 'visible';
                         document.all.divOtraUbic.style.visibility = 'hidden';
-                    elementHF.disabled = false; //CAMBIA A MODO HABILITADO PARA EDICIÓN
+                        elementHF.disabled = false; //CAMBIA A MODO HABILITADO PARA EDICIÃ“N
                         elementHF.value = '31'; // ELIGE UN  VALOR POR DEFECTO 
                         elementOU.disabled = false;
-                    elementOU.value = 'Vidriera'; // AÑADE UN VALOR POR DEFECTO PARA EL TEXT INPUT
+                        elementOU.value = 'Vidriera'; // AÃ‘ADE UN VALOR POR DEFECTO PARA EL TEXT INPUT
                     } else if( UbiSin === '1032'  ){ // OTRO
                         document.all.divOtraUbic.style.visibility = 'visible';
                         document.all.divOtroTipoLugar.style.visibility = 'hidden';
@@ -750,7 +756,8 @@
             var datosCRI ={
                 clUsrApp : clUsrApp,
                 Expediente : Expediente,
-                detExp : detExp};
+                detExp : detExp  }; //ORIGINAL JOA FUNCIONA
+//-----------------------------------------------------------------------------------------------------------    
                 $.when(
 		$.ajax({
 			type: "POST",
