@@ -712,7 +712,7 @@
 //------------------------------------------------------------------------------                
             function fnCargaDetalle() {
                 var clCuenta = $('#clCuenta').val();
-                var nombre = $('#NuestroUsuario').val().trim().replace(/  +/g,' ');
+                var nombre = $('#NuestroUsuario').val();
                 var datos = {nombre: nombre,
                              clCuenta: clCuenta
                             };
